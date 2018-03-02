@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">VRS</string>
+    <string name="email_error_msg">Please enter valid email id</string>
+</resources>
