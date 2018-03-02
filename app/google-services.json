@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "837555318023",
+    "firebase_url": "https://vrsfirebaseproject.firebaseio.com",
+    "project_id": "vrsfirebaseproject",
+    "storage_bucket": "vrsfirebaseproject.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837555318023:android:4e2b658f730c7188",
+        "android_client_info": {
+          "package_name": "com.app.ssoft.vrs"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837555318023-i8e5ep5corfs2cfqio9osc62k72q1u2h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.ssoft.vrs",
+            "certificate_hash": "55028271a7f5f859f1914044302f9892eb0ea489"
+          }
+        },
+        {
+          "client_id": "837555318023-1et3l1tjccrvqi7pp9ctgtqulq03r0aj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYQtkINH6xkWlq7lCd9EuChmXz7zxpTgE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837555318023-1et3l1tjccrvqi7pp9ctgtqulq03r0aj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
