@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.app.ssoft.vrs.View.VehicleDetailsActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tvVehTypeLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="3dp"
+                    android:drawableLeft="@drawable/fuel_type"
+                    android:text=" Vehicle Type -"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+
+                <RadioGroup
+                    android:checkedButton="@+id/tvVehTypeCar"
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/tvVehTypeLabel"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/tvVehTypeCar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:focusedByDefault="true"
+                        android:text="Car"
+                        android:textColor="#000"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+
+                        android:id="@+id/tvVehTypeBike"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/tvVehTypeCar"
+                        android:text="Bike"
+                        android:textColor="#000"
+                        android:textStyle="bold" />
+                </RadioGroup>
+            </RelativeLayout>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/card_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:visibility="visible"
+                card_view:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="0.9"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/tvOwnerName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/owner_profile"
+                            android:hint=" Owner Name"
+                            android:maxLength="20"
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/tvVehicalName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/car_renter"
+                            android:hint="Vehical Model"
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/ivVehicalPhoto"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.1"
+                        android:src="@drawable/alto" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp">
+
+                    <TextView
+                        android:id="@+id/tvPermitLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/seat"
+                        android:text=" ALL INDIA PERMIT -"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <Spinner
+                        android:id="@+id/tvPermitValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/tvPermitLabel"
+                        android:textColor="#000"
+                        android:entries="@array/aip"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/tvRouteLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/seat"
+                        android:text=" Route -"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <Spinner
+
+                        android:id="@+id/tvRouteValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/tvRouteLabel"
+                        android:textColor="#000"
+                        android:entries="@array/routeType"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:visibility="gone"
+                    android:id="@+id/rlSource"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvSourceLable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableLeft="@drawable/rate"
+                        android:text=" Source -"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/tvSource"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/tvSourceLable"
+                        android:hint="Viman nagar"
+                        android:maxLines="1"
+                        android:textColor="#000"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlDest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tvDestLable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableLeft="@drawable/rate"
+                        android:text=" Destination -"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/tvDestValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/tvDestLable"
+                        android:hint="Wagholi"
+                        android:maxLines="1"
+                        android:textColor="#000"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tvRateLable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:drawableLeft="@drawable/rate"
+                        android:text=" Rate -"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/tvRateValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_toRightOf="@+id/tvRateLable"
+                        android:hint="120/hr"
+                        android:maxLines="1"
+                        android:textColor="#000"
+                        android:textStyle="bold" />
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/tvFuelTypeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/fuel_type"
+                        android:text=" Fuel Type -"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <RadioGroup
+                        android:checkedButton="@+id/tvFuelTypePetrol"
+                        android:id="@+id/radioGroupFuel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/tvFuelTypeLabel"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/tvFuelTypePetrol"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/tvFuelTypeLabel"
+                            android:focusedByDefault="true"
+                            android:text="Petrol"
+                            android:textColor="#000"
+                            android:textStyle="bold" />
+
+                        <RadioButton
+
+                            android:id="@+id/tvFuelTypeDiesel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/tvFuelTypePetrol"
+                            android:text="Diesel"
+                            android:textColor="#000"
+                            android:textStyle="bold" />
+                    </RadioGroup>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/tvSeatsLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/seat"
+                        android:text=" No. of Seats -"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <Spinner
+                        android:entries="@array/seater"
+                        android:id="@+id/tvSeatsValue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_toRightOf="@+id/tvSeatsLabel"
+                        android:textColor="#000"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/tvWantDriverLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/driver"
+                        android:text=" Driver -"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <RadioGroup
+                        android:checkedButton="@id/RbNo"
+                        android:id="@+id/radioGroupDriverType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/tvWantDriverLabel"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+
+                            android:id="@+id/RbYes"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/tvWantDriverLabel"
+                            android:text="Yes"
+                            android:textColor="#000"
+                            android:textStyle="bold" />
+
+                        <RadioButton
+                            android:id="@+id/RbNo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/RbYes"
+                            android:defaultFocusHighlightEnabled="true"
+                            android:focusedByDefault="true"
+                            android:text="No"
+                            android:textColor="#000"
+                            android:textStyle="bold" />
+                    </RadioGroup>
+                </RelativeLayout>
+            </LinearLayout>
+
+            <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/driver_cv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp"
+                android:visibility="gone"
+                card_view:cardCornerRadius="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="0.9"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/tvDriverName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/owner_profile"
+                            android:hint=" Driver Name"
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/tvDriverNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/phone"
+                            android:hint=" 91XX-XX-XXX"
+                            android:maxLength="13"
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/tvDriverAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/phone"
+                            android:hint=" Driver Address"
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/tvDriverLicence"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/phone"
+                            android:hint=" Licenece No."
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/tvDriverAadhar"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/phone"
+                            android:hint=" Aadhar No."
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/ivDriverPhoto"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.1"
+                        android:src="@mipmap/ic_launcher" />
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="30dp"
+                android:maxLength="6"
+                android:maxLines="1"
+                android:text="Submit" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

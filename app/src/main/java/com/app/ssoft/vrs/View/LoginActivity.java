@@ -62,7 +62,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                             }
                                         } else {
                                             auth.getCurrentUser();
-                                            Intent intent = new Intent(LoginActivity.this, VehicleDetailsActivity.class);
+                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                             startActivity(intent);
                                             finish();
                                         }
@@ -73,8 +73,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Toast.makeText(this, R.string.email_error_msg, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Intent intent = new Intent(this, VehicleDetailsActivity.class);
-                    startActivity(intent);
                     Toast.makeText(this, "Email/Password required", Toast.LENGTH_SHORT).show();
                 }
                 break;

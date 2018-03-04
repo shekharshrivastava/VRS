@@ -1,0 +1,17 @@
+<resources>
+    <string-array name="aip">
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="routeType">
+        <item>Fixed</item>
+        <item>Variable</item>
+    </string-array>
+
+    <string-array name="seater">
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+    </string-array>
+</resources>

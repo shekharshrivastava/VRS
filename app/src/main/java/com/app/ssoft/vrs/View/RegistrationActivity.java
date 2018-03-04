@@ -88,7 +88,7 @@ public class RegistrationActivity extends AppCompatActivity {
                                     Toast.makeText(RegistrationActivity.this, "Authentication failed." + task.getException(),
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    startActivity(new Intent(RegistrationActivity.this, VehicleDetailsActivity.class));
+                                    startActivity(new Intent(RegistrationActivity.this, MainActivity.class));
                                     finish();
                                 }
                             }
@@ -103,4 +103,5 @@ public class RegistrationActivity extends AppCompatActivity {
         super.onResume();
         progressBar.setVisibility(View.GONE);
     }
+
 }

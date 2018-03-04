@@ -17,10 +17,19 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            </intent-filter>/>
         </activity>
         <activity android:name=".View.VehicleDetailsActivity" />
-        <activity android:name=".View.RegistrationActivity"></activity>
+        <activity android:name=".View.RegistrationActivity" />
+        <activity
+            android:name=".View.MainActivity"
+            android:label="@string/title_activity_main"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".View.AddVehicleActivity">
+
+        </activity>
     </application>
 
 </manifest>
