@@ -109,12 +109,16 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                             String vehicleModel = vehiclesData.getVehicleModel();
                             String driver = vehiclesData.getDriverReq();
                             String seater = vehiclesData.getNumberOfseat();
+                            String vehiclePhoto = vehiclesData.getVehiclePhoto();
                             vehicleData.setVehicleModel(vehicleModel);
                             vehicleData.setDriverReq(driver);
                             vehicleData.setNumberOfseat(seater);
+                            vehicleData.setVehiclePhoto(vehiclePhoto);
                             vehicleData.setUserID(dataSnapshot.getKey());
                             vehicleDetails.add(vehicleData);
-                            m_listAdapter.notifyDataSetChanged();
+                            if(m_listAdapter!=null) {
+                                m_listAdapter.notifyDataSetChanged();
+                            }
                         }
 
                         @Override

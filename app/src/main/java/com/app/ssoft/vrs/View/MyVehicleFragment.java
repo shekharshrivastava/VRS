@@ -1,6 +1,8 @@
 package com.app.ssoft.vrs.View;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -89,12 +91,16 @@ public class MyVehicleFragment extends android.support.v4.app.Fragment {
                                 String vehicleModel = vehiclesData.getVehicleModel();
                                 String driver = vehiclesData.getDriverReq();
                                 String seater = vehiclesData.getNumberOfseat();
+                                String vehPhoto = vehiclesData.getVehiclePhoto();
                                 vehicleData.setVehicleModel(vehicleModel);
                                 vehicleData.setDriverReq(driver);
+                                vehicleData.setVehiclePhoto(vehPhoto);
                                 vehicleData.setNumberOfseat(seater);
                                 vehicleData.setUserID(dataSnapshot.getKey());
                                 vehicleDetails.add(vehicleData);
-                                m_listAdapter.notifyDataSetChanged();
+                                if(m_listAdapter!=null) {
+                                    m_listAdapter.notifyDataSetChanged();
+                                }
                             }
 
                         }
@@ -137,6 +143,9 @@ public class MyVehicleFragment extends android.support.v4.app.Fragment {
             m_listAdapter = new MyVehicleAdapter(getActivity(), vehicleDetails);
             rl_lvListRoot.setAdapter(m_listAdapter);
             super.onPostExecute(aVoid);
+        }
+        public Bitmap getImage(byte[] image) {
+            return BitmapFactory.decodeByteArray(image, 0, image.length);
         }
     }
 }

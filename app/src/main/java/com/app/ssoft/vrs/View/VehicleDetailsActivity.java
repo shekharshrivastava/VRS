@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 
 import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,6 +39,7 @@ public class VehicleDetailsActivity extends AppCompatActivity {
     private TextView tvDriverName;
     private TextView tvDriverNumber;
     private ImageView ivVehiclePhoto;
+    private BitmapFactory.Options options;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,43 +72,54 @@ public class VehicleDetailsActivity extends AppCompatActivity {
                 tvFuelType.setText(vehiclesData.getFuelType());
 
 
-                if ( vehiclesData.getVehiclePhoto() != null) {
-           /* Glide.with(m_context)
-                    .load(new File(m_item.get(p_position).getVehiclePhoto()))
-                    .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .placeholder(R.drawable.alto)
-                    .error(R.drawable.alto)
-                    .into(m_viewHolder.imVehicleImage);*/
-                    File imgFile = new File(vehiclesData.getVehiclePhoto());
-
+                if (vehiclesData.getVehiclePhoto() != null) {
+                    ivVehiclePhoto.setImageBitmap(StringToBitMap(vehiclesData.getVehiclePhoto()));
+                  /*  File imgFile = new File(vehiclesData.getVehiclePhoto());
                     if (imgFile.exists()) {
-
-                        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-
-
-                       ivVehiclePhoto.setImageBitmap(myBitmap);
+                        try {
+                            Bitmap myBitmap = BitmapFactory.decodeFile(vehiclesData.getVehiclePhoto());
+                            ivVehiclePhoto.setImageBitmap(myBitmap);
+                        } catch (OutOfMemoryError e) {
+                            try {
+                                options = new BitmapFactory.Options();
+                                options.inSampleSize = 2;
+                                Bitmap bitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                                ivVehiclePhoto.setImageBitmap(bitmap);
+                            } catch (Exception ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }*/
+                        tvSeatsValue.setText(vehiclesData.getNumberOfseat());
+                        String isDriverAvailable = vehiclesData.getDriverReq();
+                        if (isDriverAvailable != null && isDriverAvailable.equals("Yes")) {
+                            RbYes.setChecked(true);
+                            driver_cv.setVisibility(View.VISIBLE);
+                            tvDriverName.setText(vehiclesData.getDriverName());
+                            tvDriverNumber.setText(vehiclesData.getDriverNumber());
+                        } else {
+                            RbNo.setChecked(true);
+                            driver_cv.setVisibility(View.GONE);
+                        }
 
                     }
                 }
-                tvSeatsValue.setText(vehiclesData.getNumberOfseat());
-                String isDriverAvailable = vehiclesData.getDriverReq();
-                if (isDriverAvailable != null && isDriverAvailable.equals("Yes")) {
-                    RbYes.setChecked(true);
-                    driver_cv.setVisibility(View.VISIBLE);
-                    tvDriverName.setText(vehiclesData.getDriverName());
-                    tvDriverNumber.setText(vehiclesData.getDriverNumber());
-                } else {
-                    RbNo.setChecked(true);
-                    driver_cv.setVisibility(View.GONE);
-                }
 
-            }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
+    }
+    public Bitmap StringToBitMap(String encodedString){
+        try {
+            byte [] encodeByte= Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch(Exception e) {
+            e.getMessage();
+            return null;
+        }
     }
 }

@@ -13,6 +13,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -33,6 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -87,12 +89,13 @@ public class AddVehicleActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private ImageView ivVehicalPhoto;
     private String path = null;
+    private String bitmapArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vehicle);
-        ivVehicalPhoto =findViewById(R.id.ivVehicalPhoto);
+        ivVehicalPhoto = findViewById(R.id.ivVehicalPhoto);
         radioGroup = findViewById(R.id.radioGroup);
         radioGroupFuelType = findViewById(R.id.radioGroupFuel);
         radioGroupDriverReq = findViewById(R.id.radioGroupDriverType);
@@ -223,7 +226,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                     driverAddress = null;
                 }
                 if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty()) {
-                    VehicleData vehicleData = new VehicleData(userLoginID,userId, vehType, ownerName, path, vehModel, permit, routeValue, source, destination, rateValue, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, null);
+                    VehicleData vehicleData = new VehicleData(userLoginID, userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateValue, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, null);
                     mDatabase.child(userId).setValue(vehicleData);
 
                     Intent intent = new Intent();
@@ -290,9 +293,7 @@ public class AddVehicleActivity extends AppCompatActivity {
     private void selectImage() {
 
 
-
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
-
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(AddVehicleActivity.this);
@@ -317,21 +318,16 @@ public class AddVehicleActivity extends AppCompatActivity {
 
                     startActivityForResult(intent, 1);
 
-                }
-
-                else if (options[item].equals("Choose from Gallery"))
+                } else if (options[item].equals("Choose from Gallery"))
 
                 {
 
-                    Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                     startActivityForResult(intent, 2);
 
 
-
-                }
-
-                else if (options[item].equals("Cancel")) {
+                } else if (options[item].equals("Cancel")) {
 
                     dialog.dismiss();
 
@@ -344,6 +340,7 @@ public class AddVehicleActivity extends AppCompatActivity {
         builder.show();
 
     }
+
     @Override
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -375,18 +372,16 @@ public class AddVehicleActivity extends AppCompatActivity {
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
 
-
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
 
                             bitmapOptions);
 
 
-
                     ivVehicalPhoto.setImageBitmap(bitmap);
 
+                    bitmapArray = BitMapToString(bitmap);
 
-
-                     path = android.os.Environment
+                    path = android.os.Environment
 
                             .getExternalStorageDirectory()
 
@@ -433,12 +428,11 @@ public class AddVehicleActivity extends AppCompatActivity {
             } else if (requestCode == 2) {
 
 
-
                 Uri selectedImage = data.getData();
 
-                String[] filePath = { MediaStore.Images.Media.DATA };
+                String[] filePath = {MediaStore.Images.Media.DATA};
 
-                Cursor c = getContentResolver().query(selectedImage,filePath, null, null, null);
+                Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
 
                 c.moveToFirst();
 
@@ -450,13 +444,22 @@ public class AddVehicleActivity extends AppCompatActivity {
 
                 Bitmap thumbnail = (BitmapFactory.decodeFile(path));
 
-                Log.w("path of image from gal.", path+"");
+                Log.w("path of image from gal.", path + "");
 
                 ivVehicalPhoto.setImageBitmap(thumbnail);
+                bitmapArray = BitMapToString(thumbnail);
 
             }
 
         }
 
+    }
+
+    public String BitMapToString(Bitmap bitmap){
+        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+        byte [] b=baos.toByteArray();
+        String temp= Base64.encodeToString(b, Base64.DEFAULT);
+        return temp;
     }
 }
