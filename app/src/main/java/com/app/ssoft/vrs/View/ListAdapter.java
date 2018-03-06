@@ -1,16 +1,12 @@
 package com.app.ssoft.vrs.View;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +14,6 @@ import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,19 +59,39 @@ public class ListAdapter extends BaseAdapter {
             m_viewHolder.tvVehName = (TextView) m_view.findViewById(R.id.tvVehName);
             m_viewHolder.driverAvlb = (TextView) m_view.findViewById(R.id.driverAvlb);
             m_viewHolder.tvSeater = (TextView) m_view.findViewById(R.id.tvSeater);
+            m_viewHolder.imVehicleImage = (ImageView) m_view.findViewById(R.id.ivVehicalPhoto);
             m_view.setTag(m_viewHolder);
         } else {
             m_view = p_convertView;
             m_viewHolder = ((ViewHolder) m_view.getTag());
         }
 
-        m_viewHolder.tvVehName.setText( m_item.get(p_position).getVehicleModel());
-        if((m_item.get(p_position).getDriverReq() !=null) && (m_item.get(p_position).getDriverReq()).equals("Yes")) {
+        m_viewHolder.tvVehName.setText(m_item.get(p_position).getVehicleModel());
+        if ((m_item.get(p_position).getDriverReq() != null) && (m_item.get(p_position).getDriverReq()).equals("Yes")) {
             m_viewHolder.driverAvlb.setText("With Driver");
-        }else{
+        } else {
             m_viewHolder.driverAvlb.setText("Without Driver");
         }
-        m_viewHolder.tvSeater.setHint( m_item.get(p_position).getNumberOfseat() + " Seaters");
+        m_viewHolder.tvSeater.setHint(m_item.get(p_position).getNumberOfseat() + " Seaters");
+        if (m_item.get(p_position).getVehiclePhoto() != null) {
+           /* Glide.with(m_context)
+                    .load(new File(m_item.get(p_position).getVehiclePhoto()))
+                    .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .placeholder(R.drawable.alto)
+                    .error(R.drawable.alto)
+                    .into(m_viewHolder.imVehicleImage);*/
+            File imgFile = new File(m_item.get(p_position).getVehiclePhoto());
+
+            if (imgFile.exists()) {
+
+                Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+
+                m_viewHolder.imVehicleImage.setImageBitmap(myBitmap);
+
+            }
+        }
       /*  m_viewHolder.m_tvFileName.setText(m_item.get(p_position));
 //        String m_filepath = new File(m_path.get(p_position)).getAbsolutePath();
 
@@ -138,6 +153,7 @@ public class ListAdapter extends BaseAdapter {
         TextView tvVehName;
         TextView driverAvlb;
         TextView tvSeater;
+        ImageView imVehicleImage;
     }
 
    /* private Bitmap setFileImageType(File m_file) {

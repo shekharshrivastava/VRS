@@ -8,17 +8,9 @@
     tools:context="com.app.ssoft.vrs.View.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <ListView
-        android:visibility="gone"
-        android:id="@+id/list_item"
+    <FrameLayout
+        android:id="@+id/content_frame"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
-    <com.tuyenmonkey.mkloader.MKLoader
-        android:id="@+id/loading_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:mk_color="@color/colorPrimary"
-        app:mk_type="ClassicSpinner" />
 </RelativeLayout>

@@ -5,6 +5,7 @@ package com.app.ssoft.vrs.Model;
  */
 
 public class VehicleData {
+    public String userID;
    public String vehicleType;
     public String ownerName;
     public String vehiclePhoto;
@@ -23,12 +24,14 @@ public class VehicleData {
     public  String licenceNumber;
     public  String aadharNumber;
     public  String driverPhoto;
+    public String currentUserID;
 
     public VehicleData (){
 
     }
 
-    public VehicleData(String vehicleType, String ownerName, String vehiclePhoto, String vehicleModel, String aip, String routeType, String source, String destination, String rateValue, String fuelType, String numberOfseat, String driverReq, String driverName, String driverNumber, String driverAddress, String licenceNumber, String aadharNumber, String driverPhoto) {
+    public VehicleData(String currentUserID, String userID, String vehicleType, String ownerName, String vehiclePhoto, String vehicleModel, String aip, String routeType, String source, String destination, String rateValue, String fuelType, String numberOfseat, String driverReq, String driverName, String driverNumber, String driverAddress, String licenceNumber, String aadharNumber, String driverPhoto) {
+        this.userID = userID;
         this.vehicleType = vehicleType;
         this.ownerName = ownerName;
         this.vehiclePhoto = vehiclePhoto;
@@ -47,6 +50,7 @@ public class VehicleData {
         this.licenceNumber = licenceNumber;
         this.aadharNumber = aadharNumber;
         this.driverPhoto = driverPhoto;
+        this.currentUserID = currentUserID;
     }
 
     public void setVehicleType(String vehicleType) {
@@ -185,6 +189,14 @@ public class VehicleData {
         return licenceNumber;
     }
 
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
     public String getAadharNumber() {
         return aadharNumber;
     }
@@ -193,4 +205,11 @@ public class VehicleData {
         return driverPhoto;
     }
 
+    public String getCurrentUserID() {
+        return currentUserID;
+    }
+
+    public void setCurrentUserID(String currentUserID) {
+        this.currentUserID = currentUserID;
+    }
 }

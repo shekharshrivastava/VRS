@@ -185,12 +185,12 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
                         android:drawableLeft="@drawable/driver"
-                        android:text=" Want Driver -"
+                        android:text=" With Driver -"
                         android:textColor="#000"
                         android:textSize="18sp" />
 
                     <RadioButton
-
+                        android:enabled="false"
                         android:id="@+id/RbYes"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -201,6 +201,7 @@
                         android:textStyle="bold" />
 
                     <RadioButton
+                        android:enabled="false"
                         android:id="@+id/RbNo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -215,6 +216,7 @@
 
             <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/driver_cv"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
