@@ -77,12 +77,14 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         });
         return view;
     }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("VRS");
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -116,19 +118,22 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                             vehicleData.setVehiclePhoto(vehiclePhoto);
                             vehicleData.setUserID(dataSnapshot.getKey());
                             vehicleDetails.add(vehicleData);
-                            if(m_listAdapter!=null) {
+                            if (m_listAdapter != null && vehicleDetails.size() > 0) {
                                 m_listAdapter.notifyDataSetChanged();
+                                loadingIndicator.setVisibility(View.GONE);
+                            } else {
+                                loadingIndicator.setVisibility(View.VISIBLE);
                             }
                         }
 
                         @Override
                         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
+                            m_listAdapter.notifyDataSetChanged();
                         }
 
                         @Override
                         public void onChildRemoved(DataSnapshot dataSnapshot) {
-
+                                m_listAdapter.notifyDataSetChanged();
                         }
 
                         @Override

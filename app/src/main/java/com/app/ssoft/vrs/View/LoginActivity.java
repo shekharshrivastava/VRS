@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.app.ssoft.vrs.R;
@@ -23,6 +24,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnLogin;
     private Button btnRegister;
     private FirebaseAuth auth;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +32,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setContentView(R.layout.activity_login);
         etUserName = findViewById(R.id.etUserName);
         etPassword = findViewById(R.id.etPassword);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         btnLogin = findViewById(R.id.btnLogin);
         btnRegister = findViewById(R.id.btnRegister);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
+
         auth = FirebaseAuth.getInstance();
     }
 
@@ -45,6 +49,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 final String password = etPassword.getText().toString();
                 if (!userID.isEmpty() && !password.isEmpty()) {
                     if (Utils.validEmail(userID)) {
+                        progressBar.setVisibility(View.VISIBLE);
+                        etUserName.setEnabled(false);
+                        etPassword.setEnabled(false);
+                        btnLogin.setEnabled(false);
+                        btnRegister.setEnabled(false);
                         auth.signInWithEmailAndPassword(userID, password)
                                 .addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                                     @Override
@@ -54,6 +63,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                         // signed in user can be handled in the listener.
 //                                    progressBar.setVisibility(View.GONE);
                                         if (!task.isSuccessful()) {
+                                            progressBar.setVisibility(View.GONE);
+                                            etUserName.setEnabled(true);
+                                            etPassword.setEnabled(true);
+                                            btnLogin.setEnabled(true);
+                                            btnRegister.setEnabled(true);
                                             // there was an error
                                             if (password.length() < 6) {
 //                                            inputPassword.setError(getString(R.string.minimum_password));
@@ -61,6 +75,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                                 Toast.makeText(LoginActivity.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                             }
                                         } else {
+                                            progressBar.setVisibility(View.GONE);
+
                                             auth.getCurrentUser();
                                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                             startActivity(intent);

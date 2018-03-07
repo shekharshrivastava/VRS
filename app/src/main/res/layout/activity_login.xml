@@ -32,75 +32,81 @@
         android:fillViewport="true">
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+            <EditText
+                android:id="@+id/etUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:drawableLeft="@drawable/owner_profile"
+                android:hint=" USERNAME"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:textColor="#000"
+                android:textCursorDrawable="@null" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:drawableLeft="@drawable/password"
+                android:hint=" PASSWORD"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:textColor="#000"
+                android:textCursorDrawable="@null" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
 
-
-                <EditText
-                    android:id="@+id/etUserName"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/btnLogin"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:drawableLeft="@drawable/owner_profile"
-                    android:hint=" USERNAME"
-                    android:text="ershrivastavashekhar@gmail.com"
-                    android:inputType="textEmailAddress"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorAccent"
                     android:maxLines="1"
-                    android:textColor="#000"
-                    android:textCursorDrawable="@null" />
+                    android:text="LOGIN" />
 
-                <EditText
-                    android:id="@+id/etPassword"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/btnRegister"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:drawableLeft="@drawable/password"
-                    android:hint=" PASSWORD"
-                    android:text="shekhar@123"
-                    android:inputType="textPassword"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="0.5"
+                    android:background="@color/colorAccent"
                     android:maxLines="1"
-                    android:textColor="#000"
-                    android:textCursorDrawable="@null" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="1"
-                    android:layout_marginTop="30dp">
-
-                    <Button
-                        android:layout_weight="0.5"
-                        android:id="@+id/btnLogin"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@color/colorAccent"
-                        android:maxLines="1"
-                        android:text="LOGIN" />
-
-                    <Button
-                        android:layout_weight="0.5"
-                        android:id="@+id/btnRegister"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="15dp"
-                        android:maxLines="1"
-                        android:background="@color/colorAccent"
-                        android:text="REGISTER" />
-                </LinearLayout>
+                    android:text="REGISTER" />
             </LinearLayout>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="20dp"
+                android:visibility="gone" />
+        </LinearLayout>
     </ScrollView>
 </LinearLayout>
 

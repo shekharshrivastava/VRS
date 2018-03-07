@@ -95,6 +95,7 @@ public class AddVehicleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vehicle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ivVehicalPhoto = findViewById(R.id.ivVehicalPhoto);
         radioGroup = findViewById(R.id.radioGroup);
         radioGroupFuelType = findViewById(R.id.radioGroupFuel);

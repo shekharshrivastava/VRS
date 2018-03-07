@@ -13,10 +13,7 @@ import android.widget.TextView;
 
 import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,12 +72,12 @@ class MyVehicleAdapter extends BaseAdapter {
         }else{
             m_viewHolder.driverAvlb.setText("Without Driver");
         }
-
+        m_viewHolder.imVehicleImage.setTag(p_position);
 
         m_viewHolder.tvSeater.setHint( m_item.get(p_position).getNumberOfseat() + " Seaters");
 
         if (m_item.get(p_position).getVehiclePhoto() != null) {
-            m_viewHolder.imVehicleImage.setImageBitmap(StringToBitMap(m_item.get(p_position).getVehiclePhoto()));
+            m_viewHolder.imVehicleImage.setImageBitmap(StringToBitMap(m_item.get(Integer.parseInt(m_viewHolder.imVehicleImage.getTag().toString())).getVehiclePhoto()));
           /*  Glide.with(m_context)
                     .load(new File(m_item.get(p_position).getVehiclePhoto()))
                     .asBitmap()
@@ -89,7 +86,10 @@ class MyVehicleAdapter extends BaseAdapter {
                     .error(R.drawable.alto)
                     .into(m_viewHolder.imVehicleImage);*/
 
+        }else{
+            m_viewHolder.imVehicleImage.setImageResource(R.drawable.placeholder_car);
         }
+
 
         return m_view;
     }
