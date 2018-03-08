@@ -209,7 +209,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@+id/tvSourceLable"
-                        android:hint="Viman nagar"
+                        android:hint="Source"
                         android:maxLines="1"
                         android:textColor="#000"
                         android:textStyle="bold" />
@@ -243,7 +243,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@+id/tvDestLable"
-                        android:hint="Wagholi"
+                        android:hint="Destination"
                         android:maxLines="1"
                         android:textColor="#000"
                         android:textStyle="bold" />
@@ -275,12 +275,45 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@+id/tvRateLable"
-                        android:hint="120/hr"
+                        android:hint="rate"
+                        android:maxLength="4"
+                        android:inputType="number"
                         android:maxLines="1"
                         android:textColor="#000"
                         android:textStyle="bold" />
 
+                    <RadioGroup
+                        android:checkedButton="@+id/rbHr"
+                        android:id="@+id/radioGroupRate"
+                        android:layout_width="wrap_content"
+                        android:gravity="center"
+                        android:layout_marginTop="12dp"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/tvRateValue"
+                        android:orientation="horizontal">
 
+                        <RadioButton
+                            android:id="@+id/rbKM"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/tvFuelTypeLabel"
+                            android:focusedByDefault="true"
+                            android:text="/KM"
+                            android:textColor="#000"
+                            android:textStyle="bold" />
+
+                        <RadioButton
+
+                            android:id="@+id/rbHr"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/tvFuelTypePetrol"
+                            android:text="/HR"
+                            android:textColor="#000"
+                            android:textStyle="bold" />
+                    </RadioGroup>
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -331,6 +364,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/seatsRL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
@@ -496,7 +530,7 @@
                         android:layout_height="72dp"
                         android:layout_gravity="center"
                         android:layout_weight="0.1"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@drawable/placeholder_user" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.app.ssoft.vrs">
+
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -17,13 +18,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.SplashActivity" />
-        <activity android:name=".View.LoginActivity">
+        <activity android:name=".View.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>/>
+            </intent-filter>
+            />
+        </activity>
+        <activity android:name=".View.LoginActivity">
+
         </activity>
         <activity android:name=".View.VehicleDetailsActivity" />
         <activity android:name=".View.RegistrationActivity" />
@@ -36,6 +40,7 @@
         <activity android:name=".View.AddVehicleActivity">
 
         </activity>
+
         <provider
             android:name=".Utils.GenericFileProvider"
             android:authorities="${applicationId}.my.package.name.provider"
@@ -43,7 +48,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
     </application>
 

@@ -68,7 +68,7 @@
                         android:id="@+id/ivVehicalPhoto"
                         android:layout_width="72dp"
                         android:layout_height="72dp"
-                        android:src="@mipmap/ic_launcher"
+                        android:src="@drawable/placeholder_car"
                         android:layout_weight="0.1" />
 
                 </LinearLayout>
@@ -262,7 +262,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:src="@mipmap/ic_launcher"
+                        android:src="@drawable/placeholder_user"
                         android:id="@+id/ivDriverPhoto"
                         android:layout_width="72dp"
                         android:layout_height="72dp"

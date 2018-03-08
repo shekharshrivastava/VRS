@@ -69,6 +69,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 String userId = vehicleData.getUserID();
                 Intent intent = new Intent(getActivity(), VehicleDetailsActivity.class);
                 intent.putExtra("userId", userId);
+                intent.putExtra("isFromMyVehicles",true);
                 startActivity(intent);
 
             }
@@ -151,19 +152,21 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
 
         @Override
         protected void onPreExecute() {
+            super.onPreExecute();
             rl_lvListRoot.setVisibility(View.GONE);
             loadingIndicator.setVisibility(View.VISIBLE);
 //            rl_lvListRoot.setOnItemClickListener(null);
-            super.onPreExecute();
+
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
             rl_lvListRoot.setVisibility(View.VISIBLE);
             loadingIndicator.setVisibility(View.GONE);
             m_listAdapter = new ListAdapter(getActivity(), vehicleDetails);
             rl_lvListRoot.setAdapter(m_listAdapter);
-            super.onPostExecute(aVoid);
+
         }
     }
 

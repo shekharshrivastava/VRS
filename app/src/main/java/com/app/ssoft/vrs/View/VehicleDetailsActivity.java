@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -35,6 +37,8 @@ public class VehicleDetailsActivity extends AppCompatActivity {
     private TextView tvDriverNumber;
     private ImageView ivVehiclePhoto;
     private BitmapFactory.Options options;
+    private ImageView ivDriverPhoto;
+    private Button btnPay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +47,9 @@ public class VehicleDetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_vehicle_details);
         tvOwnerName = findViewById(R.id.tvOwnerName);
+        btnPay = findViewById(R.id.btnPay);
         ivVehiclePhoto = findViewById(R.id.ivVehicalPhoto);
+        ivDriverPhoto = findViewById(R.id.ivDriverPhoto);
         tvVehicalName = findViewById(R.id.tvVehicalName);
         tvFuelType = findViewById(R.id.tvFuelType);
         tvSeatsValue = findViewById(R.id.tvSeatsValue);
@@ -55,6 +61,12 @@ public class VehicleDetailsActivity extends AppCompatActivity {
         tvDriverNumber = findViewById(R.id.tvDriverNumber);
         Intent intent = getIntent();
         String userId = intent.getStringExtra("userId");
+        boolean isFromMyVehList = intent.getBooleanExtra("isFromMyVehicles", false);
+        if (!isFromMyVehList) {
+            btnPay.setVisibility(View.GONE);
+        }else{
+            btnPay.setVisibility(View.VISIBLE);
+        }
         mDatabase = FirebaseDatabase.getInstance().getReference().child("vehicleDetails").child(userId);
         mDatabase.addValueEventListener(new ValueEventListener() {
 
@@ -89,6 +101,9 @@ public class VehicleDetailsActivity extends AppCompatActivity {
                         tvSeatsValue.setText(vehiclesData.getNumberOfseat());
                         String isDriverAvailable = vehiclesData.getDriverReq();
                         if (isDriverAvailable != null && isDriverAvailable.equals("Yes")) {
+                            if (vehiclesData.getDriverPhoto() != null) {
+                                ivDriverPhoto.setImageBitmap(StringToBitMap(vehiclesData.getDriverPhoto()));
+                            }
                             RbYes.setChecked(true);
                             driver_cv.setVisibility(View.VISIBLE);
                             tvDriverName.setText(vehiclesData.getDriverName());
@@ -108,14 +123,25 @@ public class VehicleDetailsActivity extends AppCompatActivity {
             }
         });
     }
-    public Bitmap StringToBitMap(String encodedString){
+
+    public Bitmap StringToBitMap(String encodedString) {
         try {
-            byte [] encodeByte= Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
