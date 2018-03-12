@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.app.ssoft.vrs">
 
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
-
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,20 +25,14 @@
             </intent-filter>
             />
         </activity>
-        <activity android:name=".View.LoginActivity">
-
-        </activity>
+        <activity android:name=".View.LoginActivity"></activity>
         <activity android:name=".View.VehicleDetailsActivity" />
         <activity android:name=".View.RegistrationActivity" />
         <activity
             android:name=".View.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-        <activity android:name=".View.AddVehicleActivity">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".View.AddVehicleActivity"></activity>
 
         <provider
             android:name=".Utils.GenericFileProvider"
@@ -50,6 +43,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
     </application>
 
 </manifest>

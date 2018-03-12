@@ -281,7 +281,7 @@
                 android:layout_marginTop="30dp"
                 android:maxLength="6"
                 android:maxLines="1"
-                android:text="PAY" />
+                android:text="BOOK" />
         </LinearLayout>
 
     </ScrollView>

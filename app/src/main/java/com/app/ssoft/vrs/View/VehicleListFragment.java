@@ -58,7 +58,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 startActivityForResult(intent, 1);
             }
         });
-        new getAllFilesData().execute();
+        new getAllFilesData().execute("vehicleDetails");
         rl_lvListRoot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -69,7 +69,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 String userId = vehicleData.getUserID();
                 Intent intent = new Intent(getActivity(), VehicleDetailsActivity.class);
                 intent.putExtra("userId", userId);
-                intent.putExtra("isFromMyVehicles",true);
+                intent.putExtra("isFromMyVehicles", true);
                 startActivity(intent);
 
             }
@@ -95,79 +95,83 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    public class getAllFilesData extends AsyncTask<Void, Void, Void> {
+    public class getAllFilesData extends AsyncTask<String, Void, ArrayList<VehicleData>> {
 
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            ref = FirebaseDatabase.getInstance().getReference().child("vehicleDetails");
-            ref.addChildEventListener(
-                    new ChildEventListener() {
+        protected ArrayList<VehicleData> doInBackground(final String... String) {
+            return getAllVehicleData(String[0]);
 
-
-                        @Override
-                        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                            VehicleData vehiclesData = dataSnapshot.getValue(VehicleData.class);
-                            VehicleData vehicleData = new VehicleData();
-                            String vehicleModel = vehiclesData.getVehicleModel();
-                            String driver = vehiclesData.getDriverReq();
-                            String seater = vehiclesData.getNumberOfseat();
-                            String vehiclePhoto = vehiclesData.getVehiclePhoto();
-                            vehicleData.setVehicleModel(vehicleModel);
-                            vehicleData.setDriverReq(driver);
-                            vehicleData.setNumberOfseat(seater);
-                            vehicleData.setVehiclePhoto(vehiclePhoto);
-                            vehicleData.setUserID(dataSnapshot.getKey());
-                            vehicleDetails.add(vehicleData);
-                            if (m_listAdapter != null && vehicleDetails.size() > 0) {
-                                m_listAdapter.notifyDataSetChanged();
-                                loadingIndicator.setVisibility(View.GONE);
-                            } else {
-                                loadingIndicator.setVisibility(View.VISIBLE);
-                            }
-                        }
-
-                        @Override
-                        public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                            m_listAdapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onChildRemoved(DataSnapshot dataSnapshot) {
-                                m_listAdapter.notifyDataSetChanged();
-                        }
-
-                        @Override
-                        public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            //handle databaseError
-                        }
-                    });
-            return null;
         }
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
             rl_lvListRoot.setVisibility(View.GONE);
             loadingIndicator.setVisibility(View.VISIBLE);
 //            rl_lvListRoot.setOnItemClickListener(null);
+            super.onPreExecute();
 
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(ArrayList<VehicleData> vehicleData) {
+
             rl_lvListRoot.setVisibility(View.VISIBLE);
             loadingIndicator.setVisibility(View.GONE);
-            m_listAdapter = new ListAdapter(getActivity(), vehicleDetails);
+            m_listAdapter = new ListAdapter(getActivity(), vehicleData);
             rl_lvListRoot.setAdapter(m_listAdapter);
 
+            super.onPostExecute(vehicleData);
         }
     }
 
+    public ArrayList<VehicleData> getAllVehicleData(String childColumn) {
+        ref = FirebaseDatabase.getInstance().getReference().child(childColumn);
+        ref.addChildEventListener(
+                new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        VehicleData vehiclesData = dataSnapshot.getValue(VehicleData.class);
+                        VehicleData vehicleData = new VehicleData();
+                        String vehicleModel = vehiclesData.getVehicleModel();
+                        String driver = vehiclesData.getDriverReq();
+                        String seater = vehiclesData.getNumberOfseat();
+                        String vehiclePhoto = vehiclesData.getVehiclePhoto();
+                        vehicleData.setVehicleModel(vehicleModel);
+                        vehicleData.setDriverReq(driver);
+                        vehicleData.setNumberOfseat(seater);
+                        vehicleData.setVehiclePhoto(vehiclePhoto);
+                        vehicleData.setUserID(dataSnapshot.getKey());
+                        vehicleDetails.add(vehicleData);
+                        if (m_listAdapter != null && vehicleDetails.size() > 0) {
+                            m_listAdapter.notifyDataSetChanged();
+                            loadingIndicator.setVisibility(View.GONE);
+                        } else {
+                            loadingIndicator.setVisibility(View.VISIBLE);
+                        }
+
+                    }
+
+                    @Override
+                    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+                        m_listAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildRemoved(DataSnapshot dataSnapshot) {
+                        m_listAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //handle databaseError
+                    }
+                });
+        return vehicleDetails;
+    }
 }

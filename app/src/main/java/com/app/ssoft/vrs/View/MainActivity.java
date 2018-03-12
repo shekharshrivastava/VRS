@@ -1,6 +1,7 @@
 package com.app.ssoft.vrs.View;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -94,7 +95,10 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             auth.signOut();
+            Intent intent = new Intent(this,LoginActivity.class);
+            startActivity(intent);
             finish();
+
             return true;
         }
 
@@ -110,14 +114,12 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_home) {
             fragment = new VehicleListFragment();
-            // Handle the camera action
         } else if (id == R.id.nav_gallery) {
             fragment = new MyVehicleFragment();
-
         } else if (id == R.id.nav_slideshow) {
-
+        }else if (id == R.id.nav_camera) {
+            fragment = new MyRidesFragment();
         } else if (id == R.id.nav_manage) {
-
         }
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

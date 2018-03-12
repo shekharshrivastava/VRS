@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:layout_marginBottom="20dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
@@ -33,19 +34,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/car_renter"
-                    android:text=" Vehicle Name"
                     android:maxLength="20"
                     android:maxLines="1"
+                    android:text=" Vehicle Name"
                     android:textColor="#000"
                     android:textSize="18sp" />
 
                 <TextView
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp"
                     android:id="@+id/tvSeater"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
                     android:gravity="center"
                     android:hint=" 5 seater"
                     android:maxLength="20"
@@ -58,8 +59,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/driver"
-                    android:text=" With driver"
                     android:maxLines="1"
+                    android:text=" With driver"
                     android:textColor="#000"
                     android:textSize="15sp" />
             </LinearLayout>
