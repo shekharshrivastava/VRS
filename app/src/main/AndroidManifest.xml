@@ -10,6 +10,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -25,14 +26,14 @@
             </intent-filter>
             />
         </activity>
-        <activity android:name=".View.LoginActivity"></activity>
+        <activity android:name=".View.LoginActivity" />
         <activity android:name=".View.VehicleDetailsActivity" />
         <activity android:name=".View.RegistrationActivity" />
         <activity
             android:name=".View.MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".View.AddVehicleActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".View.AddVehicleActivity" />
 
         <provider
             android:name=".Utils.GenericFileProvider"
@@ -44,6 +45,10 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <activity
+            android:name=".View.BookVehicleActivity"
+            android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".View.PaymentActivity"></activity>
     </application>
 
 </manifest>

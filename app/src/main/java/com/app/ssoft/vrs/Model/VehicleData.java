@@ -25,12 +25,16 @@ public class VehicleData {
     public  String aadharNumber;
     public  String driverPhoto;
     public String currentUserID;
+    public boolean isVehBooked;
+    public String bookingDate;
 
     public VehicleData (){
 
     }
 
-    public VehicleData(String currentUserID, String userID, String vehicleType, String ownerName, String vehiclePhoto, String vehicleModel, String aip, String routeType, String source, String destination, String rateValue, String fuelType, String numberOfseat, String driverReq, String driverName, String driverNumber, String driverAddress, String licenceNumber, String aadharNumber, String driverPhoto) {
+
+
+    public VehicleData(String userID, String vehicleType, String ownerName, String vehiclePhoto, String vehicleModel, String aip, String routeType, String source, String destination, String rateValue, String fuelType, String numberOfseat, String driverReq, String driverName, String driverNumber, String driverAddress, String licenceNumber, String aadharNumber, String driverPhoto, String currentUserID, boolean isVehBooked, String bookingDate) {
         this.userID = userID;
         this.vehicleType = vehicleType;
         this.ownerName = ownerName;
@@ -51,6 +55,24 @@ public class VehicleData {
         this.aadharNumber = aadharNumber;
         this.driverPhoto = driverPhoto;
         this.currentUserID = currentUserID;
+        this.isVehBooked = isVehBooked;
+        this.bookingDate = bookingDate;
+    }
+
+    public boolean isVehBooked() {
+        return isVehBooked;
+    }
+
+    public void setVehBooked(boolean vehBooked) {
+        isVehBooked = vehBooked;
+    }
+
+    public String getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(String bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
     public void setVehicleType(String vehicleType) {

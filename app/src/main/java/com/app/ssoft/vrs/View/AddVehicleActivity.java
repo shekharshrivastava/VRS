@@ -15,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Base64;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -136,6 +137,7 @@ public class AddVehicleActivity extends AppCompatActivity {
         rlDest = findViewById(R.id.rlDest);
         radionGroupRateType = findViewById(R.id.radioGroupRate);
         mAuth = FirebaseAuth.getInstance();
+        getSupportActionBar().setTitle("Add Vehicles");
         List<String> permitList = new ArrayList<String>();
         permitList.add("Yes");
         permitList.add("No");
@@ -238,7 +240,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                     driverAddress = null;
                 }
                 if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty()) {
-                    VehicleData vehicleData = new VehicleData(userLoginID, userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateValue + rateType, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray);
+                    VehicleData vehicleData = new VehicleData(userLoginID, userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateValue + rateType, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray,false,null);
                     mDatabase.child(userId).setValue(vehicleData);
 
                     Intent intent = new Intent();
@@ -653,5 +655,15 @@ public class AddVehicleActivity extends AppCompatActivity {
         byte[] b = baos.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
             auth.signOut();
-            Intent intent = new Intent(this,LoginActivity.class);
+            Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
 
@@ -117,7 +117,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_gallery) {
             fragment = new MyVehicleFragment();
         } else if (id == R.id.nav_slideshow) {
-        }else if (id == R.id.nav_camera) {
+            fragment = new FeedbackFragment();
+        } else if (id == R.id.nav_camera) {
             fragment = new MyRidesFragment();
         } else if (id == R.id.nav_manage) {
         }

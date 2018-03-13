@@ -60,13 +60,22 @@ public class VehicleDetailsActivity extends AppCompatActivity {
         tvDriverName = findViewById(R.id.tvDriverName);
         tvDriverNumber = findViewById(R.id.tvDriverNumber);
         Intent intent = getIntent();
-        String userId = intent.getStringExtra("userId");
+        final String userId = intent.getStringExtra("userId");
         boolean isFromMyVehList = intent.getBooleanExtra("isFromMyVehicles", false);
         if (!isFromMyVehList) {
             btnPay.setVisibility(View.GONE);
         }else{
             btnPay.setVisibility(View.VISIBLE);
         }
+        btnPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent bookingIntent = new Intent(VehicleDetailsActivity.this,BookVehicleActivity.class);
+                bookingIntent.putExtra("userID",userId);
+                startActivity(bookingIntent);
+            }
+        });
         mDatabase = FirebaseDatabase.getInstance().getReference().child("vehicleDetails").child(userId);
         mDatabase.addValueEventListener(new ValueEventListener() {
 

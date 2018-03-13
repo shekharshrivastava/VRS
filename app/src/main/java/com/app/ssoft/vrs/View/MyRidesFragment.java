@@ -71,4 +71,5 @@ public class MyRidesFragment extends Fragment implements TabLayout.OnTabSelected
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
 }
