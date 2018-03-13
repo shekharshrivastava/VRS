@@ -240,7 +240,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                     driverAddress = null;
                 }
                 if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty()) {
-                    VehicleData vehicleData = new VehicleData(userLoginID, userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateValue + rateType, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray,false,null);
+                    VehicleData vehicleData = new VehicleData(userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateValue + rateType, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray,userLoginID,false,null);
                     mDatabase.child(userId).setValue(vehicleData);
 
                     Intent intent = new Intent();
