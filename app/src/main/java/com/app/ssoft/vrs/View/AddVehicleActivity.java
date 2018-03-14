@@ -32,8 +32,11 @@ import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -98,6 +101,7 @@ public class AddVehicleActivity extends AppCompatActivity {
     private ImageView ivDriverPhoto;
     private String bitmapDriverArray;
     private RelativeLayout seatsRL;
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +140,10 @@ public class AddVehicleActivity extends AppCompatActivity {
         rlSource = findViewById(R.id.rlSource);
         rlDest = findViewById(R.id.rlDest);
         radionGroupRateType = findViewById(R.id.radioGroupRate);
+        Intent intent = getIntent();
+        final String userIdValue = intent.getStringExtra("userId");
+
+
         mAuth = FirebaseAuth.getInstance();
         getSupportActionBar().setTitle("Add Vehicles");
         List<String> permitList = new ArrayList<String>();
@@ -217,6 +225,8 @@ public class AddVehicleActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
 
 
+            public String userId;
+
             @Override
             public void onClick(View view) {
                 String ownerName = tvOwnerName.getText().toString();
@@ -224,8 +234,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                 String source = tvSource.getText().toString();
                 String destination = tvDestination.getText().toString();
                 String rateValue = tvRateValue.getText().toString();
-                String userId = mDatabase.push().getKey();
-                String userLoginID = currentUser.getUid();
+
                 if (driver_cv.getVisibility() == View.VISIBLE) {
                     driverName = tvDriverName.getText().toString();
                     driverNumber = tvDriverNumber.getText().toString();
@@ -239,16 +248,46 @@ public class AddVehicleActivity extends AppCompatActivity {
                     driverLicence = null;
                     driverAddress = null;
                 }
-                if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty()) {
-                    VehicleData vehicleData = new VehicleData(userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateValue + rateType, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray,userLoginID,false,null);
-                    mDatabase.child(userId).setValue(vehicleData);
+                if (userIdValue == null) {
+                    userId = mDatabase.push().getKey();
+                    String userLoginID = currentUser.getUid();
+                    if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty()) {
+                        VehicleData vehicleData = new VehicleData(userLoginID, userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateValue + rateType, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray, false, null);
+                        mDatabase.child(userId).setValue(vehicleData);
 
-                    Intent intent = new Intent();
-                    intent.putExtra("dataAdded", true);
-                    setResult(1, intent);
-                    finish();//finishing activity
+                        Intent intent = new Intent();
+                        intent.putExtra("dataAdded", true);
+                        setResult(1, intent);
+                        finish();//finishing activity
+                    } else {
+                        Toast.makeText(AddVehicleActivity.this, "Please enter all required values", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(AddVehicleActivity.this, "Please enter all required values", Toast.LENGTH_SHORT).show();
+                    if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty()) {
+                        database.child("vehicleDetails").child(userIdValue).child("vehicleType").setValue(vehType);
+                        database.child("vehicleDetails").child(userIdValue).child("ownerName").setValue(ownerName);
+                        database.child("vehicleDetails").child(userIdValue).child("vehiclePhoto").setValue(bitmapArray);
+                        database.child("vehicleDetails").child(userIdValue).child("vehicleModel").setValue(vehModel);
+                        database.child("vehicleDetails").child(userIdValue).child("aip").setValue(permit);
+                        database.child("vehicleDetails").child(userIdValue).child("routeType").setValue(routeValue);
+                        database.child("vehicleDetails").child(userIdValue).child("source").setValue(source);
+                        database.child("vehicleDetails").child(userIdValue).child("destination").setValue(destination);
+                        database.child("vehicleDetails").child(userIdValue).child("rateValue").setValue(rateValue + rateType);
+                        database.child("vehicleDetails").child(userIdValue).child("fuelType").setValue(fuelType);
+                        database.child("vehicleDetails").child(userIdValue).child("numberOfseat").setValue(seaterValue);
+                        database.child("vehicleDetails").child(userIdValue).child("driverReq").setValue(driverRequired);
+                        database.child("vehicleDetails").child(userIdValue).child("driverName").setValue(driverName);
+                        database.child("vehicleDetails").child(userIdValue).child("driverNumber").setValue(driverNumber);
+                        database.child("vehicleDetails").child(userIdValue).child("driverAddress").setValue(driverAddress);
+                        database.child("vehicleDetails").child(userIdValue).child("licenceNumber").setValue(driverLicence);
+                        database.child("vehicleDetails").child(userIdValue).child("aadharNumber").setValue(driverAadhar);
+                        database.child("vehicleDetails").child(userIdValue).child("driverPhoto").setValue(bitmapDriverArray);
+
+                        Intent intent = new Intent();
+                        intent.putExtra("dataAdded", true);
+                        setResult(1, intent);
+                        finish();//finishing activity
+                    }
                 }
             }
         });
@@ -327,6 +366,10 @@ public class AddVehicleActivity extends AppCompatActivity {
                 }
             }
         });
+
+        if (userIdValue != null) {
+            updateVehicleDetails(userIdValue);
+        }
     }
 
     private void selectImage() {
@@ -648,7 +691,6 @@ public class AddVehicleActivity extends AppCompatActivity {
     }
 
 
-
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -656,6 +698,7 @@ public class AddVehicleActivity extends AppCompatActivity {
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -663,7 +706,99 @@ public class AddVehicleActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+
         }
         return super.onOptionsItemSelected(item);
     }
+
+    public void updateVehicleDetails(String userId) {
+        getSupportActionBar().setTitle("Update Details");
+        btnSubmit.setText("Update");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("vehicleDetails").child(userId);
+        mDatabase.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                VehicleData vehiclesData = dataSnapshot.getValue(VehicleData.class);
+                if (vehiclesData != null) {
+                    tvOwnerName.setText(vehiclesData.getOwnerName());
+                    tvVehicalName.setText(vehiclesData.getVehicleModel());
+                    String CurrentString = vehiclesData.getRateValue();
+                    String[] separated = CurrentString.split("/");
+                    ; // this will contain "Fruit"
+
+                    tvRateValue.setText(separated[0] + rateType);
+                    if (separated[1].equals("KM")) {
+                        radioButtonKM.setChecked(true);
+                    } else {
+                        radioButtonHR.setChecked(true);
+                    }
+                    if (vehiclesData.getVehiclePhoto() != null) {
+                        bitmapArray = vehiclesData.getVehiclePhoto();
+                        ivVehicalPhoto.setImageBitmap(StringToBitMap(vehiclesData.getVehiclePhoto()));
+                    }
+                    if (vehiclesData.getDestination() != null && vehiclesData.getSource() != null) {
+                        tvDestination.setText(vehiclesData.getDestination());
+                        tvSource.setText(vehiclesData.getSource());
+                    }
+                    if (vehiclesData.getFuelType().equals("Petrol")) {
+                        tvFuelTypePetrol.setChecked(true);
+                    } else {
+                        tvFuelTypeDiesel.setChecked(true);
+                    }
+                    if (vehiclesData.getVehicleType().equals("Car")) {
+                        tvVehTypeCar.setChecked(true);
+                        if (vehiclesData.getNumberOfseat().equals("5")) {
+                            tvSeaterValue.setSelection(0);
+                        } else if (vehiclesData.getNumberOfseat().equals("6")) {
+                            tvSeaterValue.setSelection(1);
+                        } else {
+                            tvSeaterValue.setSelection(2);
+                        }
+                    } else {
+                        tvVehTypeBike.setChecked(true);
+                        tvSeaterValue.setVisibility(View.GONE);
+                        seaterValue = "2";
+                    }
+
+                  /*  tvFuelType.setText(vehiclesData.getFuelType());
+                    tvSeaterValue.setText(vehiclesData.getNumberOfseat());*/
+                    String isDriverAvailable = vehiclesData.getDriverReq();
+                    if (isDriverAvailable != null && isDriverAvailable.equals("Yes")) {
+                        if (vehiclesData.getDriverPhoto() != null) {
+                            bitmapArray = vehiclesData.getDriverPhoto();
+                            ivDriverPhoto.setImageBitmap(StringToBitMap(vehiclesData.getDriverPhoto()));
+                        }
+                        radioButtonYes.setChecked(true);
+                        driver_cv.setVisibility(View.VISIBLE);
+                        tvDriverName.setText(vehiclesData.getDriverName());
+                        tvDriverNumber.setText(vehiclesData.getDriverNumber());
+                    } else {
+                        radioButtonNo.setChecked(true);
+                        driver_cv.setVisibility(View.GONE);
+                    }
+
+                }
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public Bitmap StringToBitMap(String encodedString) {
+        try {
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        } catch (Exception e) {
+            e.getMessage();
+            return null;
+        }
+    }
+
 }
+

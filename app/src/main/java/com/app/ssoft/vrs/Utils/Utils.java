@@ -12,6 +12,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Patterns;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.Pattern;
 
 /**
@@ -19,6 +22,8 @@ import java.util.regex.Pattern;
  */
 
 public class Utils {
+
+    private static long timeInMilliseconds;
 
     public static boolean validEmail(String email) {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
@@ -60,4 +65,16 @@ public class Utils {
         }
     }
 
+    public static long getDateInMili (String date) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-m-yyyy");
+        try {
+            Date mDate = sdf.parse(date);
+             timeInMilliseconds = mDate.getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timeInMilliseconds;
+
+    }
 }

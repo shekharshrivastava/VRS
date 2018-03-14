@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Base64;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
@@ -39,6 +41,7 @@ public class VehicleDetailsActivity extends AppCompatActivity {
     private BitmapFactory.Options options;
     private ImageView ivDriverPhoto;
     private Button btnPay;
+    private String userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,19 +63,19 @@ public class VehicleDetailsActivity extends AppCompatActivity {
         tvDriverName = findViewById(R.id.tvDriverName);
         tvDriverNumber = findViewById(R.id.tvDriverNumber);
         Intent intent = getIntent();
-        final String userId = intent.getStringExtra("userId");
+        userId = intent.getStringExtra("userId");
         boolean isFromMyVehList = intent.getBooleanExtra("isFromMyVehicles", false);
         if (!isFromMyVehList) {
             btnPay.setVisibility(View.GONE);
-        }else{
+        } else {
             btnPay.setVisibility(View.VISIBLE);
         }
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent bookingIntent = new Intent(VehicleDetailsActivity.this,BookVehicleActivity.class);
-                bookingIntent.putExtra("userID",userId);
+                Intent bookingIntent = new Intent(VehicleDetailsActivity.this, BookVehicleActivity.class);
+                bookingIntent.putExtra("userID", userId);
                 startActivity(bookingIntent);
             }
         });
@@ -143,14 +146,40 @@ public class VehicleDetailsActivity extends AppCompatActivity {
             return null;
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.edit_menu, menu);
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.action_edit: {
+                Intent intent = new Intent(this, AddVehicleActivity.class);
+                intent.putExtra("userId",userId);
+                startActivityForResult(intent,1);
+
+
                 return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_FIRST_USER) {
+            boolean message = data.getBooleanExtra("dataAdded", false);
+            Toast.makeText(this, "Data updated successfully", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
