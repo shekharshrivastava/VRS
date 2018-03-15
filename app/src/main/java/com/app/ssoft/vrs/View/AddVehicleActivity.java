@@ -97,7 +97,7 @@ public class AddVehicleActivity extends AppCompatActivity {
     private RadioGroup radionGroupRateType;
     private RadioButton radioButtonKM;
     private RadioButton radioButtonHR;
-    private String rateType;
+    private String rateType = "/HR";
     private ImageView ivDriverPhoto;
     private String bitmapDriverArray;
     private RelativeLayout seatsRL;
@@ -252,7 +252,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                     userId = mDatabase.push().getKey();
                     String userLoginID = currentUser.getUid();
                     if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty()) {
-                        VehicleData vehicleData = new VehicleData(userLoginID, userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateValue + rateType, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray, false, null);
+                        VehicleData vehicleData = new VehicleData(userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateValue + rateType, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray,userLoginID, false, null,null);
                         mDatabase.child(userId).setValue(vehicleData);
 
                         Intent intent = new Intent();

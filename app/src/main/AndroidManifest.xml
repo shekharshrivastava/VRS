@@ -49,6 +49,7 @@
             android:name=".View.BookVehicleActivity"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".View.PaymentActivity" />
+        <activity android:name=".View.SearchVehicleActivity"></activity>
     </application>
 
 </manifest>

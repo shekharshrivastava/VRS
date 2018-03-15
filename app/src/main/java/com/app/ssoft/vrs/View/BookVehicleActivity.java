@@ -53,7 +53,7 @@ public class BookVehicleActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private String path;
-    private String bitmapArray;
+    public static String bitmapArray = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +133,7 @@ public class BookVehicleActivity extends AppCompatActivity {
                     confirmationIntent.putExtra("addressVal", addressVal);
                     confirmationIntent.putExtra("contactNumberVal", contactNumberVal);
                     confirmationIntent.putExtra("dateSelected", dateSelected);
-                    confirmationIntent.putExtra("userId", userId);
+                    confirmationIntent.putExtra("userIdVal", userId);
                     confirmationIntent.putExtra("bitmapArray", bitmapArray);
                     startActivity(confirmationIntent);
 

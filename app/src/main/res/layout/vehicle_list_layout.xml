@@ -6,18 +6,41 @@
     android:layout_height="match_parent"
     tools:context="com.app.ssoft.vrs.View.MainActivity">
 
-
-    <ListView
-        android:id="@+id/list_item"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="15dp">
+
+            <TextView
+                android:id="@+id/searchTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Search your ride" />
+
+        </android.support.v7.widget.CardView>
+
+        <ListView
+            android:id="@+id/list_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/card_view"
+            android:visibility="gone" />
+
+    </RelativeLayout>
 
     <com.tuyenmonkey.mkloader.MKLoader
         android:id="@+id/loading_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         app:mk_color="@color/colorPrimary"
         app:mk_type="ClassicSpinner" />

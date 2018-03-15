@@ -37,8 +37,7 @@ public class PaymentActivity extends AppCompatActivity {
         final String address = confirmationIntent.getStringExtra("addressVal");
         final String contactNumber = confirmationIntent.getStringExtra("contactNumberVal");
         final String dateSelected = confirmationIntent.getStringExtra("dateSelected");
-        final String bitmapArray = confirmationIntent.getStringExtra("bitmapArray");
-        final String userID = confirmationIntent.getStringExtra("userId");
+        final String userID = confirmationIntent.getStringExtra("userIdVal");
         final String userKey = mDatabase.push().getKey();
         paymentBtn = findViewById(R.id.paymentBtn);
 
@@ -46,10 +45,11 @@ public class PaymentActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    BookRideData bookRideData = new BookRideData(userKey, firstName, lastName, liceneceNumber,bitmapArray,address,contactNumber,currentUser.getEmail(),"1250",true,null,null,null,dateSelected);
+                    BookRideData bookRideData = new BookRideData(userKey, firstName, lastName, liceneceNumber,BookVehicleActivity.bitmapArray,address,contactNumber,currentUser.getEmail(),"1250",true,null,null,null,dateSelected);
                     mDatabase.child(userKey).setValue(bookRideData);
                     database.child("vehicleDetails").child(userID).child("isVehBooked").setValue(true);
                     database.child("vehicleDetails").child(userID).child("bookingDate").setValue(dateSelected);
+                    database.child("vehicleDetails").child(userID).child("customerUserID").setValue(currentUser.getUid());
                     Toast.makeText(PaymentActivity.this, "Booking done successfully!", Toast.LENGTH_SHORT).show();
 
 

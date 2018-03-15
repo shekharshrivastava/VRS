@@ -5,12 +5,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.ssoft.vrs.Model.VehicleData;
@@ -41,6 +43,13 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
     private MKLoader loadingIndicator;
     private DatabaseReference ref;
     private FrameLayout content_frame;
+    private CardView card_view;
+    private String source = "";
+    private String dest = "";
+    private ArrayList<VehicleData> vehicleFilterData;
+    private TextView searchTV;
+    private String vehType = "";
+    private ArrayList<VehicleData> vehicleSearchList;
 
     @Nullable
     @Override
@@ -48,7 +57,11 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.vehicle_list_layout, container, false);
         rl_lvListRoot = view.findViewById(R.id.list_item);
         loadingIndicator = view.findViewById(R.id.loading_indicator);
+        searchTV = view.findViewById(R.id.searchTV);
+        card_view = view.findViewById(R.id.card_view);
         vehicleDetails = new ArrayList<>();
+        vehicleFilterData = new ArrayList<>();
+        vehicleSearchList = new ArrayList<>();
         auth = FirebaseAuth.getInstance();
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -58,7 +71,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 startActivityForResult(intent, 1);
             }
         });
-        new getAllFilesData().execute("vehicleDetails");
+        new getAllFilesData().execute("vehicleDetails", source, dest);
         rl_lvListRoot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -76,6 +89,13 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
 
 
         });
+        card_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchVehicleActivity.class);
+                startActivityForResult(intent, 2);
+            }
+        });
         return view;
     }
 
@@ -92,6 +112,13 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         if (requestCode == 1 && resultCode == RESULT_FIRST_USER) {
             boolean message = data.getBooleanExtra("dataAdded", false);
             Toast.makeText(getActivity(), "Data Added successfully", Toast.LENGTH_SHORT).show();
+        } else if (requestCode == 2 && resultCode == 2) {
+            vehicleSearchList.clear();
+            source = data.getStringExtra("source");
+            dest = data.getStringExtra("dest");
+            vehType = data.getStringExtra("vehicleType");
+            searchTV.setText("Result showing from source : " + source);
+            new getAllFilesData().execute("vehicleDetails", source, dest);
         }
     }
 
@@ -100,7 +127,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
 
         @Override
         protected ArrayList<VehicleData> doInBackground(final String... String) {
-            return getAllVehicleData(String[0]);
+            return getAllVehicleData(String[0], String[1], String[2]);
 
         }
 
@@ -125,7 +152,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         }
     }
 
-    public ArrayList<VehicleData> getAllVehicleData(String childColumn) {
+    public ArrayList<VehicleData> getAllVehicleData(String childColumn, final String source, final String destination) {
         ref = FirebaseDatabase.getInstance().getReference().child(childColumn);
         ref.addChildEventListener(
                 new ChildEventListener() {
@@ -137,12 +164,27 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         String driver = vehiclesData.getDriverReq();
                         String seater = vehiclesData.getNumberOfseat();
                         String vehiclePhoto = vehiclesData.getVehiclePhoto();
+                        String sourceValue = vehiclesData.getSource();
+                        String destinationVal = vehiclesData.getDestination();
                         vehicleData.setVehicleModel(vehicleModel);
                         vehicleData.setDriverReq(driver);
                         vehicleData.setNumberOfseat(seater);
                         vehicleData.setVehiclePhoto(vehiclePhoto);
                         vehicleData.setUserID(dataSnapshot.getKey());
-                        vehicleDetails.add(vehicleData);
+                        vehicleData.setSource(sourceValue);
+                        vehicleData.setDestination(destination);
+                        if (source.isEmpty() && destination.isEmpty()) {
+                            vehicleFilterData.add(vehicleData);
+                            vehicleDetails.add(vehicleData);
+                        } else {
+                            if (vehiclesData.getSource() != null && vehiclesData.getSource().contains(source)
+                                    && vehiclesData.getVehicleType() != null
+                                    && vehiclesData.getVehicleType().contains(vehType)) {
+                                vehicleDetails.removeAll(vehicleFilterData);
+                                vehicleSearchList.add(vehicleData);
+                                vehicleDetails.add(vehicleData);
+                            }
+                        }
                         if (m_listAdapter != null && vehicleDetails.size() > 0) {
                             m_listAdapter.notifyDataSetChanged();
                             loadingIndicator.setVisibility(View.GONE);
