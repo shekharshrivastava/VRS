@@ -98,7 +98,10 @@ public class CurrentRideFragment extends android.support.v4.app.Fragment {
 
                             VehicleData vehiclesData = dataSnapshot.getValue(VehicleData.class);
                             VehicleData vehicleData = new VehicleData();
-                            if (vehiclesData.getBookingDate() != null && (Utils.getDateInMili(vehiclesData.getBookingDate()) == currentDateInMillis)&& (vehiclesData.getCurrentUserID() != null && (vehiclesData.getCustomerUserID() != null && vehiclesData.getCustomerUserID().equals(currentUser.getUid()))))  {
+                            if (vehiclesData.getBookingDate() != null &&
+                                    (Utils.getDateInMili(vehiclesData.getBookingDate()) == currentDateInMillis)&&
+                                    (vehiclesData.getCurrentUserID() != null && (vehiclesData.getCustomerUserID() != null
+                                            && vehiclesData.getCustomerUserID().equals(currentUser.getUid()))))  {
                                 String vehicleModel = vehiclesData.getVehicleModel();
                                 String driver = vehiclesData.getDriverReq();
                                 String seater = vehiclesData.getNumberOfseat();

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +43,8 @@ public class VehicleDetailsActivity extends AppCompatActivity {
     private ImageView ivDriverPhoto;
     private Button btnPay;
     private String userId;
+    private String ownerUserId;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +67,7 @@ public class VehicleDetailsActivity extends AppCompatActivity {
         tvDriverNumber = findViewById(R.id.tvDriverNumber);
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
+        mAuth = FirebaseAuth.getInstance();
         boolean isFromMyVehList = intent.getBooleanExtra("isFromMyVehicles", false);
         if (!isFromMyVehList) {
             btnPay.setVisibility(View.GONE);
@@ -90,10 +94,12 @@ public class VehicleDetailsActivity extends AppCompatActivity {
                     tvVehicalName.setText(vehiclesData.getVehicleModel());
                     tvRateValue.setText(vehiclesData.getRateValue());
                     tvFuelType.setText(vehiclesData.getFuelType());
+                    ownerUserId = vehiclesData.getCurrentUserID();
 
 
                     if (vehiclesData.getVehiclePhoto() != null) {
                         ivVehiclePhoto.setImageBitmap(StringToBitMap(vehiclesData.getVehiclePhoto()));
+                    }
                   /*  File imgFile = new File(vehiclesData.getVehiclePhoto());
                     if (imgFile.exists()) {
                         try {
@@ -127,7 +133,7 @@ public class VehicleDetailsActivity extends AppCompatActivity {
 
                     }
                 }
-            }
+
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -151,6 +157,11 @@ public class VehicleDetailsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.edit_menu, menu);
+
+        MenuItem item = menu.findItem(R.id.action_edit);
+        if (!mAuth.getCurrentUser().getUid().equals(ownerUserId)) {
+            item.setVisible(false);
+        }
         return true;
     }
 

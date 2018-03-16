@@ -50,6 +50,8 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
     private TextView searchTV;
     private String vehType = "";
     private ArrayList<VehicleData> vehicleSearchList;
+    private String savedDestination;
+    private String savedSource;
 
     @Nullable
     @Override
@@ -93,6 +95,8 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchVehicleActivity.class);
+                source = "";
+                dest = "";
                 startActivityForResult(intent, 2);
             }
         });
@@ -118,7 +122,36 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
             dest = data.getStringExtra("dest");
             vehType = data.getStringExtra("vehicleType");
             searchTV.setText("Result showing from source : " + source);
-            new getAllFilesData().execute("vehicleDetails", source, dest);
+            if (!source.isEmpty() && !dest.isEmpty()) {
+
+                ArrayList<VehicleData> vehicleDataList = new ArrayList();
+
+                for (VehicleData vehData : vehicleFilterData) {
+                    if ((!vehData.getSource().isEmpty() && vehData.getSource().equalsIgnoreCase(source))
+                            && (!vehData.getDestination().isEmpty() && vehData.getDestination().equalsIgnoreCase(dest))
+                            && (vehData.getVehicleType()!=null && vehData.getVehicleType().equalsIgnoreCase(vehType))) {
+                        vehicleDataList.add(vehData);
+
+                    }
+
+                }
+                if (vehicleDataList.size() > 0) {
+                    vehicleDetails.removeAll(vehicleFilterData);
+                    vehicleDetails.addAll(vehicleDataList);
+                } else {
+                    vehicleDataList.clear();
+                    Toast.makeText(getActivity(), "No result found! Press home to reload", Toast.LENGTH_SHORT).show();
+                }
+                          /*  if (vehiclesData.getSource() != null && vehiclesData.getSource().contains(source)
+                                    && vehiclesData.getVehicleType() != null
+                                    && vehiclesData.getVehicleType().contains(vehType)) {
+                                vehicleDetails.removeAll(vehicleFilterData);
+                                vehicleSearchList.add(vehicleData);
+                                vehicleDetails.add(vehicleData);
+
+                            }*/
+            }
+//            new getAllFilesData().execute("vehicleDetails", source, dest);
         }
     }
 
@@ -166,24 +199,20 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         String vehiclePhoto = vehiclesData.getVehiclePhoto();
                         String sourceValue = vehiclesData.getSource();
                         String destinationVal = vehiclesData.getDestination();
+                        String vehType = vehiclesData.getVehicleType();
                         vehicleData.setVehicleModel(vehicleModel);
                         vehicleData.setDriverReq(driver);
                         vehicleData.setNumberOfseat(seater);
                         vehicleData.setVehiclePhoto(vehiclePhoto);
                         vehicleData.setUserID(dataSnapshot.getKey());
                         vehicleData.setSource(sourceValue);
-                        vehicleData.setDestination(destination);
-                        if (source.isEmpty() && destination.isEmpty()) {
+                        vehicleData.setDestination(destinationVal);
+                        vehicleData.setVehicleType(vehType);
+
+//                        vehicleFilterData.add(vehicleData);
+                        if (source.isEmpty() && destination.isEmpty() && (vehiclesData.getCurrentUserID()!=null &&!(vehiclesData.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
                             vehicleFilterData.add(vehicleData);
                             vehicleDetails.add(vehicleData);
-                        } else {
-                            if (vehiclesData.getSource() != null && vehiclesData.getSource().contains(source)
-                                    && vehiclesData.getVehicleType() != null
-                                    && vehiclesData.getVehicleType().contains(vehType)) {
-                                vehicleDetails.removeAll(vehicleFilterData);
-                                vehicleSearchList.add(vehicleData);
-                                vehicleDetails.add(vehicleData);
-                            }
                         }
                         if (m_listAdapter != null && vehicleDetails.size() > 0) {
                             m_listAdapter.notifyDataSetChanged();
@@ -214,6 +243,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         //handle databaseError
                     }
                 });
+
         return vehicleDetails;
     }
 }

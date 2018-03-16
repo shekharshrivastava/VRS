@@ -102,6 +102,7 @@ public class AddVehicleActivity extends AppCompatActivity {
     private String bitmapDriverArray;
     private RelativeLayout seatsRL;
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    private String[] separated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -724,14 +725,17 @@ public class AddVehicleActivity extends AppCompatActivity {
                     tvOwnerName.setText(vehiclesData.getOwnerName());
                     tvVehicalName.setText(vehiclesData.getVehicleModel());
                     String CurrentString = vehiclesData.getRateValue();
-                    String[] separated = CurrentString.split("/");
-                    ; // this will contain "Fruit"
+                    if(CurrentString.contains("/")) {
+                        separated = CurrentString.split("/");
 
-                    tvRateValue.setText(separated[0] + rateType);
-                    if (separated[1].equals("KM")) {
-                        radioButtonKM.setChecked(true);
-                    } else {
-                        radioButtonHR.setChecked(true);
+                        ; // this will contain "Fruit"
+
+                        tvRateValue.setText(separated[0] + rateType);
+                        if (separated[1].equals("KM")) {
+                            radioButtonKM.setChecked(true);
+                        } else {
+                            radioButtonHR.setChecked(true);
+                        }
                     }
                     if (vehiclesData.getVehiclePhoto() != null) {
                         bitmapArray = vehiclesData.getVehiclePhoto();

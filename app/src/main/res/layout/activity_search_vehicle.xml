@@ -14,6 +14,7 @@
 
         <EditText
             android:id="@+id/sourceET"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -30,6 +31,7 @@
 
         <EditText
             android:id="@+id/destET"
+            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -45,22 +47,20 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:layout_weight="0.5">
 
             <TextView
+                android:layout_margin="10dp"
+                android:layout_weight="0.4"
                 android:id="@+id/dateTV"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:background="@null"
                 android:gravity="center"
-                android:hint="Date"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:text="Vehicle Type"
                 android:padding="10dp" />
-        </android.support.v7.widget.CardView>
 
         <RadioGroup
             android:id="@+id/radioGroup"
