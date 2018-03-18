@@ -28,6 +28,7 @@ public class VehicleData {
     public boolean isVehBooked;
     public String bookingDate;
     public String customerUserID;
+    public String advanceAmnt;
 
     public VehicleData (){
 
@@ -35,7 +36,7 @@ public class VehicleData {
 
 
 
-    public VehicleData(String userID, String vehicleType, String ownerName, String vehiclePhoto, String vehicleModel, String aip, String routeType, String source, String destination, String rateValue, String fuelType, String numberOfseat, String driverReq, String driverName, String driverNumber, String driverAddress, String licenceNumber, String aadharNumber, String driverPhoto, String currentUserID, boolean isVehBooked, String bookingDate,String customerUserID) {
+    public VehicleData(String userID, String vehicleType, String ownerName, String vehiclePhoto, String vehicleModel, String aip, String routeType, String source, String destination, String rateValue, String fuelType, String numberOfseat, String driverReq, String driverName, String driverNumber, String driverAddress, String licenceNumber, String aadharNumber, String driverPhoto, String currentUserID, boolean isVehBooked, String bookingDate,String customerUserID,String advanceAmnt) {
         this.userID = userID;
         this.vehicleType = vehicleType;
         this.ownerName = ownerName;
@@ -59,6 +60,7 @@ public class VehicleData {
         this.isVehBooked = isVehBooked;
         this.bookingDate = bookingDate;
         this.customerUserID = customerUserID;
+        this.advanceAmnt = advanceAmnt;
     }
 
     public String getCustomerUserID() {
@@ -245,4 +247,11 @@ public class VehicleData {
         this.currentUserID = currentUserID;
     }
 
+    public String getAdvanceAmnt() {
+        return advanceAmnt;
+    }
+
+    public void setAdvanceAmnt(String advanceAmnt) {
+        this.advanceAmnt = advanceAmnt;
+    }
 }

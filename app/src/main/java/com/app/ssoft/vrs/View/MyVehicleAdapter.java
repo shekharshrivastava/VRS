@@ -60,11 +60,14 @@ class MyVehicleAdapter extends BaseAdapter {
             m_viewHolder.driverAvlb = (TextView) m_view.findViewById(R.id.driverAvlb);
             m_viewHolder.tvSeater = (TextView) m_view.findViewById(R.id.tvSeater);
             m_viewHolder.imVehicleImage = (ImageView) m_view.findViewById(R.id.ivVehicalPhoto);
+            m_viewHolder.avblStatus = (TextView) m_view.findViewById(R.id.avlblStatus);
+
             m_view.setTag(m_viewHolder);
         } else {
             m_view = p_convertView;
             m_viewHolder = ((MyVehicleAdapter.ViewHolder) m_view.getTag());
         }
+        m_viewHolder.avblStatus.setVisibility(View.GONE);
 
         m_viewHolder.tvVehName.setText( m_item.get(p_position).getVehicleModel());
         if((m_item.get(p_position).getDriverReq() !=null) && (m_item.get(p_position).getDriverReq()).equals("Yes")) {
@@ -99,6 +102,7 @@ class MyVehicleAdapter extends BaseAdapter {
         TextView driverAvlb;
         TextView tvSeater;
         ImageView imVehicleImage;
+        TextView avblStatus;
     }
 
    /* private Bitmap setFileImageType(File m_file) {

@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
+import com.app.ssoft.vrs.Utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +26,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tuyenmonkey.mkloader.MKLoader;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import static android.app.Activity.RESULT_FIRST_USER;
 
@@ -52,6 +56,9 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
     private ArrayList<VehicleData> vehicleSearchList;
     private String savedDestination;
     private String savedSource;
+    private long currentDateInMillis;
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
 
     @Nullable
     @Override
@@ -61,6 +68,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         loadingIndicator = view.findViewById(R.id.loading_indicator);
         searchTV = view.findViewById(R.id.searchTV);
         card_view = view.findViewById(R.id.card_view);
+
         vehicleDetails = new ArrayList<>();
         vehicleFilterData = new ArrayList<>();
         vehicleSearchList = new ArrayList<>();
@@ -85,6 +93,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 Intent intent = new Intent(getActivity(), VehicleDetailsActivity.class);
                 intent.putExtra("userId", userId);
                 intent.putExtra("isFromMyVehicles", true);
+                intent.putExtra("advanceAmnt", vehicleData.getAdvanceAmnt());
                 startActivity(intent);
 
             }
@@ -142,16 +151,8 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                     vehicleDataList.clear();
                     Toast.makeText(getActivity(), "No result found! Press home to reload", Toast.LENGTH_SHORT).show();
                 }
-                          /*  if (vehiclesData.getSource() != null && vehiclesData.getSource().contains(source)
-                                    && vehiclesData.getVehicleType() != null
-                                    && vehiclesData.getVehicleType().contains(vehType)) {
-                                vehicleDetails.removeAll(vehicleFilterData);
-                                vehicleSearchList.add(vehicleData);
-                                vehicleDetails.add(vehicleData);
 
-                            }*/
             }
-//            new getAllFilesData().execute("vehicleDetails", source, dest);
         }
     }
 
@@ -185,21 +186,25 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         }
     }
 
+
     public ArrayList<VehicleData> getAllVehicleData(String childColumn, final String source, final String destination) {
         ref = FirebaseDatabase.getInstance().getReference().child(childColumn);
         ref.addChildEventListener(
                 new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                        VehicleData vehiclesData = dataSnapshot.getValue(VehicleData.class);
+                        VehicleData vehiclesDataSnapshot = dataSnapshot.getValue(VehicleData.class);
                         VehicleData vehicleData = new VehicleData();
-                        String vehicleModel = vehiclesData.getVehicleModel();
-                        String driver = vehiclesData.getDriverReq();
-                        String seater = vehiclesData.getNumberOfseat();
-                        String vehiclePhoto = vehiclesData.getVehiclePhoto();
-                        String sourceValue = vehiclesData.getSource();
-                        String destinationVal = vehiclesData.getDestination();
-                        String vehType = vehiclesData.getVehicleType();
+                        String vehicleModel = vehiclesDataSnapshot.getVehicleModel();
+                        String driver = vehiclesDataSnapshot.getDriverReq();
+                        String seater = vehiclesDataSnapshot.getNumberOfseat();
+                        String vehiclePhoto = vehiclesDataSnapshot.getVehiclePhoto();
+                        String sourceValue = vehiclesDataSnapshot.getSource();
+                        String destinationVal = vehiclesDataSnapshot.getDestination();
+                        String vehType = vehiclesDataSnapshot.getVehicleType();
+                        String vehBookingDate = vehiclesDataSnapshot.getBookingDate();
+                        boolean isVehBooked = vehiclesDataSnapshot.isVehBooked();
+                        String advancePayment = vehiclesDataSnapshot.getAdvanceAmnt();
                         vehicleData.setVehicleModel(vehicleModel);
                         vehicleData.setDriverReq(driver);
                         vehicleData.setNumberOfseat(seater);
@@ -208,9 +213,11 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         vehicleData.setSource(sourceValue);
                         vehicleData.setDestination(destinationVal);
                         vehicleData.setVehicleType(vehType);
-
+                        vehicleData.setVehBooked(isVehBooked);
+                        vehicleData.setBookingDate(vehBookingDate);
+                        vehicleData.setAdvanceAmnt(advancePayment);
 //                        vehicleFilterData.add(vehicleData);
-                        if (source.isEmpty() && destination.isEmpty() && (vehiclesData.getCurrentUserID()!=null &&!(vehiclesData.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
+                        if (source.isEmpty() && destination.isEmpty() && (vehiclesDataSnapshot.getCurrentUserID()!=null &&!(vehiclesDataSnapshot.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
                             vehicleFilterData.add(vehicleData);
                             vehicleDetails.add(vehicleData);
                         }

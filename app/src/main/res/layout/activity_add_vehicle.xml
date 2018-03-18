@@ -276,7 +276,6 @@
                         android:layout_marginTop="10dp"
                         android:layout_toRightOf="@+id/tvRateLable"
                         android:hint="rate"
-                        android:maxLength="4"
                         android:inputType="number"
                         android:maxLines="1"
                         android:textColor="#000"
@@ -310,13 +309,14 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
                             android:layout_toRightOf="@+id/tvFuelTypePetrol"
-                            android:text="/HR"
+                            android:text="/DAY"
                             android:textColor="#000"
                             android:textStyle="bold" />
                     </RadioGroup>
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/fuelTypeRL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp">
@@ -391,8 +391,40 @@
                         android:textStyle="bold" />
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/advanceRL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                 >
+
+                    <TextView
+                        android:id="@+id/tvAdvnceLable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/payment"
+                        android:text=" Advance payment -"
+                        android:textColor="#000"
+                        android:layout_centerVertical="true"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/advanceAmnt"
+                        android:maxLines="1"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:inputType="number"
+                        android:hint="Enter amount"
+                        android:gravity="center"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/tvAdvnceLable"
+                        android:textColor="#000"
+                         />
+                </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/driverRL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp">

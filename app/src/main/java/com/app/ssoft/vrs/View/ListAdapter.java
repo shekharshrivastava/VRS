@@ -3,6 +3,7 @@ package com.app.ssoft.vrs.View;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +14,12 @@ import android.widget.TextView;
 
 import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
+import com.app.ssoft.vrs.Utils.Utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +32,7 @@ public class ListAdapter extends BaseAdapter {
     Context m_context;
     Boolean m_isRoot;
     private Bitmap thumbnailDrawable;
+    private long currentDateInMillis;
 
     public ListAdapter(Context p_context, List<VehicleData> p_item) {
         m_context = p_context;
@@ -55,10 +61,18 @@ public class ListAdapter extends BaseAdapter {
         if (p_convertView == null) {
             LayoutInflater m_inflater = LayoutInflater.from(m_context);
             m_view = m_inflater.inflate(R.layout.row_layout, null);
+            Date c = Calendar.getInstance().getTime();
+            System.out.println("Current time => " + c);
+
+            SimpleDateFormat df = new SimpleDateFormat("dd-M-yyyy");
+            String formattedDate = df.format(c);
+            currentDateInMillis = Utils.getDateInMili(formattedDate);
             m_viewHolder = new ViewHolder();
+
             m_viewHolder.tvVehName = (TextView) m_view.findViewById(R.id.tvVehName);
             m_viewHolder.driverAvlb = (TextView) m_view.findViewById(R.id.driverAvlb);
             m_viewHolder.tvSeater = (TextView) m_view.findViewById(R.id.tvSeater);
+            m_viewHolder.avblStatus = (TextView) m_view.findViewById(R.id.avlblStatus);
             m_viewHolder.imVehicleImage = (ImageView) m_view.findViewById(R.id.ivVehicalPhoto);
             m_view.setTag(m_viewHolder);
         } else {
@@ -71,6 +85,14 @@ public class ListAdapter extends BaseAdapter {
             m_viewHolder.driverAvlb.setText("With Driver");
         } else {
             m_viewHolder.driverAvlb.setText("Without Driver");
+        }
+
+        if (( m_item.get(p_position).getBookingDate()!=null && (!m_item.get(p_position).getBookingDate().isEmpty()&& Utils.getDateInMili(m_item.get(p_position).getBookingDate()) >= currentDateInMillis))) {
+            m_viewHolder.avblStatus.setText("Not Available");
+            m_viewHolder.avblStatus.setTextColor(Color.RED);
+             } else {
+            m_viewHolder.avblStatus.setText("Available");
+            m_viewHolder.avblStatus.setTextColor(m_context.getResources().getColor(R.color.color_green));
         }
         m_viewHolder.tvSeater.setHint(m_item.get(p_position).getNumberOfseat() + " Seaters");
         if (m_item.get(Integer.parseInt(m_viewHolder.imVehicleImage.getTag().toString())).getVehiclePhoto() != null) {
@@ -86,7 +108,7 @@ public class ListAdapter extends BaseAdapter {
                     .into(m_viewHolder.imVehicleImage);*/
 
 
-        }else{
+        } else {
             m_viewHolder.imVehicleImage.setImageResource(R.drawable.placeholder_car);
         }
 
@@ -97,16 +119,17 @@ public class ListAdapter extends BaseAdapter {
     class ViewHolder {
         TextView tvVehName;
         TextView driverAvlb;
+        TextView avblStatus;
         TextView tvSeater;
         ImageView imVehicleImage;
     }
 
-    public Bitmap StringToBitMap(String encodedString){
+    public Bitmap StringToBitMap(String encodedString) {
         try {
-            byte [] encodeByte= Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap=BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }

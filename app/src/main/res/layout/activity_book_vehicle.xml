@@ -49,25 +49,25 @@
                 android:weightSum="1">
 
                 <TextView
-                    android:layout_weight="0.5"
                     android:id="@+id/attachDoc"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:text="Attach Licence"
+                    android:layout_weight="0.5"
                     android:gravity="center"
+                    android:text="Attach Licence"
                     android:textColor="#007dab" />
 
                 <TextView
-                    android:layout_weight="0.5"
                     android:id="@+id/selectDate"
                     android:layout_width="0dp"
-                    android:gravity="center"
-                    android:textSize="18sp"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
                     android:text="Select Date"
-                    android:textColor="#007dab" />
+                    android:textColor="#007dab"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <EditText
@@ -96,15 +96,34 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1" />
 
-            <EditText
-                android:id="@+id/advPayment"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:enabled="false"
-                android:hint="Advance Payment"
-                android:inputType="number"
-                android:maxLines="1" />
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.5"
+                    android:gravity="center"
+                    android:textColor="#000"
+                    android:textStyle="bold"
+                    android:text="Booking Amount -" />
+
+                <EditText
+                    android:id="@+id/advPayment"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="0.5"
+                    android:enabled="false"
+                    android:gravity="center"
+                    android:hint="Advance Payment"
+                    android:inputType="number"
+                    android:maxLines="1" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btnProceed"

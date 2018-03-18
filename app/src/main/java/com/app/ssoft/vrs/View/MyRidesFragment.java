@@ -44,8 +44,10 @@ public class MyRidesFragment extends Fragment implements TabLayout.OnTabSelected
         //Adding adapter to pager
         viewPager.setAdapter(adapter);
 
+
         //Adding onTabSelectedListener to swipe views
         tabLayout.setOnTabSelectedListener(this);
+//        tabLayout.setupWithViewPager(viewPager);
         return view;
     }
 
@@ -59,6 +61,7 @@ public class MyRidesFragment extends Fragment implements TabLayout.OnTabSelected
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         viewPager.setCurrentItem(tab.getPosition());
+
 
     }
 

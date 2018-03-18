@@ -18,12 +18,17 @@ import android.widget.Toast;
 
 import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
+import com.app.ssoft.vrs.Utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class VehicleDetailsActivity extends AppCompatActivity {
 
@@ -45,6 +50,9 @@ public class VehicleDetailsActivity extends AppCompatActivity {
     private String userId;
     private String ownerUserId;
     private FirebaseAuth mAuth;
+    private boolean isVehBooked = false;
+    private long currentDateInMillis;
+    private String advanceAmnt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +73,17 @@ public class VehicleDetailsActivity extends AppCompatActivity {
         driver_cv = findViewById(R.id.driver_cv);
         tvDriverName = findViewById(R.id.tvDriverName);
         tvDriverNumber = findViewById(R.id.tvDriverNumber);
+
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+        SimpleDateFormat df = new SimpleDateFormat("dd-M-yyyy");
+        String formattedDate = df.format(c);
+        currentDateInMillis = Utils.getDateInMili(formattedDate);
+
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
+        advanceAmnt = intent.getStringExtra("advanceAmnt");
+
         mAuth = FirebaseAuth.getInstance();
         boolean isFromMyVehList = intent.getBooleanExtra("isFromMyVehicles", false);
         if (!isFromMyVehList) {
@@ -80,6 +97,7 @@ public class VehicleDetailsActivity extends AppCompatActivity {
 
                 Intent bookingIntent = new Intent(VehicleDetailsActivity.this, BookVehicleActivity.class);
                 bookingIntent.putExtra("userID", userId);
+                bookingIntent.putExtra("advPayment",advanceAmnt);
                 startActivity(bookingIntent);
             }
         });
@@ -95,7 +113,13 @@ public class VehicleDetailsActivity extends AppCompatActivity {
                     tvRateValue.setText(vehiclesData.getRateValue());
                     tvFuelType.setText(vehiclesData.getFuelType());
                     ownerUserId = vehiclesData.getCurrentUserID();
+                    isVehBooked = vehiclesData.isVehBooked;
 
+                    if ((vehiclesData.getBookingDate()!=null &&(!vehiclesData.getBookingDate().isEmpty() && Utils.getDateInMili(vehiclesData.getBookingDate()) >= currentDateInMillis))){
+                        btnPay.setEnabled(false);
+                    } else {
+                        btnPay.setEnabled(true);
+                    }
 
                     if (vehiclesData.getVehiclePhoto() != null) {
                         ivVehiclePhoto.setImageBitmap(StringToBitMap(vehiclesData.getVehiclePhoto()));
@@ -116,23 +140,23 @@ public class VehicleDetailsActivity extends AppCompatActivity {
                             }
                         }
                     }*/
-                        tvSeatsValue.setText(vehiclesData.getNumberOfseat());
-                        String isDriverAvailable = vehiclesData.getDriverReq();
-                        if (isDriverAvailable != null && isDriverAvailable.equals("Yes")) {
-                            if (vehiclesData.getDriverPhoto() != null) {
-                                ivDriverPhoto.setImageBitmap(StringToBitMap(vehiclesData.getDriverPhoto()));
-                            }
-                            RbYes.setChecked(true);
-                            driver_cv.setVisibility(View.VISIBLE);
-                            tvDriverName.setText(vehiclesData.getDriverName());
-                            tvDriverNumber.setText(vehiclesData.getDriverNumber());
-                        } else {
-                            RbNo.setChecked(true);
-                            driver_cv.setVisibility(View.GONE);
+                    tvSeatsValue.setText(vehiclesData.getNumberOfseat());
+                    String isDriverAvailable = vehiclesData.getDriverReq();
+                    if (isDriverAvailable != null && isDriverAvailable.equals("Yes")) {
+                        if (vehiclesData.getDriverPhoto() != null) {
+                            ivDriverPhoto.setImageBitmap(StringToBitMap(vehiclesData.getDriverPhoto()));
                         }
-
+                        RbYes.setChecked(true);
+                        driver_cv.setVisibility(View.VISIBLE);
+                        tvDriverName.setText(vehiclesData.getDriverName());
+                        tvDriverNumber.setText(vehiclesData.getDriverNumber());
+                    } else {
+                        RbNo.setChecked(true);
+                        driver_cv.setVisibility(View.GONE);
                     }
+
                 }
+            }
 
 
             @Override
@@ -174,8 +198,8 @@ public class VehicleDetailsActivity extends AppCompatActivity {
                 break;
             case R.id.action_edit: {
                 Intent intent = new Intent(this, AddVehicleActivity.class);
-                intent.putExtra("userId",userId);
-                startActivityForResult(intent,1);
+                intent.putExtra("userId", userId);
+                startActivityForResult(intent, 1);
 
 
                 return true;

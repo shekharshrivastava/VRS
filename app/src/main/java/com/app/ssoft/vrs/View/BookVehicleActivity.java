@@ -54,6 +54,8 @@ public class BookVehicleActivity extends AppCompatActivity {
     private FirebaseUser currentUser;
     private String path;
     public static String bitmapArray = "";
+    private String advancePayment;
+    private EditText advPayment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class BookVehicleActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         final Intent intent = getIntent();
         userId = intent.getStringExtra("userID");
+        advancePayment = intent.getStringExtra("advPayment");
         getSupportActionBar().setTitle("Book your ride");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         firstName = findViewById(R.id.firstName);
@@ -78,6 +81,7 @@ public class BookVehicleActivity extends AppCompatActivity {
         contactNumber = findViewById(R.id.contactNumber);
         btnProceed = findViewById(R.id.btnProceed);
         selectDate = findViewById(R.id.selectDate);
+        advPayment= findViewById(R.id.advPayment);
         email = findViewById(R.id.email);
         if (mAuth != null) {
             currentUser = mAuth.getCurrentUser();
@@ -85,6 +89,10 @@ public class BookVehicleActivity extends AppCompatActivity {
             email.setEnabled(false);
         } else {
             email.setEnabled(true);
+        }
+
+        if(advancePayment!=null){
+            advPayment.setText(advancePayment + " in Rupees");
         }
 
         selectDate.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +142,7 @@ public class BookVehicleActivity extends AppCompatActivity {
                     confirmationIntent.putExtra("contactNumberVal", contactNumberVal);
                     confirmationIntent.putExtra("dateSelected", dateSelected);
                     confirmationIntent.putExtra("userIdVal", userId);
-                    confirmationIntent.putExtra("bitmapArray", bitmapArray);
+//                    confirmationIntent.putExtra("bitmapArray", bitmapArray);
                     startActivity(confirmationIntent);
 
 

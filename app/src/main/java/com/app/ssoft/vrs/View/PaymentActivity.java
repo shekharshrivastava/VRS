@@ -3,6 +3,7 @@ package com.app.ssoft.vrs.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,6 +27,8 @@ public class PaymentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+        getSupportActionBar().setTitle("Payment");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         currentUser = mAuth.getCurrentUser();
@@ -60,5 +63,17 @@ public class PaymentActivity extends AppCompatActivity {
                 }
             }
         });
+
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                break;
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
