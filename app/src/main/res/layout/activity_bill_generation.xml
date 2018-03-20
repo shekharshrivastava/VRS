@@ -8,131 +8,153 @@
     android:orientation="vertical"
     tools:context="com.app.ssoft.vrs.View.BillGenerationActivity">
 
-    <RelativeLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:padding="5dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/lblBillNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bill No."
-            android:textColor="#000"
-            android:textSize="15dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tvBillNo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/lblBillNo"
-            android:text="Bill No."
-            android:textColor="#000"
-            android:textSize="12dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="5dp">
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/lblBillNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bill No."
+                    android:textColor="#000"
+                    android:textSize="15dp" />
 
-    <TextView
-        android:id="@+id/tvDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@+id/lblBillNo"
-        android:text="13/03/2018"
-        android:textColor="#000"
-        android:textSize="15dp" />
+                <TextView
+                    android:id="@+id/tvBillNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toRightOf="@+id/lblBillNo"
+                    android:text="Bill No."
+                    android:textColor="#000"
+                    android:textSize="12dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"
-        android:padding="5dp">
+            </RelativeLayout>
 
-        <EditText
-            android:id="@+id/inputKm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/rounded_border_edittext"
-            android:hint="No of KM/DAY"
-            android:inputType="number"
-            android:gravity="center"
-            android:maxLength="4"
-            android:padding="5dp"
-            android:textColor="#000"
-            android:textSize="15dp" />
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/lblBillNo"
+                android:text="13/03/2018"
+                android:textColor="#000"
+                android:textSize="15dp" />
 
-        <TextView
-            android:id="@+id/seprator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/inputKm"
-            android:padding="5dp"
-            android:text="X"
-            android:textColor="#000"
-            android:textSize="16dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:padding="5dp">
 
-        <EditText
-            android:id="@+id/rateValue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/seprator"
-            android:background="@drawable/rounded_border_edittext"
-            android:hint="Rate"
-            android:inputType="number"
-            android:maxLength="4"
-            android:padding="5dp"
-            android:textColor="#000"
-            android:textSize="15dp" />
-    </RelativeLayout>
+                <EditText
+                    android:id="@+id/inputKm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/rounded_border_edittext"
+                    android:gravity="center"
+                    android:hint="No of KM/DAY"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:padding="5dp"
+                    android:textColor="#000"
+                    android:textSize="15dp" />
 
-    <TextView
-        android:id="@+id/tvTotalAmnt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_toRightOf="@+id/lblBillNo"
-        android:text="Total Amount"
-        android:textColor="#000"
-        android:textSize="18dp" />
+                <TextView
+                    android:id="@+id/seprator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/inputKm"
+                    android:padding="5dp"
+                    android:text="X"
+                    android:textColor="#000"
+                    android:textSize="16dp" />
 
-    <TextView
-        android:id="@+id/tvAdvnAmnt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/lblBillNo"
-        android:text="Advance Amount"
-        android:textColor="#000"
-        android:textSize="18dp" />
+                <EditText
+                    android:id="@+id/rateValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/seprator"
+                    android:background="@drawable/rounded_border_edittext"
+                    android:hint="Rate"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:padding="5dp"
+                    android:textColor="#000"
+                    android:textSize="15dp" />
 
-    <TextView
-        android:id="@+id/tvFinalAmnt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@+id/lblBillNo"
-        android:text="Final Amount"
-        android:textColor="#000"
-        android:textSize="18dp" />
+                <TextView
+                    android:id="@+id/ratePerType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_toRightOf="@+id/rateValue"
+                    android:hint="/Day"
+                    android:padding="5dp" />
+            </RelativeLayout>
 
-    <Button
-        android:layout_margin="20dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="PAY"/>
+            <TextView
+                android:id="@+id/tvTotalAmnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/lblBillNo"
+                android:text="Total Amount"
+                android:textColor="#000"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tvAdvnAmnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/lblBillNo"
+                android:text="Advance Amount"
+                android:textColor="#000"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/tvFinalAmnt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5dp"
+                android:layout_toRightOf="@+id/lblBillNo"
+                android:text="Final Amount"
+                android:textColor="#000"
+                android:textSize="18dp" />
+
+            <Button
+                android:id="@+id/btnPayFinal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="PAY" />
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

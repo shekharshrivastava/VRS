@@ -13,7 +13,7 @@
         android:layout_height="110dp"
         android:layout_centerInParent="true"
         android:layout_gravity="clip_horizontal"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@drawable/vrs" />
 
     <TextView
 

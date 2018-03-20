@@ -106,11 +106,15 @@ public class CurrentRideFragment extends android.support.v4.app.Fragment {
                                 String driver = vehiclesData.getDriverReq();
                                 String seater = vehiclesData.getNumberOfseat();
                                 String vehPhoto = vehiclesData.getVehiclePhoto();
+                                String advnPayment = vehiclesData.getAdvanceAmnt();
+                                String rateValue = vehiclesData.getRateValue();
                                 vehicleData.setVehicleModel(vehicleModel);
                                 vehicleData.setDriverReq(driver);
                                 vehicleData.setVehiclePhoto(vehPhoto);
                                 vehicleData.setNumberOfseat(seater);
                                 vehicleData.setUserID(dataSnapshot.getKey());
+                                vehicleData.setAdvanceAmnt(advnPayment);
+                                vehicleData.setRateValue(rateValue);
                                 vehicleDetails.add(vehicleData);
                                 if (m_listAdapter != null) {
                                     m_listAdapter.notifyDataSetChanged();

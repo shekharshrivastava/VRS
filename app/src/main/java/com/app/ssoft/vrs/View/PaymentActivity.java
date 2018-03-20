@@ -87,7 +87,10 @@ public class PaymentActivity extends AppCompatActivity {
                     database.child("vehicleDetails").child(userID).child("bookingDate").setValue(dateSelected);
                     database.child("vehicleDetails").child(userID).child("customerUserID").setValue(currentUser.getUid());
                     Toast.makeText(PaymentActivity.this, "Booking done successfully!", Toast.LENGTH_SHORT).show();
-
+                    Intent intent = new Intent(PaymentActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
 
                 } catch (Exception e) {
                     Toast.makeText(PaymentActivity.this, "Booking Failed !", Toast.LENGTH_SHORT).show();

@@ -73,15 +73,15 @@ public class CurrentRideAdapter extends BaseAdapter {
         }
         m_viewHolder.avblStatus.setVisibility(View.GONE);
 
-        m_viewHolder.tvVehName.setText( m_item.get(p_position).getVehicleModel());
-        if((m_item.get(p_position).getDriverReq() !=null) && (m_item.get(p_position).getDriverReq()).equals("Yes")) {
+        m_viewHolder.tvVehName.setText(m_item.get(p_position).getVehicleModel());
+        if ((m_item.get(p_position).getDriverReq() != null) && (m_item.get(p_position).getDriverReq()).equals("Yes")) {
             m_viewHolder.driverAvlb.setText("With Driver");
-        }else{
+        } else {
             m_viewHolder.driverAvlb.setText("Without Driver");
         }
         m_viewHolder.imVehicleImage.setTag(p_position);
 
-        m_viewHolder.tvSeater.setHint( m_item.get(p_position).getNumberOfseat() + " Seaters");
+        m_viewHolder.tvSeater.setHint(m_item.get(p_position).getNumberOfseat() + " Seaters");
 
         m_viewHolder.endTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,7 @@ public class CurrentRideAdapter extends BaseAdapter {
         m_viewHolder.detailsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userId =  m_item.get(p_position).getUserID();
+                String userId = m_item.get(p_position).getUserID();
                 Intent intent = new Intent(m_context, VehicleDetailsActivity.class);
                 intent.putExtra("userId", userId);
                 m_context.startActivity(intent);
@@ -103,7 +103,13 @@ public class CurrentRideAdapter extends BaseAdapter {
         m_viewHolder.endTripButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String advncePayment = m_item.get(p_position).getAdvanceAmnt();
+                String rateValue = m_item.get(p_position).getRateValue();
+                Intent intent = new Intent(m_context, BillGenerationActivity.class);
+                intent.putExtra("userIdVal",m_item.get(p_position).getUserID());
+                intent.putExtra("advPayment", advncePayment);
+                intent.putExtra("rateValue", rateValue);
+                m_context.startActivity(intent);
             }
         });
 
@@ -117,7 +123,7 @@ public class CurrentRideAdapter extends BaseAdapter {
                     .error(R.drawable.alto)
                     .into(m_viewHolder.imVehicleImage);*/
 
-        }else{
+        } else {
             m_viewHolder.imVehicleImage.setImageResource(R.drawable.placeholder_car);
         }
 
@@ -168,12 +174,12 @@ public class CurrentRideAdapter extends BaseAdapter {
          SimpleDateFormat m_dateFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:a");
          return m_dateFormat.format(m_file.lastModified());
      }*/
-    public Bitmap StringToBitMap(String encodedString){
+    public Bitmap StringToBitMap(String encodedString) {
         try {
-            byte [] encodeByte= Base64.decode(encodedString,Base64.DEFAULT);
-            Bitmap bitmap= BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            byte[] encodeByte = Base64.decode(encodedString, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             return bitmap;
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.getMessage();
             return null;
         }
