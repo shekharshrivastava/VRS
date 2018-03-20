@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
-import com.app.ssoft.vrs.Utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -26,10 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tuyenmonkey.mkloader.MKLoader;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import static android.app.Activity.RESULT_FIRST_USER;
 

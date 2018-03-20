@@ -142,6 +142,7 @@ public class BookVehicleActivity extends AppCompatActivity {
                     confirmationIntent.putExtra("contactNumberVal", contactNumberVal);
                     confirmationIntent.putExtra("dateSelected", dateSelected);
                     confirmationIntent.putExtra("userIdVal", userId);
+                    confirmationIntent.putExtra("advnPay", advancePayment);
 //                    confirmationIntent.putExtra("bitmapArray", bitmapArray);
                     startActivity(confirmationIntent);
 

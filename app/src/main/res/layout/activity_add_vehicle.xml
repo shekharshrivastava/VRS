@@ -402,7 +402,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:drawableLeft="@drawable/payment"
                         android:text=" Advance payment -"
                         android:textColor="#000"
                         android:layout_centerVertical="true"

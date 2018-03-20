@@ -6,11 +6,142 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.app.ssoft.vrs.View.PaymentActivity">
-<Button
-    android:id="@+id/paymentBtn"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Pay"
-    android:layout_margin="20dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvPaymentLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Payment Type"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+        <Spinner
+            android:id="@+id/paymentTypeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_toRightOf="@+id/tvPaymentLbl" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvCardLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Card Type"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+        <Spinner
+            android:id="@+id/cardTypeSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_toRightOf="@+id/tvCardLbl" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvCardNoLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Card No"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/cardNoET"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_toRightOf="@+id/tvCardNoLbl"
+            android:background="@drawable/rounded_border_edittext"
+            android:inputType="number"
+            android:maxLength="16" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvExpiryLbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="Expiry Date"
+            android:padding="5dp"
+            android:layout_toRightOf="@+id/etCvv"
+            android:textColor="#000"
+            android:textSize="15dp" />
+        <EditText
+            android:id="@+id/etCvv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:background="@drawable/rounded_border_edittext"
+            android:hint="CVV"
+            android:padding="5dp"
+            android:maxLength="3"
+            android:inputType="number"
+            android:textColor="#000"
+            android:textSize="20dp" />
+
+        <EditText
+            android:id="@+id/expiryMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/tvExpiryLbl"
+            android:background="@drawable/rounded_border_edittext"
+            android:hint="MM"
+            android:inputType="number"
+            android:maxLength="2"
+            android:padding="5dp" />
+        <TextView
+            android:id="@+id/seprator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/"
+            android:padding="5dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/expiryMonth"
+            android:textColor="#000"
+            android:textSize="20dp" />
+        <EditText
+            android:id="@+id/expiryYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_toRightOf="@+id/seprator"
+            android:background="@drawable/rounded_border_edittext"
+            android:hint="YY"
+            android:inputType="number"
+            android:maxLength="2"
+            android:padding="5dp" />
+    </RelativeLayout>
+    <Button
+        android:id="@+id/paymentBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Pay" />
 
 </LinearLayout>

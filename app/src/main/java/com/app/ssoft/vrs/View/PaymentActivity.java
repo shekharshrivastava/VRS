@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.app.ssoft.vrs.R;
@@ -13,6 +15,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PaymentActivity extends AppCompatActivity {
 
@@ -22,12 +27,36 @@ public class PaymentActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private DatabaseReference mDatabase;
+    private Spinner cardTypeSpinner;
+    private Spinner paymentTypeSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
         getSupportActionBar().setTitle("Payment");
+
+        cardTypeSpinner = findViewById(R.id.cardTypeSpinner);
+        paymentTypeSpinner = findViewById(R.id.paymentTypeSpinner);
+
+        List<String> cardTypeList = new ArrayList<String>();
+        cardTypeList.add("Visa");
+        cardTypeList.add("Mastercard");
+        cardTypeList.add("Rupay");
+        ArrayAdapter<String> cardTypeAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, cardTypeList);
+        cardTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        cardTypeSpinner.setAdapter(cardTypeAdapter);
+
+        List<String> paymentTypeList = new ArrayList<String>();
+        paymentTypeList.add("Credit Card");
+        paymentTypeList.add("Debit Card");
+        ArrayAdapter<String> paymentTypeAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, paymentTypeList);
+        paymentTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        paymentTypeSpinner.setAdapter(paymentTypeAdapter);
+
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -41,9 +70,13 @@ public class PaymentActivity extends AppCompatActivity {
         final String contactNumber = confirmationIntent.getStringExtra("contactNumberVal");
         final String dateSelected = confirmationIntent.getStringExtra("dateSelected");
         final String userID = confirmationIntent.getStringExtra("userIdVal");
+        final String advnPayment = confirmationIntent.getStringExtra("advnPay");
+
         final String userKey = mDatabase.push().getKey();
         paymentBtn = findViewById(R.id.paymentBtn);
-
+        if(advnPayment!=null) {
+            paymentBtn.setText("PAY " + advnPayment);
+        }
             paymentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
