@@ -96,7 +96,7 @@ public class AddVehicleActivity extends AppCompatActivity {
     private String bitmapArray;
     private RadioGroup radionGroupRateType;
     private RadioButton radioButtonKM;
-    private RadioButton radioButtonHR;
+    private RadioButton radioButtonDay;
     private String rateType = "/DAY";
     private ImageView ivDriverPhoto;
     private String bitmapDriverArray;
@@ -106,6 +106,9 @@ public class AddVehicleActivity extends AppCompatActivity {
     private RelativeLayout fuelTypeRL;
     private RelativeLayout driverRL;
     private EditText advanceAmnt;
+    private boolean isRouteFixed = true;
+    private String rateFinalValue;
+    private EditText tvOwnerNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +134,7 @@ public class AddVehicleActivity extends AppCompatActivity {
         tvFuelTypePetrol = findViewById(R.id.tvFuelTypePetrol);
         radioButtonYes = findViewById(R.id.RbYes);
         radioButtonNo = findViewById(R.id.RbNo);
-        radioButtonHR = findViewById(R.id.rbHr);
+        radioButtonDay = findViewById(R.id.rbHr);
         radioButtonKM = findViewById(R.id.rbKM);
         btnSubmit = findViewById(R.id.btnSubmit);
         driver_cv = findViewById(R.id.driver_cv);
@@ -145,6 +148,7 @@ public class AddVehicleActivity extends AppCompatActivity {
         tvSeaterValue = findViewById(R.id.tvSeatsValue);
         rlSource = findViewById(R.id.rlSource);
         rlDest = findViewById(R.id.rlDest);
+        tvOwnerNumber = findViewById(R.id.tvOwnerNumber);
         radionGroupRateType = findViewById(R.id.radioGroupRate);
         advanceAmnt = findViewById(R.id.advanceAmnt);
         Intent intent = getIntent();
@@ -199,11 +203,20 @@ public class AddVehicleActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 routeValue = String.valueOf(tvRouteValue.getSelectedItem());
                 if (routeValue.equals("Fixed")) {
+                    isRouteFixed = true;
                     rlSource.setVisibility(View.VISIBLE);
                     rlDest.setVisibility(View.VISIBLE);
+                    advanceAmnt.setEnabled(false);
+                    radioButtonKM.setEnabled(false);
+                    radioButtonDay.setEnabled(false);
                 } else {
+                    isRouteFixed = false;
                     rlSource.setVisibility(View.GONE);
                     rlDest.setVisibility(View.GONE);
+                    advanceAmnt.setEnabled(true);
+                    radioButtonKM.setEnabled(true);
+                    radioButtonDay.setEnabled(true);
+
                 }
             }
 
@@ -242,6 +255,12 @@ public class AddVehicleActivity extends AppCompatActivity {
                 String destination = tvDestination.getText().toString();
                 String rateValue = tvRateValue.getText().toString();
                 String advanceAmntValue = advanceAmnt.getText().toString();
+                String ownerNumber = tvOwnerNumber.getText().toString();
+                if (!isRouteFixed) {
+                    rateFinalValue = rateValue + rateType;
+                } else {
+                    rateFinalValue = rateValue;
+                }
 
                 if (driver_cv.getVisibility() == View.VISIBLE) {
                     driverName = tvDriverName.getText().toString();
@@ -259,8 +278,8 @@ public class AddVehicleActivity extends AppCompatActivity {
                 if (userIdValue == null) {
                     userId = mDatabase.push().getKey();
                     String userLoginID = currentUser.getUid();
-                    if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty() && !advanceAmntValue.isEmpty()) {
-                        VehicleData vehicleData = new VehicleData(userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateValue + rateType, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray, userLoginID, false, null, null, advanceAmntValue);
+                    if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty() && !advanceAmntValue.isEmpty() && (!ownerNumber.isEmpty() && ownerNumber.length() == 10)) {
+                        VehicleData vehicleData = new VehicleData(userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateFinalValue, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray, userLoginID, false, null, null, advanceAmntValue, ownerNumber);
                         mDatabase.child(userId).setValue(vehicleData);
 
                         Intent intent = new Intent();
@@ -271,7 +290,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                         Toast.makeText(AddVehicleActivity.this, "Please enter all required values", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty() && !advanceAmntValue.isEmpty()) {
+                    if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty() && !advanceAmntValue.isEmpty() && (!ownerNumber.isEmpty() && ownerNumber.length() == 10)) {
                         database.child("vehicleDetails").child(userIdValue).child("vehicleType").setValue(vehType);
                         database.child("vehicleDetails").child(userIdValue).child("ownerName").setValue(ownerName);
                         database.child("vehicleDetails").child(userIdValue).child("vehiclePhoto").setValue(bitmapArray);
@@ -291,6 +310,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                         database.child("vehicleDetails").child(userIdValue).child("aadharNumber").setValue(driverAadhar);
                         database.child("vehicleDetails").child(userIdValue).child("driverPhoto").setValue(bitmapDriverArray);
                         database.child("vehicleDetails").child(userIdValue).child("advanceAmnt").setValue(advanceAmntValue);
+                        database.child("vehicleDetails").child(userIdValue).child("ownerNumber").setValue(ownerNumber);
 
                         Intent intent = new Intent();
                         intent.putExtra("dataAdded", true);
@@ -376,7 +396,7 @@ public class AddVehicleActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.rbHr:
-                        rateType = (String) radioButtonHR.getText();
+                        rateType = (String) radioButtonDay.getText();
                         break;
                     case R.id.rbKM:
                         rateType = (String) radioButtonKM.getText();
@@ -742,6 +762,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                 if (vehiclesData != null) {
                     tvOwnerName.setText(vehiclesData.getOwnerName());
                     tvVehicalName.setText(vehiclesData.getVehicleModel());
+                    tvOwnerNumber.setText(vehiclesData.getOwnerNumber());
                     String CurrentString = vehiclesData.getRateValue();
                     if (CurrentString.contains("/")) {
                         separated = CurrentString.split("/");
@@ -752,7 +773,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                         if (separated[1].equals("KM")) {
                             radioButtonKM.setChecked(true);
                         } else {
-                            radioButtonHR.setChecked(true);
+                            radioButtonDay.setChecked(true);
                         }
                     }
                     if (vehiclesData.getVehiclePhoto() != null) {
@@ -781,6 +802,11 @@ public class AddVehicleActivity extends AppCompatActivity {
                         tvVehTypeBike.setChecked(true);
                         tvSeaterValue.setVisibility(View.GONE);
                         seaterValue = "2";
+                    }
+                    if(vehiclesData.getRouteType().equalsIgnoreCase("Variable")){
+                        tvRouteValue.setSelection(1);
+                    }else{
+                        tvRouteValue.setSelection(0);
                     }
 
                   /*  tvFuelType.setText(vehiclesData.getFuelType());

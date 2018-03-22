@@ -112,6 +112,18 @@
                             android:maxLines="1"
                             android:textColor="#000"
                             android:textSize="18sp" />
+                        <EditText
+                            android:id="@+id/tvOwnerNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:maxLength="10"
+                            android:inputType="phone"
+                            android:drawableLeft="@drawable/car_renter"
+                            android:hint=" Owner Number"
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:textSize="18sp" />
                     </LinearLayout>
 
                     <ImageView
@@ -404,6 +416,7 @@
                         android:layout_marginLeft="10dp"
                         android:text=" Advance payment -"
                         android:textColor="#000"
+                        android:drawableLeft="@drawable/payment"
                         android:layout_centerVertical="true"
                         android:textSize="18sp" />
 

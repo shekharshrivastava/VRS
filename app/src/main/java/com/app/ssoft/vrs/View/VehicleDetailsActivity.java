@@ -53,6 +53,8 @@ public class VehicleDetailsActivity extends AppCompatActivity {
     private boolean isVehBooked = false;
     private long currentDateInMillis;
     private String advanceAmnt;
+    private String rateValue;
+    private String ownerNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +85,7 @@ public class VehicleDetailsActivity extends AppCompatActivity {
         Intent intent = getIntent();
         userId = intent.getStringExtra("userId");
         advanceAmnt = intent.getStringExtra("advanceAmnt");
+        ownerNumber = intent.getStringExtra("ownerNumber");
 
         mAuth = FirebaseAuth.getInstance();
         boolean isFromMyVehList = intent.getBooleanExtra("isFromMyVehicles", false);
@@ -97,7 +100,9 @@ public class VehicleDetailsActivity extends AppCompatActivity {
 
                 Intent bookingIntent = new Intent(VehicleDetailsActivity.this, BookVehicleActivity.class);
                 bookingIntent.putExtra("userID", userId);
-                bookingIntent.putExtra("advPayment",advanceAmnt);
+                bookingIntent.putExtra("advPayment", advanceAmnt);
+                bookingIntent.putExtra("rateValue", rateValue);
+                bookingIntent.putExtra("ownerNumber",ownerNumber);
                 startActivity(bookingIntent);
             }
         });
@@ -110,12 +115,17 @@ public class VehicleDetailsActivity extends AppCompatActivity {
                 if (vehiclesData != null) {
                     tvOwnerName.setText(vehiclesData.getOwnerName());
                     tvVehicalName.setText(vehiclesData.getVehicleModel());
-                    tvRateValue.setText(vehiclesData.getRateValue());
+                    rateValue = vehiclesData.getRateValue();
+                    if (rateValue.contains("/")) {
+                        tvRateValue.setText(rateValue);
+                    } else {
+                        tvRateValue.setText(rateValue + " Rs");
+                    }
                     tvFuelType.setText(vehiclesData.getFuelType());
                     ownerUserId = vehiclesData.getCurrentUserID();
                     isVehBooked = vehiclesData.isVehBooked;
 
-                    if ((vehiclesData.getBookingDate()!=null &&(!vehiclesData.getBookingDate().isEmpty() && Utils.getDateInMili(vehiclesData.getBookingDate()) >= currentDateInMillis))){
+                    if ((vehiclesData.getBookingDate() != null && (!vehiclesData.getBookingDate().isEmpty() && Utils.getDateInMili(vehiclesData.getBookingDate()) >= currentDateInMillis))) {
                         btnPay.setEnabled(false);
                     } else {
                         btnPay.setEnabled(true);

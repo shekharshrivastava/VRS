@@ -36,6 +36,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
                 permissionManager = PermissionManager.getInstance(SplashActivity.this);
                 permissionManager.checkPermissions(singleton(Manifest.permission.WRITE_EXTERNAL_STORAGE), new PermissionManager.PermissionRequestListener() {
                     @Override
@@ -43,21 +44,34 @@ public class SplashActivity extends AppCompatActivity {
                         permissionManager.checkPermissions(singleton(Manifest.permission.CAMERA), new PermissionManager.PermissionRequestListener() {
                             @Override
                             public void onPermissionGranted() {
-                                if (auth.getCurrentUser() != null) {
-                                    myintent = new Intent(SplashActivity.this, MainActivity.class);
-                                    startActivity(myintent);
-                                    finish();
-                                } else {
-                                    myintent = new Intent(SplashActivity.this, LoginActivity.class);
-                                    startActivity(myintent);
-                                    finish();
-                                }
+                                permissionManager.checkPermissions(singleton(Manifest.permission.SEND_SMS), new PermissionManager.PermissionRequestListener() {
+                                    @Override
+                                    public void onPermissionGranted() {
+                                        if (auth.getCurrentUser() != null) {
+                                            myintent = new Intent(SplashActivity.this, MainActivity.class);
+                                            startActivity(myintent);
+                                            finish();
+                                        } else {
+                                            myintent = new Intent(SplashActivity.this, LoginActivity.class);
+                                            startActivity(myintent);
+                                            finish();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onPermissionDenied() {
+                                        Toast.makeText(SplashActivity.this, "Required permission to access file manager", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+
+
+                                });
+
                             }
 
                             @Override
                             public void onPermissionDenied() {
                                 Toast.makeText(SplashActivity.this, "Required permission to access file manager", Toast.LENGTH_SHORT).show();
-                                startActivity(myintent);
                                 finish();
                             }
 

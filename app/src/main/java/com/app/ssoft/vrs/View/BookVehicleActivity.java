@@ -56,6 +56,8 @@ public class BookVehicleActivity extends AppCompatActivity {
     public static String bitmapArray = "";
     private String advancePayment;
     private EditText advPayment;
+    private String rateValue;
+    private String ownerNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,8 @@ public class BookVehicleActivity extends AppCompatActivity {
         final Intent intent = getIntent();
         userId = intent.getStringExtra("userID");
         advancePayment = intent.getStringExtra("advPayment");
+        rateValue = intent.getStringExtra("rateValue");
+        ownerNumber = intent.getStringExtra("ownerNumber");
         getSupportActionBar().setTitle("Book your ride");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         firstName = findViewById(R.id.firstName);
@@ -93,6 +97,8 @@ public class BookVehicleActivity extends AppCompatActivity {
 
         if(advancePayment!=null){
             advPayment.setText(advancePayment + " in Rupees");
+        }else{
+            advPayment.setText(rateValue + " in Rupees");
         }
 
         selectDate.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +149,7 @@ public class BookVehicleActivity extends AppCompatActivity {
                     confirmationIntent.putExtra("dateSelected", dateSelected);
                     confirmationIntent.putExtra("userIdVal", userId);
                     confirmationIntent.putExtra("advnPay", advancePayment);
+                    confirmationIntent.putExtra("ownerNumber",ownerNumber);
 //                    confirmationIntent.putExtra("bitmapArray", bitmapArray);
                     startActivity(confirmationIntent);
 
@@ -157,7 +164,7 @@ public class BookVehicleActivity extends AppCompatActivity {
     private void selectImage() {
 
 
-        final CharSequence[] options = {"Gallery", "Cancel"};
+        final CharSequence[] options = {"Take Photo","Gallery", "Cancel"};
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(BookVehicleActivity.this);
@@ -316,7 +323,7 @@ public class BookVehicleActivity extends AppCompatActivity {
 
     public String BitMapToString(Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
         byte[] b = baos.toByteArray();
         String temp = Base64.encodeToString(b, Base64.DEFAULT);
         return temp;

@@ -93,6 +93,7 @@
                     android:textSize="16dp" />
 
                 <EditText
+                    android:enabled="false"
                     android:id="@+id/rateValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

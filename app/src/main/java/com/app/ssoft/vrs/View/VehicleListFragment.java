@@ -89,6 +89,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 Intent intent = new Intent(getActivity(), VehicleDetailsActivity.class);
                 intent.putExtra("userId", userId);
                 intent.putExtra("isFromMyVehicles", true);
+                intent.putExtra("ownerNumber",vehicleData.getOwnerNumber());
                 intent.putExtra("advanceAmnt", vehicleData.getAdvanceAmnt());
                 startActivity(intent);
 
@@ -201,6 +202,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         String vehBookingDate = vehiclesDataSnapshot.getBookingDate();
                         boolean isVehBooked = vehiclesDataSnapshot.isVehBooked();
                         String advancePayment = vehiclesDataSnapshot.getAdvanceAmnt();
+                        String ownerNumber = vehiclesDataSnapshot.getOwnerNumber();
                         vehicleData.setVehicleModel(vehicleModel);
                         vehicleData.setDriverReq(driver);
                         vehicleData.setNumberOfseat(seater);
@@ -212,6 +214,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         vehicleData.setVehBooked(isVehBooked);
                         vehicleData.setBookingDate(vehBookingDate);
                         vehicleData.setAdvanceAmnt(advancePayment);
+                        vehicleData.setOwnerNumber(ownerNumber);
 //                        vehicleFilterData.add(vehicleData);
                         if (source.isEmpty() && destination.isEmpty() && (vehiclesDataSnapshot.getCurrentUserID()!=null &&!(vehiclesDataSnapshot.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
                             vehicleFilterData.add(vehicleData);
