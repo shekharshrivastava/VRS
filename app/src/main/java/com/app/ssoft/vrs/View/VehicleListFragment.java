@@ -89,7 +89,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 Intent intent = new Intent(getActivity(), VehicleDetailsActivity.class);
                 intent.putExtra("userId", userId);
                 intent.putExtra("isFromMyVehicles", true);
-                intent.putExtra("ownerNumber",vehicleData.getOwnerNumber());
+                intent.putExtra("ownerNumber", vehicleData.getOwnerNumber());
                 intent.putExtra("advanceAmnt", vehicleData.getAdvanceAmnt());
                 startActivity(intent);
 
@@ -135,7 +135,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 for (VehicleData vehData : vehicleFilterData) {
                     if ((!vehData.getSource().isEmpty() && vehData.getSource().equalsIgnoreCase(source))
                             && (!vehData.getDestination().isEmpty() && vehData.getDestination().equalsIgnoreCase(dest))
-                            && (vehData.getVehicleType()!=null && vehData.getVehicleType().equalsIgnoreCase(vehType))) {
+                            && (vehData.getVehicleType() != null && vehData.getVehicleType().equalsIgnoreCase(vehType))) {
                         vehicleDataList.add(vehData);
 
                     }
@@ -175,7 +175,6 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         protected void onPostExecute(ArrayList<VehicleData> vehicleData) {
 
             rl_lvListRoot.setVisibility(View.VISIBLE);
-            loadingIndicator.setVisibility(View.GONE);
             m_listAdapter = new ListAdapter(getActivity(), vehicleData);
             rl_lvListRoot.setAdapter(m_listAdapter);
 
@@ -190,6 +189,8 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 new ChildEventListener() {
                     @Override
                     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                        int count = 0;
+
                         VehicleData vehiclesDataSnapshot = dataSnapshot.getValue(VehicleData.class);
                         VehicleData vehicleData = new VehicleData();
                         String vehicleModel = vehiclesDataSnapshot.getVehicleModel();
@@ -216,17 +217,26 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         vehicleData.setAdvanceAmnt(advancePayment);
                         vehicleData.setOwnerNumber(ownerNumber);
 //                        vehicleFilterData.add(vehicleData);
-                        if (source.isEmpty() && destination.isEmpty() && (vehiclesDataSnapshot.getCurrentUserID()!=null &&!(vehiclesDataSnapshot.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
+                        if (source.isEmpty() && destination.isEmpty() && (vehiclesDataSnapshot.getCurrentUserID() != null && !(vehiclesDataSnapshot.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
                             vehicleFilterData.add(vehicleData);
                             vehicleDetails.add(vehicleData);
                         }
-                        if (m_listAdapter != null && vehicleDetails.size() > 0) {
-                            m_listAdapter.notifyDataSetChanged();
-                            loadingIndicator.setVisibility(View.GONE);
-                        } else {
-                            loadingIndicator.setVisibility(View.VISIBLE);
+
+                        Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+
+                        for (DataSnapshot child : children) {
+
+                            count++;
+                            if (count >= dataSnapshot.getChildrenCount()) {
+                                //stop progress bar here
+                                loadingIndicator.setVisibility(View.GONE);
+                            }
+
                         }
 
+                        if (m_listAdapter != null && vehicleDetails.size() > 0) {
+                            m_listAdapter.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
