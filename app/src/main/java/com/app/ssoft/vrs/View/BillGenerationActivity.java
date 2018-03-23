@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,11 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.ssoft.vrs.R;
-import com.app.ssoft.vrs.Utils.Utils;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -89,14 +87,13 @@ public class BillGenerationActivity extends AppCompatActivity implements TextWat
             public void onClick(View view) {
                 database.child("vehicleDetails").child(userID).child("isVehBooked").setValue(false);
                 database.child("vehicleDetails").child(userID).child("bookingDate").setValue("");
-                Toast.makeText(BillGenerationActivity.this,"You have successfully ended your ride",Toast.LENGTH_SHORT).show();
+                Toast.makeText(BillGenerationActivity.this, "You have successfully ended your ride", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(BillGenerationActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
             }
         });
-
 
 
     }
@@ -129,4 +126,16 @@ public class BillGenerationActivity extends AppCompatActivity implements TextWat
     public void afterTextChanged(Editable editable) {
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

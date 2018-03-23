@@ -278,7 +278,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                 if (userIdValue == null) {
                     userId = mDatabase.push().getKey();
                     String userLoginID = currentUser.getUid();
-                    if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty() && !advanceAmntValue.isEmpty() && (!ownerNumber.isEmpty() && ownerNumber.length() == 10)) {
+                    if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty()  && (!ownerNumber.isEmpty() && ownerNumber.length() == 10)) {
                         VehicleData vehicleData = new VehicleData(userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateFinalValue, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray, userLoginID, false, null, null, advanceAmntValue, ownerNumber);
                         mDatabase.child(userId).setValue(vehicleData);
 

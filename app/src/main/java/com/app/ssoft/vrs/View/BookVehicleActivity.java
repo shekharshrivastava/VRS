@@ -33,7 +33,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class BookVehicleActivity extends AppCompatActivity {
 
@@ -58,11 +60,20 @@ public class BookVehicleActivity extends AppCompatActivity {
     private EditText advPayment;
     private String rateValue;
     private String ownerNumber;
+    private String dateSelected = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_vehicle);
+
+        Date c = Calendar.getInstance().getTime();
+        System.out.println("Current time => " + c);
+
+        SimpleDateFormat df = new SimpleDateFormat("dd-M-yyyy");
+        String formattedDate = df.format(c);
+
+
         mAuth = FirebaseAuth.getInstance();
         final Intent intent = getIntent();
         userId = intent.getStringExtra("userID");
@@ -85,7 +96,9 @@ public class BookVehicleActivity extends AppCompatActivity {
         contactNumber = findViewById(R.id.contactNumber);
         btnProceed = findViewById(R.id.btnProceed);
         selectDate = findViewById(R.id.selectDate);
-        advPayment= findViewById(R.id.advPayment);
+        selectDate.setText(formattedDate);
+        dateSelected = formattedDate;
+        advPayment = findViewById(R.id.advPayment);
         email = findViewById(R.id.email);
         if (mAuth != null) {
             currentUser = mAuth.getCurrentUser();
@@ -95,9 +108,9 @@ public class BookVehicleActivity extends AppCompatActivity {
             email.setEnabled(true);
         }
 
-        if(advancePayment!=null){
+        if (advancePayment != null) {
             advPayment.setText(advancePayment + " in Rupees");
-        }else{
+        } else {
             advPayment.setText(rateValue + " in Rupees");
         }
 
@@ -135,11 +148,11 @@ public class BookVehicleActivity extends AppCompatActivity {
                 String licenceNumber = licenceNum.getText().toString();
                 String addressVal = address.getText().toString();
                 String contactNumberVal = contactNumber.getText().toString();
-                String dateSelected = selectDate.getText().toString();
+                dateSelected = selectDate.getText().toString();
 
                 if (!firstNameVal.isEmpty() && !lastNameVal.isEmpty() && !licenceNumber.isEmpty() && !addressVal.isEmpty()
                         && !contactNumberVal.isEmpty()
-                        && !dateSelected.isEmpty() && bitmapArray != null) {
+                        && !dateSelected.isEmpty() && (!bitmapArray.isEmpty()&& bitmapArray!=null)) {
                     Intent confirmationIntent = new Intent(BookVehicleActivity.this, PaymentActivity.class);
                     confirmationIntent.putExtra("firstName", firstNameVal);
                     confirmationIntent.putExtra("lastNameVal", lastNameVal);
@@ -149,7 +162,7 @@ public class BookVehicleActivity extends AppCompatActivity {
                     confirmationIntent.putExtra("dateSelected", dateSelected);
                     confirmationIntent.putExtra("userIdVal", userId);
                     confirmationIntent.putExtra("advnPay", advancePayment);
-                    confirmationIntent.putExtra("ownerNumber",ownerNumber);
+                    confirmationIntent.putExtra("ownerNumber", ownerNumber);
 //                    confirmationIntent.putExtra("bitmapArray", bitmapArray);
                     startActivity(confirmationIntent);
 
@@ -164,7 +177,7 @@ public class BookVehicleActivity extends AppCompatActivity {
     private void selectImage() {
 
 
-        final CharSequence[] options = {"Take Photo","Gallery", "Cancel"};
+        final CharSequence[] options = {"Take Photo", "Gallery", "Cancel"};
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(BookVehicleActivity.this);

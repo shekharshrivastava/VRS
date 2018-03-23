@@ -28,6 +28,7 @@
         android:maxLength="480" />
 
     <Button
+        android:background="@color/btn_login"
         android:id="@+id/submitBTN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

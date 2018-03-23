@@ -151,6 +151,7 @@
                 android:textSize="18dp" />
 
             <Button
+                android:background="@color/btn_login"
                 android:id="@+id/btnPayFinal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

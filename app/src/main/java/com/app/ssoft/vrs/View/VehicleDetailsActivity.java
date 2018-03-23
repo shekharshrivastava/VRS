@@ -210,8 +210,6 @@ public class VehicleDetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, AddVehicleActivity.class);
                 intent.putExtra("userId", userId);
                 startActivityForResult(intent, 1);
-
-
                 return true;
             }
         }
