@@ -63,6 +63,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
     private GPSTracker gps;
     private Geocoder geocoder;
     private List<Address> addresses;
+    private TextView locationTV;
 
     @Nullable
     @Override
@@ -71,6 +72,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         rl_lvListRoot = view.findViewById(R.id.list_item);
         loadingIndicator = view.findViewById(R.id.loading_indicator);
         searchTV = view.findViewById(R.id.searchTV);
+        locationTV = view.findViewById(R.id.locationTV);
         card_view = view.findViewById(R.id.card_view);
         geocoder = new Geocoder(getActivity(), Locale.getDefault());
         vehicleDetails = new ArrayList<>();
@@ -78,6 +80,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         vehicleSearchList = new ArrayList<>();
         auth = FirebaseAuth.getInstance();
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabLocation);
+        getCurrentLocation();
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,12 +93,12 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                     double longitude = gps.getLongitude();
                     try {
                         addresses = geocoder.getFromLocation(latitude, longitude, 1);
-
+                        locationTV.setText(addresses.get(0).getSubLocality());
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     // \n is for new line
-                    Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
                 } else {
                     // can't get location
                     // GPS or Network is not enabled
@@ -243,9 +246,9 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         vehicleData.setBookingDate(vehBookingDate);
                         vehicleData.setAdvanceAmnt(advancePayment);
                         vehicleData.setOwnerNumber(ownerNumber);
-//                        vehicleFilterData.add(vehicleData);
-                        if (source.isEmpty() && destination.isEmpty() && (vehiclesDataSnapshot.getCurrentUserID() != null && !(vehiclesDataSnapshot.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
-                            vehicleFilterData.add(vehicleData);
+                        vehicleFilterData.add(vehicleData);
+                        if (vehiclesDataSnapshot.getSource().equalsIgnoreCase(addresses.get(0).getSubLocality()) && source.isEmpty() && destination.isEmpty() && (vehiclesDataSnapshot.getCurrentUserID() != null && !(vehiclesDataSnapshot.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
+//                            vehicleFilterData.add(vehicleData);
                             vehicleDetails.add(vehicleData);
                         }
 
@@ -288,5 +291,30 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 });
 
         return vehicleDetails;
+    }
+
+    public void getCurrentLocation(){
+        gps = new GPSTracker(getActivity());
+
+        // check if GPS enabled
+        if (gps.canGetLocation()) {
+
+            double latitude = gps.getLatitude();
+            double longitude = gps.getLongitude();
+            try {
+                addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                locationTV.setText(addresses.get(0).getSubLocality());
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            // \n is for new line
+//            Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+        } else {
+            // can't get location
+            // GPS or Network is not enabled
+            // Ask user to enable GPS/network in settings
+            gps.showSettingsAlert();
+        }
     }
 }
