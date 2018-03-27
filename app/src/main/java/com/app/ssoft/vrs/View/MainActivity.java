@@ -3,6 +3,8 @@ package com.app.ssoft.vrs.View;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.Address;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -17,23 +19,35 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.app.ssoft.vrs.Model.UserProfile;
 import com.app.ssoft.vrs.R;
+import com.app.ssoft.vrs.Utils.Utils;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-import java.io.IOException;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
+    List<Address> addresses;
     Fragment fragment = null;
     private FrameLayout content_frame;
     private FirebaseAuth auth;
     private TextView emailTextView;
     private AlertDialog.Builder builder;
+    private DatabaseReference ref;
+    private TextView userNameTv;
+    private ImageView imageView;
+    private LocationManager locationManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +56,7 @@ public class MainActivity extends AppCompatActivity
 
         content_frame = findViewById(R.id.content_frame);
         auth = FirebaseAuth.getInstance();
-        String emailId = auth.getCurrentUser().getEmail();
+        final String emailId = auth.getCurrentUser().getEmail();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -58,6 +72,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         View navHeaderView = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        userNameTv = navHeaderView.findViewById(R.id.userNameTv);
+        imageView = navHeaderView.findViewById(R.id.imageView);
         emailTextView = navHeaderView.findViewById(R.id.emailTextView);
         emailTextView.setText(emailId);
         fragment = new VehicleListFragment();
@@ -71,7 +87,43 @@ public class MainActivity extends AppCompatActivity
 
         //Get datasnapshot at your "users" root node
 
+        ref = FirebaseDatabase.getInstance().getReference().child("userProfile");
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
+                if ((userProfile.getEmailId()).equals(emailId)) ;
+                if (userProfile.getFirstName() != null && userProfile.getLastName() != null) {
+                    userNameTv.setText(userProfile.getFirstName() + " " + userProfile.getLastName());
+                }
+                if (userProfile.getProfilePicture() != null) {
+                    imageView.setImageBitmap(Utils.StringToBitMap(userProfile.getProfilePicture()));
+                } else {
+                    imageView.setImageResource(R.drawable.placeholder_user);
+                }
 
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
@@ -124,8 +176,6 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
             finish();
-
-            return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -147,6 +197,14 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_camera) {
             fragment = new MyRidesFragment();
         } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_logout) {
+            auth.signOut();
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.nav_setting) {
+            Intent intent = new Intent(this, SettingActivity.class);
+            startActivity(intent);
         }
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -157,6 +215,10 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
 
 }
 

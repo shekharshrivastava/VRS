@@ -25,11 +25,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btnRegister;
     private FirebaseAuth auth;
     private ProgressBar progressBar;
+    private Button btn_reset_password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setTitle("Login");
         etUserName = findViewById(R.id.etUserName);
         etPassword = findViewById(R.id.etPassword);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -37,7 +39,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         btnRegister = findViewById(R.id.btnRegister);
         btnLogin.setOnClickListener(this);
         btnRegister.setOnClickListener(this);
-
+        btn_reset_password = findViewById(R.id.btn_reset_password);
+        btn_reset_password.setOnClickListener(this);
         auth = FirebaseAuth.getInstance();
     }
 
@@ -95,6 +98,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btnRegister:
                 Intent intent = new Intent(this, RegistrationActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.btn_reset_password:
+                Intent resetPWDIntent = new Intent(this, ResetPasswordActivity.class);
+                startActivity(resetPWDIntent);
+                break;
         }
     }
 }

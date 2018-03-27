@@ -13,6 +13,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.view.MenuItem;
@@ -109,12 +110,14 @@ public class AddVehicleActivity extends AppCompatActivity {
     private boolean isRouteFixed = true;
     private String rateFinalValue;
     private EditText tvOwnerNumber;
+    private RelativeLayout RLAip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_vehicle);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        RLAip = findViewById(R.id.RLAip);
         fuelTypeRL = findViewById(R.id.fuelTypeRL);
         driverRL = findViewById(R.id.driverRL);
         seatsRL = findViewById(R.id.seatsRL);
@@ -209,13 +212,17 @@ public class AddVehicleActivity extends AppCompatActivity {
                     advanceAmnt.setEnabled(false);
                     radioButtonKM.setEnabled(false);
                     radioButtonDay.setEnabled(false);
+
                 } else {
                     isRouteFixed = false;
-                    rlSource.setVisibility(View.GONE);
+                    rlSource.setVisibility(View.VISIBLE);
                     rlDest.setVisibility(View.GONE);
                     advanceAmnt.setEnabled(true);
-                    radioButtonKM.setEnabled(true);
+                    if (!tvVehTypeBike.isChecked()) {
+                        radioButtonKM.setEnabled(true);
+                    }
                     radioButtonDay.setEnabled(true);
+
 
                 }
             }
@@ -278,45 +285,103 @@ public class AddVehicleActivity extends AppCompatActivity {
                 if (userIdValue == null) {
                     userId = mDatabase.push().getKey();
                     String userLoginID = currentUser.getUid();
-                    if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty()  && (!ownerNumber.isEmpty() && ownerNumber.length() == 10)) {
-                        VehicleData vehicleData = new VehicleData(userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateFinalValue, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray, userLoginID, false, null, null, advanceAmntValue, ownerNumber);
-                        mDatabase.child(userId).setValue(vehicleData);
 
-                        Intent intent = new Intent();
-                        intent.putExtra("dataAdded", true);
-                        setResult(1, intent);
-                        finish();//finishing activity
-                    } else {
-                        Toast.makeText(AddVehicleActivity.this, "Please enter all required values", Toast.LENGTH_SHORT).show();
+                    if (TextUtils.isEmpty(ownerName)) {
+                        Toast.makeText(getApplicationContext(), "Enter Owner Name!", Toast.LENGTH_SHORT).show();
+                        return;
                     }
+                    if (TextUtils.isEmpty(vehModel)) {
+                        Toast.makeText(getApplicationContext(), "Enter Vehicle Model!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (TextUtils.isEmpty(ownerNumber)) {
+                        if (ownerNumber.length() < 10) {
+                            Toast.makeText(getApplicationContext(), "Please enter valid owner number!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+
+                    if (isRouteFixed) {
+                        if (TextUtils.isEmpty(source)) {
+                            Toast.makeText(getApplicationContext(), "Enter Source!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (TextUtils.isEmpty(destination)) {
+                            Toast.makeText(getApplicationContext(), "Enter Destination!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    if (TextUtils.isEmpty(rateValue)) {
+                        Toast.makeText(getApplicationContext(), "Enter Rate!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+
+                    VehicleData vehicleData = new VehicleData(userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateFinalValue, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray, userLoginID, false, null, null, advanceAmntValue, ownerNumber);
+                    mDatabase.child(userId).setValue(vehicleData);
+
+                    Intent intent = new Intent();
+                    intent.putExtra("dataAdded", true);
+                    setResult(1, intent);
+                    finish();//finishing activity
+
                 } else {
-                    if (!ownerName.isEmpty() && !vehModel.isEmpty() && !rateValue.isEmpty() && !advanceAmntValue.isEmpty() && (!ownerNumber.isEmpty() && ownerNumber.length() == 10)) {
-                        database.child("vehicleDetails").child(userIdValue).child("vehicleType").setValue(vehType);
-                        database.child("vehicleDetails").child(userIdValue).child("ownerName").setValue(ownerName);
-                        database.child("vehicleDetails").child(userIdValue).child("vehiclePhoto").setValue(bitmapArray);
-                        database.child("vehicleDetails").child(userIdValue).child("vehicleModel").setValue(vehModel);
-                        database.child("vehicleDetails").child(userIdValue).child("aip").setValue(permit);
-                        database.child("vehicleDetails").child(userIdValue).child("routeType").setValue(routeValue);
-                        database.child("vehicleDetails").child(userIdValue).child("source").setValue(source);
-                        database.child("vehicleDetails").child(userIdValue).child("destination").setValue(destination);
-                        database.child("vehicleDetails").child(userIdValue).child("rateValue").setValue(rateValue + rateType);
-                        database.child("vehicleDetails").child(userIdValue).child("fuelType").setValue(fuelType);
-                        database.child("vehicleDetails").child(userIdValue).child("numberOfseat").setValue(seaterValue);
-                        database.child("vehicleDetails").child(userIdValue).child("driverReq").setValue(driverRequired);
-                        database.child("vehicleDetails").child(userIdValue).child("driverName").setValue(driverName);
-                        database.child("vehicleDetails").child(userIdValue).child("driverNumber").setValue(driverNumber);
-                        database.child("vehicleDetails").child(userIdValue).child("driverAddress").setValue(driverAddress);
-                        database.child("vehicleDetails").child(userIdValue).child("licenceNumber").setValue(driverLicence);
-                        database.child("vehicleDetails").child(userIdValue).child("aadharNumber").setValue(driverAadhar);
-                        database.child("vehicleDetails").child(userIdValue).child("driverPhoto").setValue(bitmapDriverArray);
-                        database.child("vehicleDetails").child(userIdValue).child("advanceAmnt").setValue(advanceAmntValue);
-                        database.child("vehicleDetails").child(userIdValue).child("ownerNumber").setValue(ownerNumber);
-
-                        Intent intent = new Intent();
-                        intent.putExtra("dataAdded", true);
-                        setResult(1, intent);
-                        finish();//finishing activity
+                    if (TextUtils.isEmpty(ownerName)) {
+                        Toast.makeText(getApplicationContext(), "Enter Owner Name!", Toast.LENGTH_SHORT).show();
+                        return;
                     }
+                    if (TextUtils.isEmpty(vehModel)) {
+                        Toast.makeText(getApplicationContext(), "Enter Vehicle Model!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (TextUtils.isEmpty(rateValue)) {
+                        Toast.makeText(getApplicationContext(), "Enter Rate!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    if (TextUtils.isEmpty(ownerNumber) && ownerNumber.length() != 10) {
+                        Toast.makeText(getApplicationContext(), "Please enter valid owner number!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    if (isRouteFixed) {
+                        if (TextUtils.isEmpty(source)) {
+                            Toast.makeText(getApplicationContext(), "Enter Source!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if (TextUtils.isEmpty(destination)) {
+                            Toast.makeText(getApplicationContext(), "Enter Destination!", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    if (TextUtils.isEmpty(rateValue)) {
+                        Toast.makeText(getApplicationContext(), "Enter Rate!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    database.child("vehicleDetails").child(userIdValue).child("vehicleType").setValue(vehType);
+                    database.child("vehicleDetails").child(userIdValue).child("ownerName").setValue(ownerName);
+                    database.child("vehicleDetails").child(userIdValue).child("vehiclePhoto").setValue(bitmapArray);
+                    database.child("vehicleDetails").child(userIdValue).child("vehicleModel").setValue(vehModel);
+                    database.child("vehicleDetails").child(userIdValue).child("aip").setValue(permit);
+                    database.child("vehicleDetails").child(userIdValue).child("routeType").setValue(routeValue);
+                    database.child("vehicleDetails").child(userIdValue).child("source").setValue(source);
+                    database.child("vehicleDetails").child(userIdValue).child("destination").setValue(destination);
+                    database.child("vehicleDetails").child(userIdValue).child("rateValue").setValue(rateValue + rateType);
+                    database.child("vehicleDetails").child(userIdValue).child("fuelType").setValue(fuelType);
+                    database.child("vehicleDetails").child(userIdValue).child("numberOfseat").setValue(seaterValue);
+                    database.child("vehicleDetails").child(userIdValue).child("driverReq").setValue(driverRequired);
+                    database.child("vehicleDetails").child(userIdValue).child("driverName").setValue(driverName);
+                    database.child("vehicleDetails").child(userIdValue).child("driverNumber").setValue(driverNumber);
+                    database.child("vehicleDetails").child(userIdValue).child("driverAddress").setValue(driverAddress);
+                    database.child("vehicleDetails").child(userIdValue).child("licenceNumber").setValue(driverLicence);
+                    database.child("vehicleDetails").child(userIdValue).child("aadharNumber").setValue(driverAadhar);
+                    database.child("vehicleDetails").child(userIdValue).child("driverPhoto").setValue(bitmapDriverArray);
+                    database.child("vehicleDetails").child(userIdValue).child("advanceAmnt").setValue(advanceAmntValue);
+                    database.child("vehicleDetails").child(userIdValue).child("ownerNumber").setValue(ownerNumber);
+
+                    Intent intent = new Intent();
+                    intent.putExtra("dataAdded", true);
+                    setResult(1, intent);
+                    finish();//finishing activity
                 }
             }
         });
@@ -334,6 +399,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                         radioButtonKM.setEnabled(false);
                         tvRouteValue.setSelection(1);
                         tvRouteValue.setEnabled(false);
+                        RLAip.setVisibility(View.GONE);
                         seaterValue = "2";
                         break;
                     case R.id.tvVehTypeCar:
@@ -343,6 +409,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                         driverRL.setVisibility(View.VISIBLE);
                         tvFuelTypeDiesel.setEnabled(true);
                         radioButtonKM.setEnabled(true);
+                        RLAip.setVisibility(View.VISIBLE);
                         break;
 
                 }
@@ -803,9 +870,9 @@ public class AddVehicleActivity extends AppCompatActivity {
                         tvSeaterValue.setVisibility(View.GONE);
                         seaterValue = "2";
                     }
-                    if(vehiclesData.getRouteType().equalsIgnoreCase("Variable")){
+                    if (vehiclesData.getRouteType().equalsIgnoreCase("Variable")) {
                         tvRouteValue.setSelection(1);
-                    }else{
+                    } else {
                         tvRouteValue.setSelection(0);
                     }
 
@@ -821,6 +888,9 @@ public class AddVehicleActivity extends AppCompatActivity {
                         driver_cv.setVisibility(View.VISIBLE);
                         tvDriverName.setText(vehiclesData.getDriverName());
                         tvDriverNumber.setText(vehiclesData.getDriverNumber());
+                        tvDriverAadhar.setText(vehiclesData.getAadharNumber());
+                        tvDriverAddress.setText(vehiclesData.getDriverAddress());
+                        tvDriverLicence.setText(vehiclesData.getLicenceNumber());
                     } else {
                         radioButtonNo.setChecked(true);
                         driver_cv.setVisibility(View.GONE);

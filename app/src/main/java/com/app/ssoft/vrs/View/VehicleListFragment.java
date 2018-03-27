@@ -1,6 +1,8 @@
 package com.app.ssoft.vrs.View;
 
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
+import com.app.ssoft.vrs.Utils.GPSTracker;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -25,7 +28,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tuyenmonkey.mkloader.MKLoader;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_FIRST_USER;
 
@@ -54,7 +60,9 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
     private String savedSource;
     private long currentDateInMillis;
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-
+    private GPSTracker gps;
+    private Geocoder geocoder;
+    private List<Address> addresses;
 
     @Nullable
     @Override
@@ -64,17 +72,36 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         loadingIndicator = view.findViewById(R.id.loading_indicator);
         searchTV = view.findViewById(R.id.searchTV);
         card_view = view.findViewById(R.id.card_view);
-
+        geocoder = new Geocoder(getActivity(), Locale.getDefault());
         vehicleDetails = new ArrayList<>();
         vehicleFilterData = new ArrayList<>();
         vehicleSearchList = new ArrayList<>();
         auth = FirebaseAuth.getInstance();
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabLocation);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AddVehicleActivity.class);
-                startActivityForResult(intent, 1);
+                gps = new GPSTracker(getActivity());
+
+                // check if GPS enabled
+                if (gps.canGetLocation()) {
+
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
+                    try {
+                        addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    // \n is for new line
+                    Toast.makeText(getActivity().getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                } else {
+                    // can't get location
+                    // GPS or Network is not enabled
+                    // Ask user to enable GPS/network in settings
+                    gps.showSettingsAlert();
+                }
             }
         });
         new getAllFilesData().execute("vehicleDetails", source, dest);

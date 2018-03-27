@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     package="com.app.ssoft.vrs">
 
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -52,7 +53,10 @@
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".View.PaymentActivity" />
         <activity android:name=".View.SearchVehicleActivity" />
-        <activity android:name=".View.BillGenerationActivity"></activity>
+        <activity android:name=".View.BillGenerationActivity" />
+        <activity android:name=".View.UserProfileActivity" />
+        <activity android:name=".View.SettingActivity" />
+        <activity android:name=".View.ResetPasswordActivity"></activity>
     </application>
 
 </manifest>

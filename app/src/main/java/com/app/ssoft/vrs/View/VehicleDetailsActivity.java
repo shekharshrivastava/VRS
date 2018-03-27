@@ -102,7 +102,7 @@ public class VehicleDetailsActivity extends AppCompatActivity {
                 bookingIntent.putExtra("userID", userId);
                 bookingIntent.putExtra("advPayment", advanceAmnt);
                 bookingIntent.putExtra("rateValue", rateValue);
-                bookingIntent.putExtra("ownerNumber",ownerNumber);
+                bookingIntent.putExtra("ownerNumber", ownerNumber);
                 startActivity(bookingIntent);
             }
         });
@@ -191,11 +191,11 @@ public class VehicleDetailsActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.edit_menu, menu);
-
         MenuItem item = menu.findItem(R.id.action_edit);
         if (!mAuth.getCurrentUser().getUid().equals(ownerUserId)) {
             item.setVisible(false);
         }
+
         return true;
     }
 
@@ -210,6 +210,11 @@ public class VehicleDetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, AddVehicleActivity.class);
                 intent.putExtra("userId", userId);
                 startActivityForResult(intent, 1);
+                return true;
+            }
+            case R.id.action_delete: {
+                FirebaseDatabase.getInstance().getReference().child("vehicleDetails").child(userId).removeValue();
+                finish();
                 return true;
             }
         }

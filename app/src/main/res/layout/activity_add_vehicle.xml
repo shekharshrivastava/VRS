@@ -143,6 +143,7 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/RLAip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp">
@@ -519,6 +520,7 @@
                             android:drawableLeft="@drawable/owner_profile"
                             android:hint=" Driver Name"
                             android:maxLines="1"
+                            android:inputType="textPersonName"
                             android:textColor="#000"
                             android:textSize="18sp" />
 
@@ -527,9 +529,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
+                            android:inputType="phone"
                             android:drawableLeft="@drawable/phone"
-                            android:hint=" 91XX-XX-XXX"
-                            android:maxLength="13"
+                            android:hint=" XXXX-XXX-XXX"
+                            android:maxLength="10"
                             android:maxLines="1"
                             android:textColor="#000"
                             android:textSize="18sp" />
