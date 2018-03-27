@@ -52,6 +52,7 @@ public class MyVehicleFragment extends android.support.v4.app.Fragment {
         currentUser = auth.getCurrentUser();
         new getMyVehicleData().execute();
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setVisibility(View.VISIBLE);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

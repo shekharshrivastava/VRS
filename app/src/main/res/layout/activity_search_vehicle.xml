@@ -14,13 +14,13 @@
 
         <EditText
             android:id="@+id/sourceET"
-            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@null"
             android:gravity="center"
             android:hint="Source"
+            android:maxLines="1"
             android:padding="10dp" />
     </android.support.v7.widget.CardView>
 
@@ -31,13 +31,13 @@
 
         <EditText
             android:id="@+id/destET"
-            android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:background="@null"
             android:gravity="center"
             android:hint="Destination"
+            android:maxLines="1"
             android:padding="10dp" />
     </android.support.v7.widget.CardView>
 
@@ -48,19 +48,19 @@
         android:weightSum="1">
 
 
-            <TextView
-                android:layout_margin="10dp"
-                android:layout_weight="0.4"
-                android:id="@+id/dateTV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@null"
-                android:gravity="center"
-                android:textColor="#000"
-                android:textSize="18sp"
-                android:text="Vehicle Type"
-                android:padding="10dp" />
+        <TextView
+            android:id="@+id/dateTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="0.4"
+            android:background="@null"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Vehicle Type"
+            android:textColor="#000"
+            android:textSize="18sp" />
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -96,11 +96,67 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+
+        <TextView
+            android:id="@+id/routeTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:layout_weight="0.4"
+            android:background="@null"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Route Type"
+            android:textColor="#000"
+            android:textSize="18sp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupRate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_weight="0.5"
+            android:layout_toRightOf="@+id/tvRateValue"
+            android:checkedButton="@+id/rbHr"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbKM"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tvFuelTypeLabel"
+                android:focusedByDefault="true"
+                android:text="Fixed"
+                android:textColor="#000"
+                android:textStyle="bold" />
+
+            <RadioButton
+
+                android:id="@+id/rbHr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/tvFuelTypePetrol"
+                android:text="Variable"
+                android:textColor="#000"
+                android:textStyle="bold" />
+        </RadioGroup>
+    </LinearLayout>
+
     <Button
-        android:background="@color/btn_login"
         android:id="@+id/searchBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
+        android:background="@color/btn_login"
         android:text="Search" />
 </LinearLayout>

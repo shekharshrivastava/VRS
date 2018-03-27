@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,8 @@ public class UpcomingRideFragment extends android.support.v4.app.Fragment {
         String formattedDate = df.format(c);
         currentDateInMillis = Utils.getDateInMili(formattedDate);
         new UpcomingRideFragment.getMyVehicleData().execute();
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
         rl_lvListRoot.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override

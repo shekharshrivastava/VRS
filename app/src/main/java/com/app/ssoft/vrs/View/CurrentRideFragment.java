@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,8 @@ public class CurrentRideFragment extends android.support.v4.app.Fragment {
         currentUser = auth.getCurrentUser();
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
-
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setVisibility(View.GONE);
         SimpleDateFormat df = new SimpleDateFormat("dd-M-yyyy");
         String formattedDate = df.format(c);
         currentDateInMillis = Utils.getDateInMili(formattedDate);
