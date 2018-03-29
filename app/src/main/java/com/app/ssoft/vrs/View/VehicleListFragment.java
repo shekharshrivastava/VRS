@@ -156,11 +156,37 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 if (vehicleDataList.size() > 0) {
                     vehicleDetails.removeAll(vehicleFilterData);
                     vehicleDetails.addAll(vehicleDataList);
+                    errorTV.setVisibility(View.GONE);
                 } else {
                     vehicleDataList.clear();
-                    Toast.makeText(getActivity(), "No result found! Press home to reload", Toast.LENGTH_SHORT).show();
+                    errorTV.setVisibility(View.VISIBLE);
+                    Toast.makeText(getActivity(), "No vehicle found! Press home to reload", Toast.LENGTH_SHORT).show();
                 }
 
+            } else {
+                if (!source.isEmpty()) {
+                    ArrayList<VehicleData> vehicleDataList = new ArrayList();
+
+                    for (VehicleData vehData : vehicleFilterData) {
+                        if ((!vehData.getSource().isEmpty() && vehData.getSource().equalsIgnoreCase(source)
+                                && (vehData.getRouteType() != null && vehData.getRouteType().equalsIgnoreCase("Variable")))
+                                && (vehData.getVehicleType() != null && vehData.getVehicleType().equalsIgnoreCase(vehType))) {
+                            vehicleDataList.add(vehData);
+
+                        }
+
+                    }
+                    if (vehicleDataList.size() > 0) {
+                        vehicleDetails.removeAll(vehicleFilterData);
+                        vehicleDetails.addAll(vehicleDataList);
+                        errorTV.setVisibility(View.GONE);
+                    } else {
+                        vehicleDataList.clear();
+                        errorTV.setVisibility(View.VISIBLE);
+                        Toast.makeText(getActivity(), "No result found! Press home to reload", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
             }
         }
     }
@@ -213,6 +239,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         String destinationVal = vehiclesDataSnapshot.getDestination();
                         String vehType = vehiclesDataSnapshot.getVehicleType();
                         String vehBookingDate = vehiclesDataSnapshot.getBookingDate();
+                        String vehRouteType = vehiclesDataSnapshot.getRouteType();
                         boolean isVehBooked = vehiclesDataSnapshot.isVehBooked();
                         String advancePayment = vehiclesDataSnapshot.getAdvanceAmnt();
                         String ownerNumber = vehiclesDataSnapshot.getOwnerNumber();
@@ -228,30 +255,33 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         vehicleData.setBookingDate(vehBookingDate);
                         vehicleData.setAdvanceAmnt(advancePayment);
                         vehicleData.setOwnerNumber(ownerNumber);
+                        vehicleData.setRouteType(vehRouteType);
                         vehicleFilterData.add(vehicleData);
-                        if(addresses!= null) {
-                            if (vehiclesDataSnapshot.getSource().equalsIgnoreCase(addresses.get(0).getSubLocality()) && source.isEmpty() && destination.isEmpty() && (vehiclesDataSnapshot.getCurrentUserID() != null && !(vehiclesDataSnapshot.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
+                        if (source.isEmpty() && destination.isEmpty()) {
+                            if (addresses != null) {
+                                if (vehiclesDataSnapshot.getSource().equalsIgnoreCase(addresses.get(0).getSubLocality()) && (vehiclesDataSnapshot.getCurrentUserID() != null && !(vehiclesDataSnapshot.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
 //                            vehicleFilterData.add(vehicleData);
-                                vehicleDetails.add(vehicleData);
+                                    vehicleDetails.add(vehicleData);
+                                }
                             }
-                        }
 
-                        Iterable<DataSnapshot> children = dataSnapshot.getChildren();
+                            Iterable<DataSnapshot> children = dataSnapshot.getChildren();
 
-                        for (DataSnapshot child : children) {
+                            for (DataSnapshot child : children) {
 
-                            count++;
-                            if (count >= dataSnapshot.getChildrenCount()) {
-                                //stop progress bar here
-                                loadingIndicator.setVisibility(View.GONE);
-                                if(vehicleDetails.isEmpty()){
-                                    errorTV.setVisibility(View.VISIBLE);
-                                }else{
-                                    errorTV.setVisibility(View.GONE);
+                                count++;
+                                if (count >= dataSnapshot.getChildrenCount()) {
+                                    //stop progress bar here
+                                    loadingIndicator.setVisibility(View.GONE);
+                                    if (vehicleDetails.isEmpty()) {
+                                        errorTV.setVisibility(View.VISIBLE);
+                                    } else {
+                                        errorTV.setVisibility(View.GONE);
+                                    }
+
                                 }
 
                             }
-
                         }
 
                         if (m_listAdapter != null && vehicleDetails.size() > 0) {
@@ -283,7 +313,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
         return vehicleDetails;
     }
 
-    public void getCurrentLocation(){
+    public void getCurrentLocation() {
         gps = new GPSTracker(getActivity());
 
         // check if GPS enabled
@@ -294,7 +324,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
             try {
                 addresses = geocoder.getFromLocation(latitude, longitude, 1);
                 locationTV.setText(addresses.get(0).getAddressLine(0));
-                if(m_listAdapter!=null) {
+                if (m_listAdapter != null) {
                     m_listAdapter.notifyDataSetChanged();
                 }
 

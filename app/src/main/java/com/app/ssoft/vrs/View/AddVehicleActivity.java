@@ -27,6 +27,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.ssoft.vrs.Model.VehicleData;
@@ -111,6 +112,13 @@ public class AddVehicleActivity extends AppCompatActivity {
     private String rateFinalValue;
     private EditText tvOwnerNumber;
     private RelativeLayout RLAip;
+    private TextView tvVehDoc;
+    private String bitmapDocArray;
+    private EditText tvVehNumber;
+    private RadioGroup radioGroupTrans;
+    private RadioButton radioButtonGear;
+    private RadioButton radioButtonAutomatic;
+    private String transType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +134,7 @@ public class AddVehicleActivity extends AppCompatActivity {
         radioGroup = findViewById(R.id.radioGroup);
         radioGroupFuelType = findViewById(R.id.radioGroupFuel);
         radioGroupDriverReq = findViewById(R.id.radioGroupDriverType);
+        radioGroupTrans = findViewById(R.id.radioGroupTrans);
         tvVehTypeCar = findViewById(R.id.tvVehTypeCar);
         tvVehTypeBike = findViewById(R.id.tvVehTypeBike);
         tvOwnerName = findViewById(R.id.tvOwnerName);
@@ -139,6 +148,8 @@ public class AddVehicleActivity extends AppCompatActivity {
         radioButtonNo = findViewById(R.id.RbNo);
         radioButtonDay = findViewById(R.id.rbHr);
         radioButtonKM = findViewById(R.id.rbKM);
+        radioButtonGear = findViewById(R.id.RbTypeGear);
+        radioButtonAutomatic = findViewById(R.id.RbTypeNGear);
         btnSubmit = findViewById(R.id.btnSubmit);
         driver_cv = findViewById(R.id.driver_cv);
         tvDriverName = findViewById(R.id.tvDriverName);
@@ -151,11 +162,19 @@ public class AddVehicleActivity extends AppCompatActivity {
         tvSeaterValue = findViewById(R.id.tvSeatsValue);
         rlSource = findViewById(R.id.rlSource);
         rlDest = findViewById(R.id.rlDest);
+        tvVehNumber = findViewById(R.id.tvVehNumber);
         tvOwnerNumber = findViewById(R.id.tvOwnerNumber);
         radionGroupRateType = findViewById(R.id.radioGroupRate);
         advanceAmnt = findViewById(R.id.advanceAmnt);
         Intent intent = getIntent();
         final String userIdValue = intent.getStringExtra("userId");
+        tvVehDoc = findViewById(R.id.tvVehDocument);
+        tvVehDoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectDocImage();
+            }
+        });
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -263,6 +282,7 @@ public class AddVehicleActivity extends AppCompatActivity {
                 String rateValue = tvRateValue.getText().toString();
                 String advanceAmntValue = advanceAmnt.getText().toString();
                 String ownerNumber = tvOwnerNumber.getText().toString();
+                String vehicleNumber = tvVehNumber.getText().toString();
                 if (!isRouteFixed) {
                     rateFinalValue = rateValue + rateType;
                 } else {
@@ -300,7 +320,10 @@ public class AddVehicleActivity extends AppCompatActivity {
                             return;
                         }
                     }
-
+                    if (TextUtils.isEmpty(vehicleNumber)) {
+                        Toast.makeText(getApplicationContext(), "Enter vehicle number!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     if (isRouteFixed) {
                         if (TextUtils.isEmpty(source)) {
                             Toast.makeText(getApplicationContext(), "Enter Source!", Toast.LENGTH_SHORT).show();
@@ -317,7 +340,12 @@ public class AddVehicleActivity extends AppCompatActivity {
                     }
 
 
-                    VehicleData vehicleData = new VehicleData(userId, vehType, ownerName, bitmapArray, vehModel, permit, routeValue, source, destination, rateFinalValue, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray, userLoginID, false, null, null, advanceAmntValue, ownerNumber);
+                    if (TextUtils.isEmpty(bitmapDocArray)) {
+                        Toast.makeText(getApplicationContext(), "Upload vehicle document!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    VehicleData vehicleData = new VehicleData(userId, vehType, ownerName, bitmapArray, bitmapDocArray, vehModel, permit, routeValue, source, destination, rateFinalValue, fuelType, seaterValue, driverRequired, driverName, driverNumber, driverAddress, driverLicence, driverAadhar, bitmapDriverArray, userLoginID, false, null, null, advanceAmntValue, ownerNumber, transType, vehicleNumber);
                     mDatabase.child(userId).setValue(vehicleData);
 
                     Intent intent = new Intent();
@@ -357,9 +385,15 @@ public class AddVehicleActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Enter Rate!", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    if (TextUtils.isEmpty(bitmapDocArray)) {
+                        Toast.makeText(getApplicationContext(), "Upload vehicle document!", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
                     database.child("vehicleDetails").child(userIdValue).child("vehicleType").setValue(vehType);
                     database.child("vehicleDetails").child(userIdValue).child("ownerName").setValue(ownerName);
                     database.child("vehicleDetails").child(userIdValue).child("vehiclePhoto").setValue(bitmapArray);
+                    database.child("vehicleDetails").child(userIdValue).child("vehicleDocs").setValue(bitmapDocArray);
                     database.child("vehicleDetails").child(userIdValue).child("vehicleModel").setValue(vehModel);
                     database.child("vehicleDetails").child(userIdValue).child("aip").setValue(permit);
                     database.child("vehicleDetails").child(userIdValue).child("routeType").setValue(routeValue);
@@ -377,6 +411,8 @@ public class AddVehicleActivity extends AppCompatActivity {
                     database.child("vehicleDetails").child(userIdValue).child("driverPhoto").setValue(bitmapDriverArray);
                     database.child("vehicleDetails").child(userIdValue).child("advanceAmnt").setValue(advanceAmntValue);
                     database.child("vehicleDetails").child(userIdValue).child("ownerNumber").setValue(ownerNumber);
+                    database.child("vehicleDetails").child(userIdValue).child("transType").setValue(transType);
+                    database.child("vehicleDetails").child(userIdValue).child("vehicleNumber").setValue(vehicleNumber);
 
                     Intent intent = new Intent();
                     intent.putExtra("dataAdded", true);
@@ -441,6 +477,21 @@ public class AddVehicleActivity extends AppCompatActivity {
                         driver_cv.setVisibility(View.GONE);
                         driverRequired = (String) radioButtonNo.getText();
                         break;
+                }
+            }
+        });
+
+        radioGroupTrans.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.RbTypeGear:
+                        transType = (String) radioButtonGear.getText();
+                        break;
+                    case R.id.RbTypeNGear:
+                        transType = (String) radioButtonAutomatic.getText();
+                        break;
+
                 }
             }
         });
@@ -580,13 +631,64 @@ public class AddVehicleActivity extends AppCompatActivity {
 
     }
 
+    private void selectDocImage() {
+
+
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddVehicleActivity.this);
+
+        builder.setTitle("Add Photo!");
+
+        builder.setItems(options, new DialogInterface.OnClickListener() {
+
+            @Override
+
+            public void onClick(DialogInterface dialog, int item) {
+
+                if (options[item].equals("Take Photo"))
+
+                {
+
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(AddVehicleActivity.this, getApplicationContext().getPackageName() + ".my.package.name.provider", f));
+
+                    startActivityForResult(intent, 5);
+
+                } else if (options[item].equals("Choose from Gallery"))
+
+                {
+
+                    Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                    startActivityForResult(intent, 6);
+
+
+                } else if (options[item].equals("Cancel")) {
+
+                    dialog.dismiss();
+
+                }
+
+            }
+
+        });
+
+        builder.show();
+
+    }
+
     @Override
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK && data != null) {
 
             if (requestCode == 1) {
 
@@ -793,6 +895,106 @@ public class AddVehicleActivity extends AppCompatActivity {
             bitmapDriverArray = BitMapToString(thumbnail);
 
         }
+        if (requestCode == 5) {
+
+            File f = new File(Environment.getExternalStorageDirectory().toString());
+
+            for (File temp : f.listFiles()) {
+
+                if (temp.getName().equals("temp.jpg")) {
+
+                    f = temp;
+
+                    break;
+
+                }
+
+            }
+
+            try {
+
+                Bitmap bitmap;
+
+                BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+
+
+                bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
+
+                        bitmapOptions);
+
+
+                tvVehDoc.setText(f.getAbsolutePath());
+                bitmapDocArray = BitMapToString(bitmap);
+
+                path = android.os.Environment
+
+                        .getExternalStorageDirectory()
+
+                        + File.separator
+
+                        + "Phoenix" + File.separator + "default" + File.separator + String.valueOf(System.currentTimeMillis()) + ".jpg";
+
+                f.delete();
+
+                OutputStream outFile = null;
+
+                File file = new File(path);
+
+                try {
+
+                    outFile = new FileOutputStream(file);
+
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
+
+                    outFile.flush();
+
+                    outFile.close();
+
+                } catch (FileNotFoundException e) {
+
+                    e.printStackTrace();
+
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+
+                }
+
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+
+        } else if (requestCode == 6) {
+
+
+            Uri selectedImage = data.getData();
+
+            String[] filePath = {MediaStore.Images.Media.DATA};
+
+            Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
+
+            c.moveToFirst();
+
+            int columnIndex = c.getColumnIndex(filePath[0]);
+
+            path = c.getString(columnIndex);
+
+            c.close();
+
+            Bitmap thumbnail = (BitmapFactory.decodeFile(path));
+
+            Log.w("path of image from gal.", path + "");
+
+            tvVehDoc.setText(path);
+            bitmapDocArray = BitMapToString(thumbnail);
+
+        }
 
     }
 
@@ -897,6 +1099,19 @@ public class AddVehicleActivity extends AppCompatActivity {
                     }
                     advanceAmnt.setText(vehiclesData.getAdvanceAmnt());
                 }
+                if (vehiclesData.getVehicleNumber() != null) {
+                    tvVehNumber.setText(vehiclesData.getVehicleNumber());
+                }
+                if (vehiclesData.getTransType() != null) {
+                    if (vehiclesData.getTransType().equalsIgnoreCase("Gear")) {
+                        radioButtonGear.setChecked(true);
+                    } else {
+                        radioButtonAutomatic.setChecked(true);
+                    }
+                }
+                if (vehiclesData.getVehicleDocs() != null) {
+                    bitmapDocArray = vehiclesData.getVehicleDocs();
+                }
             }
 
 
@@ -917,6 +1132,7 @@ public class AddVehicleActivity extends AppCompatActivity {
             return null;
         }
     }
+
 
 }
 

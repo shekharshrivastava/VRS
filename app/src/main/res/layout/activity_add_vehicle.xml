@@ -26,19 +26,18 @@
                     android:id="@+id/tvVehTypeLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginLeft="20dp"
                     android:layout_marginTop="3dp"
-                    android:drawableLeft="@drawable/fuel_type"
                     android:text=" Vehicle Type -"
                     android:textColor="#000"
                     android:textSize="18sp" />
 
                 <RadioGroup
-                    android:checkedButton="@+id/tvVehTypeCar"
                     android:id="@+id/radioGroup"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/tvVehTypeLabel"
+                    android:checkedButton="@+id/tvVehTypeCar"
                     android:orientation="horizontal">
 
                     <RadioButton
@@ -112,15 +111,29 @@
                             android:maxLines="1"
                             android:textColor="#000"
                             android:textSize="18sp" />
+
                         <EditText
                             android:id="@+id/tvOwnerNumber"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:maxLength="10"
-                            android:inputType="phone"
                             android:drawableLeft="@drawable/car_renter"
                             android:hint=" Owner Number"
+                            android:inputType="phone"
+                            android:maxLength="10"
+                            android:maxLines="1"
+                            android:textColor="#000"
+                            android:textSize="18sp" />
+
+                        <EditText
+                            android:id="@+id/tvVehNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:drawableLeft="@drawable/car_renter"
+                            android:hint=" Vehicle Number"
+                            android:inputType="text"
+                            android:maxLength="16"
                             android:maxLines="1"
                             android:textColor="#000"
                             android:textSize="18sp" />
@@ -136,6 +149,16 @@
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
+
+            <TextView
+                android:id="@+id/tvVehDocument"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="10dp"
+                android:text=" Add Vehicle documents"
+                android:textColor="#007dab"
+                android:textSize="15sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -164,8 +187,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/tvPermitLabel"
-                        android:textColor="#000"
                         android:entries="@array/aip"
+                        android:textColor="#000"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
@@ -191,16 +214,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/tvRouteLabel"
-                        android:textColor="#000"
                         android:entries="@array/routeType"
+                        android:textColor="#000"
                         android:textStyle="bold" />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:visibility="gone"
                     android:id="@+id/rlSource"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/tvSourceLable"
@@ -295,13 +318,13 @@
                         android:textStyle="bold" />
 
                     <RadioGroup
-                        android:checkedButton="@+id/rbHr"
                         android:id="@+id/radioGroupRate"
                         android:layout_width="wrap_content"
-                        android:gravity="center"
-                        android:layout_marginTop="12dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
                         android:layout_toRightOf="@+id/tvRateValue"
+                        android:checkedButton="@+id/rbHr"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -345,11 +368,11 @@
                         android:textSize="18sp" />
 
                     <RadioGroup
-                        android:checkedButton="@+id/tvFuelTypePetrol"
                         android:id="@+id/radioGroupFuel"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tvFuelTypeLabel"
+                        android:checkedButton="@+id/tvFuelTypePetrol"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -377,10 +400,58 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/transTypeRL"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/tvtransTypeLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/fuel_type"
+                        android:text=" Vehicle Type -"
+                        android:textColor="#000"
+                        android:textSize="18sp" />
+
+                    <RadioGroup
+                        android:id="@+id/radioGroupTrans"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/tvtransTypeLabel"
+                        android:checkedButton="@+id/RbTypeGear"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/RbTypeGear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/tvFuelTypeLabel"
+                            android:focusedByDefault="true"
+                            android:text="GEAR"
+                            android:textColor="#000"
+                            android:textStyle="bold" />
+
+                        <RadioButton
+
+                            android:id="@+id/RbTypeNGear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_toRightOf="@+id/tvFuelTypePetrol"
+                            android:text="AUTOMATIC"
+                            android:textColor="#000"
+                            android:textStyle="bold" />
+                    </RadioGroup>
+                </RelativeLayout>
+
+                <RelativeLayout
                     android:id="@+id/seatsRL"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_marginTop="5dp">
 
                     <TextView
@@ -394,12 +465,12 @@
                         android:textSize="18sp" />
 
                     <Spinner
-                        android:entries="@array/seater"
                         android:id="@+id/tvSeatsValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_toRightOf="@+id/tvSeatsLabel"
+                        android:entries="@array/seater"
                         android:textColor="#000"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -407,33 +478,31 @@
                 <RelativeLayout
                     android:id="@+id/advanceRL"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                 >
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tvAdvnceLable"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
                         android:layout_marginLeft="10dp"
+                        android:drawableLeft="@drawable/payment"
                         android:text=" Advance payment -"
                         android:textColor="#000"
-                        android:drawableLeft="@drawable/payment"
-                        android:layout_centerVertical="true"
                         android:textSize="18sp" />
 
                     <EditText
                         android:id="@+id/advanceAmnt"
-                        android:maxLines="1"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginLeft="20dp"
-                        android:inputType="number"
-                        android:hint="Enter amount"
-                        android:gravity="center"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
                         android:layout_toRightOf="@+id/tvAdvnceLable"
-                        android:textColor="#000"
-                         />
+                        android:gravity="center"
+                        android:hint="Enter amount"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:textColor="#000" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -454,11 +523,11 @@
                         android:textSize="18sp" />
 
                     <RadioGroup
-                        android:checkedButton="@id/RbNo"
                         android:id="@+id/radioGroupDriverType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@+id/tvWantDriverLabel"
+                        android:checkedButton="@id/RbNo"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -519,8 +588,8 @@
                             android:layout_height="wrap_content"
                             android:drawableLeft="@drawable/owner_profile"
                             android:hint=" Driver Name"
-                            android:maxLines="1"
                             android:inputType="textPersonName"
+                            android:maxLines="1"
                             android:textColor="#000"
                             android:textSize="18sp" />
 
@@ -529,9 +598,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
-                            android:inputType="phone"
                             android:drawableLeft="@drawable/phone"
                             android:hint=" XXXX-XXX-XXX"
+                            android:inputType="phone"
                             android:maxLength="10"
                             android:maxLines="1"
                             android:textColor="#000"
@@ -587,13 +656,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="10dp"
                 android:layout_marginTop="30dp"
+                android:background="@color/btn_login"
                 android:maxLength="6"
                 android:maxLines="1"
-                android:background="@color/btn_login"
                 android:text="Submit" />
         </LinearLayout>
 

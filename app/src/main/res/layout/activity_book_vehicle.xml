@@ -40,6 +40,7 @@
                 android:layout_margin="10dp"
                 android:hint="Licence Number"
                 android:inputType="number"
+                android:maxLength="16"
                 android:maxLines="1" />
 
             <LinearLayout

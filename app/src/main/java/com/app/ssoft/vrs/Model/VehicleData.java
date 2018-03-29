@@ -6,38 +6,40 @@ package com.app.ssoft.vrs.Model;
 
 public class VehicleData {
     public String userID;
-   public String vehicleType;
+    public String vehicleType;
     public String ownerName;
     public String vehiclePhoto;
     public String vehicleModel;
+    public String vehicleDocs;
     public String aip;
     public String routeType;
     public String source;
     public String destination;
-    public  String rateValue;
-    public  String fuelType;
-    public  String numberOfseat;
-    public  String driverReq;
-    public  String driverName;
-    public  String driverNumber;
-    public  String driverAddress;
-    public  String licenceNumber;
-    public  String aadharNumber;
-    public  String driverPhoto;
+    public String rateValue;
+    public String fuelType;
+    public String numberOfseat;
+    public String driverReq;
+    public String driverName;
+    public String driverNumber;
+    public String driverAddress;
+    public String licenceNumber;
+    public String aadharNumber;
+    public String driverPhoto;
     public String currentUserID;
     public boolean isVehBooked;
     public String bookingDate;
     public String customerUserID;
     public String advanceAmnt;
     public String ownerNumber;
+    public String vehicleNumber;
+    public String transType;
 
-    public VehicleData (){
+    public VehicleData() {
 
     }
 
 
-
-    public VehicleData(String userID, String vehicleType, String ownerName, String vehiclePhoto, String vehicleModel, String aip, String routeType, String source, String destination, String rateValue, String fuelType, String numberOfseat, String driverReq, String driverName, String driverNumber, String driverAddress, String licenceNumber, String aadharNumber, String driverPhoto, String currentUserID, boolean isVehBooked, String bookingDate, String customerUserID, String advanceAmnt ,String ownerNumber) {
+    public VehicleData(String userID, String vehicleType, String ownerName, String vehiclePhoto, String vehicleDocs, String vehicleModel, String aip, String routeType, String source, String destination, String rateValue, String fuelType, String numberOfseat, String driverReq, String driverName, String driverNumber, String driverAddress, String licenceNumber, String aadharNumber, String driverPhoto, String currentUserID, boolean isVehBooked, String bookingDate, String customerUserID, String advanceAmnt, String ownerNumber,String transType,String vehicleNumber) {
         this.userID = userID;
         this.vehicleType = vehicleType;
         this.ownerName = ownerName;
@@ -63,6 +65,33 @@ public class VehicleData {
         this.customerUserID = customerUserID;
         this.advanceAmnt = advanceAmnt;
         this.ownerNumber = ownerNumber;
+        this.vehicleDocs = vehicleDocs;
+        this.transType = transType;
+        this.vehicleNumber = vehicleNumber;
+    }
+
+    public String getVehicleNumber() {
+        return vehicleNumber;
+    }
+
+    public void setVehicleNumber(String vehicleNumber) {
+        this.vehicleNumber = vehicleNumber;
+    }
+
+    public String getTransType() {
+        return transType;
+    }
+
+    public void setTransType(String transType) {
+        this.transType = transType;
+    }
+
+    public String getVehicleDocs() {
+        return vehicleDocs;
+    }
+
+    public void setVehicleDocs(String vehicleDocs) {
+        this.vehicleDocs = vehicleDocs;
     }
 
     public String getCustomerUserID() {

@@ -25,6 +25,7 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
+        android:id="@+id/cardViewDestination"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp">
@@ -118,18 +119,19 @@
             android:textSize="18sp" />
 
         <RadioGroup
-            android:id="@+id/radioGroupRate"
+            android:id="@+id/radioGroupRoute"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:layout_weight="0.5"
             android:layout_toRightOf="@+id/tvRateValue"
-            android:checkedButton="@+id/rbHr"
+            android:checkedButton="@+id/rbFixed"
+
             android:gravity="center"
             android:orientation="horizontal">
 
             <RadioButton
-                android:id="@+id/rbKM"
+                android:id="@+id/rbFixed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -141,7 +143,7 @@
 
             <RadioButton
 
-                android:id="@+id/rbHr"
+                android:id="@+id/rbVariable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"

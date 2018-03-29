@@ -7,7 +7,8 @@
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -56,7 +57,8 @@
         <activity android:name=".View.BillGenerationActivity" />
         <activity android:name=".View.UserProfileActivity" />
         <activity android:name=".View.SettingActivity" />
-        <activity android:name=".View.ResetPasswordActivity"></activity>
+        <activity android:name=".View.ResetPasswordActivity" />
+        <activity android:name=".View.ImageViewActivity"></activity>
     </application>
 
 </manifest>

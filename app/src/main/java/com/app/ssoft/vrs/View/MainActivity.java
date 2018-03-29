@@ -92,14 +92,15 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 UserProfile userProfile = dataSnapshot.getValue(UserProfile.class);
-                if ((userProfile.getEmailId()).equals(emailId)) ;
-                if (userProfile.getFirstName() != null && userProfile.getLastName() != null) {
-                    userNameTv.setText(userProfile.getFirstName() + " " + userProfile.getLastName());
-                }
-                if (userProfile.getProfilePicture() != null) {
-                    imageView.setImageBitmap(Utils.StringToBitMap(userProfile.getProfilePicture()));
-                } else {
-                    imageView.setImageResource(R.drawable.placeholder_user);
+                if ((userProfile.getEmailId()).equals(emailId)) {
+                    if (userProfile.getFirstName() != null && userProfile.getLastName() != null) {
+                        userNameTv.setText(userProfile.getFirstName() + " " + userProfile.getLastName());
+                    }
+                    if (userProfile.getProfilePicture() != null) {
+                        imageView.setImageBitmap(Utils.StringToBitMap(userProfile.getProfilePicture()));
+                    } else {
+                        imageView.setImageResource(R.drawable.placeholder_user);
+                    }
                 }
 
             }

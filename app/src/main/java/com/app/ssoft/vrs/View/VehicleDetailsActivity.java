@@ -55,6 +55,8 @@ public class VehicleDetailsActivity extends AppCompatActivity {
     private String advanceAmnt;
     private String rateValue;
     private String ownerNumber;
+    public static String docBitmapArray = null;
+    private TextView tvViewVehDoc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,13 +71,24 @@ public class VehicleDetailsActivity extends AppCompatActivity {
         tvVehicalName = findViewById(R.id.tvVehicalName);
         tvFuelType = findViewById(R.id.tvFuelType);
         tvSeatsValue = findViewById(R.id.tvSeatsValue);
+        tvViewVehDoc = findViewById(R.id.tvViewDoc);
         RbYes = findViewById(R.id.RbYes);
         RbNo = findViewById(R.id.RbNo);
         tvRateValue = findViewById(R.id.tvRateValue);
         driver_cv = findViewById(R.id.driver_cv);
         tvDriverName = findViewById(R.id.tvDriverName);
         tvDriverNumber = findViewById(R.id.tvDriverNumber);
-
+        tvViewVehDoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (docBitmapArray != null) {
+                    Intent intent = new Intent(VehicleDetailsActivity.this, ImageViewActivity.class);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(VehicleDetailsActivity.this, "No Document to view", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         Date c = Calendar.getInstance().getTime();
         System.out.println("Current time => " + c);
         SimpleDateFormat df = new SimpleDateFormat("dd-M-yyyy");
@@ -113,6 +126,11 @@ public class VehicleDetailsActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 VehicleData vehiclesData = dataSnapshot.getValue(VehicleData.class);
                 if (vehiclesData != null) {
+                    if (vehiclesData.getVehicleDocs() != null) {
+                        docBitmapArray = vehiclesData.getVehicleDocs();
+                    }else{
+                        docBitmapArray = null;
+                    }
                     tvOwnerName.setText(vehiclesData.getOwnerName());
                     tvVehicalName.setText(vehiclesData.getVehicleModel());
                     rateValue = vehiclesData.getRateValue();
@@ -192,8 +210,10 @@ public class VehicleDetailsActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.edit_menu, menu);
         MenuItem item = menu.findItem(R.id.action_edit);
+        MenuItem delete = menu.findItem(R.id.action_delete);
         if (!mAuth.getCurrentUser().getUid().equals(ownerUserId)) {
             item.setVisible(false);
+            delete.setVisible(false);
         }
 
         return true;
@@ -210,12 +230,12 @@ public class VehicleDetailsActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, AddVehicleActivity.class);
                 intent.putExtra("userId", userId);
                 startActivityForResult(intent, 1);
-                return true;
+                break;
             }
             case R.id.action_delete: {
                 FirebaseDatabase.getInstance().getReference().child("vehicleDetails").child(userId).removeValue();
                 finish();
-                return true;
+                break;
             }
         }
         return super.onOptionsItemSelected(item);

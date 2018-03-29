@@ -83,12 +83,7 @@ public class CurrentRideAdapter extends BaseAdapter {
 
         m_viewHolder.tvSeater.setHint(m_item.get(p_position).getNumberOfseat() + " Seaters");
 
-        m_viewHolder.endTripButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         m_viewHolder.detailsButton.setOnClickListener(new View.OnClickListener() {
             @Override

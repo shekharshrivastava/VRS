@@ -61,6 +61,7 @@ public class BookVehicleActivity extends AppCompatActivity {
     private String rateValue;
     private String ownerNumber;
     private String dateSelected = "";
+    private String[] separated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +112,16 @@ public class BookVehicleActivity extends AppCompatActivity {
         if (advancePayment != null) {
             advPayment.setText(advancePayment + " in Rupees");
         } else {
-            advPayment.setText(rateValue + " in Rupees");
+            if (rateValue.contains("/")) {
+                separated = rateValue.split("/");
+
+                ; // this will contain "Fruit"
+
+                advPayment.setText(separated[0] + " in Rupees");
+
+            } else {
+                advPayment.setText(rateValue + " in Rupees");
+            }
         }
 
         selectDate.setOnClickListener(new View.OnClickListener() {
