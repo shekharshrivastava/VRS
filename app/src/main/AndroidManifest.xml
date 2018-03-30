@@ -58,7 +58,9 @@
         <activity android:name=".View.UserProfileActivity" />
         <activity android:name=".View.SettingActivity" />
         <activity android:name=".View.ResetPasswordActivity" />
-        <activity android:name=".View.ImageViewActivity"></activity>
+        <activity android:name=".View.ImageViewActivity" />
+        <activity android:name=".View.FeedBackActivity" />
+        <activity android:name=".View.ContactUsActivity"></activity>
     </application>
 
 </manifest>

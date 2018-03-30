@@ -33,13 +33,14 @@ public class VehicleData {
     public String ownerNumber;
     public String vehicleNumber;
     public String transType;
+    public String vehAddress;
 
     public VehicleData() {
 
     }
 
 
-    public VehicleData(String userID, String vehicleType, String ownerName, String vehiclePhoto, String vehicleDocs, String vehicleModel, String aip, String routeType, String source, String destination, String rateValue, String fuelType, String numberOfseat, String driverReq, String driverName, String driverNumber, String driverAddress, String licenceNumber, String aadharNumber, String driverPhoto, String currentUserID, boolean isVehBooked, String bookingDate, String customerUserID, String advanceAmnt, String ownerNumber,String transType,String vehicleNumber) {
+    public VehicleData(String userID, String vehicleType, String ownerName, String vehiclePhoto, String vehicleDocs, String vehicleModel, String aip, String routeType, String source, String destination, String rateValue, String fuelType, String numberOfseat, String driverReq, String driverName, String driverNumber, String driverAddress, String licenceNumber, String aadharNumber, String driverPhoto, String currentUserID, boolean isVehBooked, String bookingDate, String customerUserID, String advanceAmnt, String ownerNumber,String transType,String vehicleNumber,String vehAddress) {
         this.userID = userID;
         this.vehicleType = vehicleType;
         this.ownerName = ownerName;
@@ -68,6 +69,7 @@ public class VehicleData {
         this.vehicleDocs = vehicleDocs;
         this.transType = transType;
         this.vehicleNumber = vehicleNumber;
+        this.vehAddress = vehAddress;
     }
 
     public String getVehicleNumber() {
@@ -292,5 +294,13 @@ public class VehicleData {
 
     public void setOwnerNumber(String ownerNumber) {
         this.ownerNumber = ownerNumber;
+    }
+
+    public String getVehAddress() {
+        return vehAddress;
+    }
+
+    public void setVehAddress(String vehAddress) {
+        this.vehAddress = vehAddress;
     }
 }

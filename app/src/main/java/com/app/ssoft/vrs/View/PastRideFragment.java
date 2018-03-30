@@ -38,7 +38,7 @@ public class PastRideFragment extends android.support.v4.app.Fragment {
     private ListView rl_lvListRoot;
     private DatabaseReference ref;
     private ArrayList<VehicleData> vehicleDetails;
-    private MyVehicleAdapter m_listAdapter;
+    private PastRideAdapter m_listAdapter;
     private FirebaseAuth auth;
     private FirebaseUser currentUser;
     private long currentDateInMillis;
@@ -110,6 +110,7 @@ public class PastRideFragment extends android.support.v4.app.Fragment {
                                 vehicleData.setVehiclePhoto(vehPhoto);
                                 vehicleData.setNumberOfseat(seater);
                                 vehicleData.setUserID(dataSnapshot.getKey());
+                                vehicleData.setOwnerNumber(vehiclesData.getOwnerNumber());
                                 vehicleDetails.add(vehicleData);
                                 if (m_listAdapter != null) {
                                     m_listAdapter.notifyDataSetChanged();
@@ -153,7 +154,7 @@ public class PastRideFragment extends android.support.v4.app.Fragment {
         protected void onPostExecute(Void aVoid) {
             rl_lvListRoot.setVisibility(View.VISIBLE);
 //            loadingIndicator.setVisibility(View.GONE);
-            m_listAdapter = new MyVehicleAdapter(getActivity(), vehicleDetails);
+            m_listAdapter = new PastRideAdapter(getActivity(), vehicleDetails);
             rl_lvListRoot.setAdapter(m_listAdapter);
             super.onPostExecute(aVoid);
         }

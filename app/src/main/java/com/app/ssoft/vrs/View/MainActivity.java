@@ -198,6 +198,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_camera) {
             fragment = new MyRidesFragment();
         } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(this,ContactUsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_logout) {
             auth.signOut();
             Intent intent = new Intent(this, LoginActivity.class);

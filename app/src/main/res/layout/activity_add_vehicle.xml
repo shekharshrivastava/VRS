@@ -159,7 +159,16 @@
                 android:text=" Add Vehicle documents"
                 android:textColor="#007dab"
                 android:textSize="15sp" />
-
+            <EditText
+                android:id="@+id/tvVehAddress"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:hint=" Vehicle Address"
+                android:maxLines="3"
+                android:textColor="#000"
+                android:textSize="18sp" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

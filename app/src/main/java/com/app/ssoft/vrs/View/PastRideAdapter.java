@@ -1,6 +1,7 @@
 package com.app.ssoft.vrs.View;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -10,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.ssoft.vrs.Model.VehicleData;
 import com.app.ssoft.vrs.R;
@@ -19,17 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Shekahar.Shrivastava on 06-Mar-18.
+ * Created by Shekahar.Shrivastava on 30-Mar-18.
  */
 
-class MyVehicleAdapter extends BaseAdapter {
+public class PastRideAdapter extends BaseAdapter {
     private List<VehicleData> m_item;
     public ArrayList<Integer> m_selectedItem;
     Context m_context;
     Boolean m_isRoot;
     private Bitmap thumbnailDrawable;
 
-    public MyVehicleAdapter(Context p_context, List<VehicleData> p_item) {
+    public PastRideAdapter(Context p_context, List<VehicleData> p_item) {
         m_context = p_context;
         m_item = p_item;
     }
@@ -52,11 +52,11 @@ class MyVehicleAdapter extends BaseAdapter {
     @Override
     public View getView(final int p_position, View p_convertView, ViewGroup p_parent) {
         View m_view = null;
-        MyVehicleAdapter.ViewHolder m_viewHolder = null;
+        PastRideAdapter.ViewHolder m_viewHolder = null;
         if (p_convertView == null) {
             LayoutInflater m_inflater = LayoutInflater.from(m_context);
-            m_view = m_inflater.inflate(R.layout.row_layout, null);
-            m_viewHolder = new MyVehicleAdapter.ViewHolder();
+            m_view = m_inflater.inflate(R.layout.past_ride_row, null);
+            m_viewHolder = new PastRideAdapter.ViewHolder();
             m_viewHolder.tvVehName = (TextView) m_view.findViewById(R.id.tvVehName);
             m_viewHolder.driverAvlb = (TextView) m_view.findViewById(R.id.driverAvlb);
             m_viewHolder.tvSeater = (TextView) m_view.findViewById(R.id.tvSeater);
@@ -67,7 +67,7 @@ class MyVehicleAdapter extends BaseAdapter {
             m_view.setTag(m_viewHolder);
         } else {
             m_view = p_convertView;
-            m_viewHolder = ((MyVehicleAdapter.ViewHolder) m_view.getTag());
+            m_viewHolder = ((PastRideAdapter.ViewHolder) m_view.getTag());
         }
         m_viewHolder.avblStatus.setVisibility(View.GONE);
 
@@ -98,10 +98,12 @@ class MyVehicleAdapter extends BaseAdapter {
         m_viewHolder.sendFeedBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if((m_item.get(p_position).getOwnerNumber())!=null){
-                    Toast.makeText(m_context,""+m_item.get(p_position).getOwnerNumber(),Toast.LENGTH_SHORT).show();
-                }
 
+                    Intent intent = new Intent(m_context, FeedBackActivity.class);
+                if ((m_item.get(p_position).getOwnerNumber()) != null) {
+                    intent.putExtra("ownerNumber", m_item.get(p_position).getOwnerNumber());
+                }
+                m_context.startActivity(intent);
             }
         });
         return m_view;

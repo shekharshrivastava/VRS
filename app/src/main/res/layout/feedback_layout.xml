@@ -12,13 +12,16 @@
         android:hint="Full Name "
         android:inputType="text"
         android:maxLines="1" />
+
     <EditText
         android:id="@+id/bookingID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:hint="Booking ID "
-        android:maxLines="1" />
+        android:maxLines="1"
+        android:visibility="gone" />
+
     <EditText
         android:id="@+id/feedback"
         android:layout_width="match_parent"
@@ -28,10 +31,10 @@
         android:maxLength="480" />
 
     <Button
-        android:background="@color/btn_login"
         android:id="@+id/submitBTN"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="SUBMIT"
-        android:layout_margin="20dp"/>
+        android:layout_margin="20dp"
+        android:background="@color/btn_login"
+        android:text="SUBMIT" />
 </LinearLayout>
