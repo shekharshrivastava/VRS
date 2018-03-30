@@ -100,7 +100,7 @@ public class PastRideFragment extends android.support.v4.app.Fragment {
 
                             VehicleData vehiclesData = dataSnapshot.getValue(VehicleData.class);
                             VehicleData vehicleData = new VehicleData();
-                            if (vehiclesData.getBookingDate() != null && (!vehiclesData.getBookingDate().isEmpty() && Utils.getDateInMili(vehiclesData.getBookingDate()) < currentDateInMillis)&& (vehiclesData.getCustomerUserID() != null && vehiclesData.getCustomerUserID().equals(currentUser.getUid()))) {
+                            if (vehiclesData.getBookingDate() != null && (vehiclesData.getBookingDate().isEmpty() || Utils.getDateInMili(vehiclesData.getBookingDate()) < currentDateInMillis)&& (vehiclesData.getCustomerUserID() != null && vehiclesData.getCustomerUserID().equals(currentUser.getUid()))) {
                                 String vehicleModel = vehiclesData.getVehicleModel();
                                 String driver = vehiclesData.getDriverReq();
                                 String seater = vehiclesData.getNumberOfseat();

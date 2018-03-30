@@ -12,10 +12,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.SmsManager;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -44,6 +46,10 @@ public class PaymentActivity extends AppCompatActivity {
     private ArrayList<String> ownerNumber;
     private String ownerNumberValue;
     private PermissionManager permissionManager;
+    private EditText cardNoET;
+    private EditText expiryYear;
+    private EditText expiryMonth;
+    private EditText etCvv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,10 @@ public class PaymentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_payment);
         getSupportActionBar().setTitle("Payment");
         ownerNumber = new ArrayList<>();
+        cardNoET = findViewById(R.id.cardNoET);
+        etCvv = findViewById(R.id.etCvv);
+        expiryMonth = findViewById(R.id.expiryMonth);
+        expiryYear = findViewById(R.id.expiryYear);
         cardTypeSpinner = findViewById(R.id.cardTypeSpinner);
         paymentTypeSpinner = findViewById(R.id.paymentTypeSpinner);
         permissionManager = PermissionManager.getInstance(PaymentActivity.this);
@@ -102,6 +112,23 @@ public class PaymentActivity extends AppCompatActivity {
                     permissionManager.checkPermissions(singleton(Manifest.permission.SEND_SMS), new PermissionManager.PermissionRequestListener() {
                         @Override
                         public void onPermissionGranted() {
+                            if (TextUtils.isEmpty(cardNoET.getText().toString())) {
+                                Toast.makeText(getApplicationContext(), "Enter card number!", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            if (TextUtils.isEmpty(etCvv.getText().toString())) {
+                                Toast.makeText(getApplicationContext(), "Enter CVV !", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            if (TextUtils.isEmpty(expiryMonth.getText().toString())) {
+                                Toast.makeText(getApplicationContext(), "Enter Month!", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+                            if (TextUtils.isEmpty(expiryYear.getText().toString())) {
+                                Toast.makeText(getApplicationContext(), "Enter Year !", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
+
                             BookRideData bookRideData = new BookRideData(userKey, firstName, lastName, liceneceNumber,BookVehicleActivity.bitmapArray,address,contactNumber,currentUser.getEmail(),"1250",true,null,null,null,dateSelected);
                             mDatabase.child(userKey).setValue(bookRideData);
                             database.child("vehicleDetails").child(userID).child("isVehBooked").setValue(true);
