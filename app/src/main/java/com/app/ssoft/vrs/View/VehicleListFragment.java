@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.CardView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.tuyenmonkey.mkloader.MKLoader;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -147,9 +147,9 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                 for (VehicleData vehData : vehicleFilterData) {
                     if ((!vehData.getSource().isEmpty() && vehData.getSource().equalsIgnoreCase(source))
                             && (!vehData.getDestination().isEmpty() && vehData.getDestination().equalsIgnoreCase(dest))
-                            && (vehData.getVehicleType() != null && vehData.getVehicleType().equalsIgnoreCase(vehType))) {
+                            && (vehData.getVehicleType() != null && vehData.getVehicleType().equalsIgnoreCase(vehType))
+                            && (vehData.getCurrentUserID() != null && !(vehData.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
                         vehicleDataList.add(vehData);
-
                     }
 
                 }
@@ -170,7 +170,8 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                     for (VehicleData vehData : vehicleFilterData) {
                         if ((!vehData.getSource().isEmpty() && vehData.getSource().equalsIgnoreCase(source)
                                 && (vehData.getRouteType() != null && vehData.getRouteType().equalsIgnoreCase("Variable")))
-                                && (vehData.getVehicleType() != null && vehData.getVehicleType().equalsIgnoreCase(vehType))) {
+                                && (vehData.getVehicleType() != null && vehData.getVehicleType().equalsIgnoreCase(vehType))
+                                && (vehData.getCurrentUserID() != null && !(vehData.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
                             vehicleDataList.add(vehData);
 
                         }
@@ -243,6 +244,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         boolean isVehBooked = vehiclesDataSnapshot.isVehBooked();
                         String advancePayment = vehiclesDataSnapshot.getAdvanceAmnt();
                         String ownerNumber = vehiclesDataSnapshot.getOwnerNumber();
+                        String currentUserID = vehiclesDataSnapshot.getCurrentUserID();
                         vehicleData.setVehicleModel(vehicleModel);
                         vehicleData.setDriverReq(driver);
                         vehicleData.setNumberOfseat(seater);
@@ -256,10 +258,12 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                         vehicleData.setAdvanceAmnt(advancePayment);
                         vehicleData.setOwnerNumber(ownerNumber);
                         vehicleData.setRouteType(vehRouteType);
+                        vehicleData.setCurrentUserID(currentUserID);
                         vehicleFilterData.add(vehicleData);
                         if (source.isEmpty() && destination.isEmpty()) {
                             if (addresses != null) {
-                                if (vehiclesDataSnapshot.getSource().equalsIgnoreCase(addresses.get(0).getSubLocality()) && (vehiclesDataSnapshot.getCurrentUserID() != null && !(vehiclesDataSnapshot.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
+                                if ((!TextUtils.isEmpty(vehiclesDataSnapshot.getSource())&&(addresses.get(0).getAddressLine(0).toString().toLowerCase()).contains(vehiclesDataSnapshot.getSource().toLowerCase())) &&
+                                        (vehiclesDataSnapshot.getCurrentUserID() != null && !(vehiclesDataSnapshot.getCurrentUserID().equalsIgnoreCase(auth.getCurrentUser().getUid())))) {
 //                            vehicleFilterData.add(vehicleData);
                                     vehicleDetails.add(vehicleData);
                                 }
@@ -328,7 +332,7 @@ public class VehicleListFragment extends android.support.v4.app.Fragment {
                     m_listAdapter.notifyDataSetChanged();
                 }
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
             // \n is for new line
